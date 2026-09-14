@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Rental Manager — Главная</title>
+
+    <link
+        rel="stylesheet"
+        href="css/global.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/sidebar.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/dashboard.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            <div class="logo-icon">
+                RM
+            </div>
+
+            <div class="logo-text">
+                Rental Manager
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="index.html"
+                class="nav-item active"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Главная</span>
+            </a>
+
+
+            <a
+                href="pages/properties.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">▦</span>
+                <span>Объекты</span>
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+            >
+                <span class="nav-icon">♙</span>
+                <span>Арендаторы</span>
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+            >
+                <span class="nav-icon">▤</span>
+                <span>Договоры</span>
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+            >
+                <span class="nav-icon">₽</span>
+                <span>Платежи</span>
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+            >
+                <span class="nav-icon">✓</span>
+                <span>Заявки</span>
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+            >
+                <span class="nav-icon">✉</span>
+                <span>Сообщения</span>
+
+                <span class="message-count">
+                    3
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+            >
+                <span class="nav-icon">▥</span>
+                <span>Аналитика</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a
+                href="#"
+                class="nav-item"
+            >
+                <span class="nav-icon">⚙</span>
+                <span>Настройки</span>
+            </a>
+
+
+            <button
+                type="button"
+                class="logout-button"
+                id="logoutButton"
+            >
+                <span class="nav-icon">↪</span>
+                <span>Выйти</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>
+                    Добро пожаловать,
+                    <span id="welcomeName">
+                        пользователь
+                    </span>!
+                </h1>
+
+                <p>
+                    Вот что происходит с вашей
+                    недвижимостью сегодня.
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-user">
+
+                <div
+                    class="user-avatar"
+                    id="userInitials"
+                >
+                    ?
+                </div>
+
+
+                <div class="user-info">
+
+                    <strong id="userName">
+                        Пользователь
+                    </strong>
+
+                    <span id="userRole">
+                        Пользователь
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================
+             STATISTICS
+        ====================================== -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🏢
+                </div>
+
+                <div class="stat-content">
+
+                    <span>
+                        Объекты
+                    </span>
+
+                    <strong
+                        class="stat-value"
+                        id="propertiesCount"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👤
+                </div>
+
+                <div class="stat-content">
+
+                    <span>
+                        Арендаторы
+                    </span>
+
+                    <strong
+                        class="stat-value"
+                        id="tenantsCount"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ₽
+                </div>
+
+                <div class="stat-content">
+
+                    <span>
+                        Доход
+                    </span>
+
+                    <strong
+                        class="stat-value"
+                        id="incomeValue"
+                    >
+                        0 ₽
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    !
+                </div>
+
+                <div class="stat-content">
+
+                    <span>
+                        Задолженность
+                    </span>
+
+                    <strong
+                        class="stat-value"
+                        id="debtValue"
+                    >
+                        0 ₽
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             MY PROPERTIES
+        ====================================== -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>
+                        Мои объекты
+                    </h2>
+
+                    <p>
+                        Последние объекты недвижимости
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="pages/properties.html"
+                    class="outline-button"
+                >
+                    Все объекты →
+                </a>
+
+            </div>
+
+
+            <div
+                id="dashboardProperties"
+                class="dashboard-properties"
+            >
+
+                <div class="empty-state">
+
+                    <h3>
+                        Загрузка...
+                    </h3>
+
+                    <p>
+                        Получаем данные из базы данных.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             BOTTOM GRID
+        ====================================== -->
+
+        <div class="dashboard-bottom-grid">
+
+
+            <!-- ПЛАТЕЖИ -->
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            Платежи
+                        </h2>
+
+                        <p>
+                            Выполнение платежей
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="payment-progress">
+
+                    <div class="payment-progress-header">
+
+                        <strong>
+                            Оплата аренды
+                        </strong>
+
+                        <strong id="paymentProgress">
+                            0%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            id="paymentProgressFill"
+                            style="width: 0%"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="payment-progress-footer">
+
+                        <span id="paidAmount">
+                            0 ₽ оплачено
+                        </span>
+
+                        <span id="expectedAmount">
+                            0 ₽ всего
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- БЫСТРЫЕ ДЕЙСТВИЯ -->
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            Быстрые действия
+                        </h2>
+
+                        <p>
+                            Часто используемые функции
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+
+                    <a
+                        href="pages/properties.html"
+                        class="quick-action"
+                    >
+
+                        <span class="quick-action-icon">
+                            ＋
+                        </span>
+
+                        <span>
+                            Добавить объект
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="quick-action"
+                    >
+
+                        <span class="quick-action-icon">
+                            👤
+                        </span>
+
+                        <span>
+                            Добавить арендатора
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="quick-action"
+                    >
+
+                        <span class="quick-action-icon">
+                            📄
+                        </span>
+
+                        <span>
+                            Создать договор
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="quick-action"
+                    >
+
+                        <span class="quick-action-icon">
+                            ✓
+                        </span>
+
+                        <span>
+                            Создать заявку
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<!-- =========================================
+     JS
+========================================== -->
+
+<script src="js/common.js"></script>
+
+<script src="js/dashboard.js"></script>
+
+
+</body>
+
+</html>

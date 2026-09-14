@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Объекты — Rental Manager</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/properties.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            <div class="logo-icon">
+                RM
+            </div>
+
+            <div class="logo-text">
+                Rental Manager
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="../index.html" class="nav-item">
+
+                <span class="nav-icon">⌂</span>
+
+                <span>Главная</span>
+
+            </a>
+
+
+            <a
+                href="properties.html"
+                class="nav-item active"
+            >
+
+                <span class="nav-icon">▦</span>
+
+                <span>Объекты</span>
+
+            </a>
+
+
+            <a href="#" class="nav-item">
+
+                <span class="nav-icon">♙</span>
+
+                <span>Арендаторы</span>
+
+            </a>
+
+
+            <a href="#" class="nav-item">
+
+                <span class="nav-icon">▤</span>
+
+                <span>Договоры</span>
+
+            </a>
+
+
+            <a href="#" class="nav-item">
+
+                <span class="nav-icon">₽</span>
+
+                <span>Платежи</span>
+
+            </a>
+
+
+            <a href="#" class="nav-item">
+
+                <span class="nav-icon">✓</span>
+
+                <span>Заявки</span>
+
+            </a>
+
+
+            <a href="#" class="nav-item">
+
+                <span class="nav-icon">✉</span>
+
+                <span>Сообщения</span>
+
+                <span class="message-count">
+                    3
+                </span>
+
+            </a>
+
+
+            <a href="#" class="nav-item">
+
+                <span class="nav-icon">▥</span>
+
+                <span>Аналитика</span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="#" class="nav-item">
+
+                <span class="nav-icon">⚙</span>
+
+                <span>Настройки</span>
+
+            </a>
+
+
+            <button
+                type="button"
+                id="logoutButton"
+                class="logout-button"
+            >
+
+                <span class="nav-icon">
+                    ↪
+                </span>
+
+                <span>
+                    Выйти
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="main-content">
+
+        <!-- HEADER -->
+
+        <header class="properties-header">
+
+            <div>
+
+                <h1>
+                    Объекты недвижимости
+                </h1>
+
+                <p>
+                    Управляйте объектами, их состоянием и арендной платой.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="addPropertyButton"
+                class="primary-button"
+            >
+                + Добавить объект
+            </button>
+
+        </header>
+
+
+        <!-- =====================================
+             STATISTICS
+        ====================================== -->
+
+        <section class="property-statistics">
+
+            <div class="property-stat-card">
+
+                <div class="property-stat-icon">
+                    🏢
+                </div>
+
+                <div>
+
+                    <span>
+                        Всего объектов
+                    </span>
+
+                    <strong
+                        id="totalProperties"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="property-stat-card">
+
+                <div class="property-stat-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        Сданы
+                    </span>
+
+                    <strong
+                        id="rentedProperties"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="property-stat-card">
+
+                <div class="property-stat-icon">
+                    ○
+                </div>
+
+                <div>
+
+                    <span>
+                        Свободны
+                    </span>
+
+                    <strong
+                        id="availableProperties"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="property-stat-card">
+
+                <div class="property-stat-icon">
+                    ₽
+                </div>
+
+                <div>
+
+                    <span>
+                        Потенциальный доход
+                    </span>
+
+                    <strong
+                        id="potentialIncome"
+                    >
+                        0 ₽
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             FILTERS
+        ====================================== -->
+
+        <section class="property-filters">
+
+            <div class="search-wrapper">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input
+                    type="search"
+                    id="propertySearch"
+                    placeholder="Поиск по названию или адресу"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <select
+                id="propertyStatus"
+                aria-label="Фильтр по статусу"
+            >
+
+                <option value="all">
+                    Все статусы
+                </option>
+
+                <option value="RENTED">
+                    Сдана
+                </option>
+
+                <option value="AVAILABLE">
+                    Свободна
+                </option>
+
+                <option value="MAINTENANCE">
+                    Обслуживание
+                </option>
+
+            </select>
+
+
+            <select
+                id="propertyType"
+                aria-label="Фильтр по типу"
+            >
+
+                <option value="all">
+                    Все типы
+                </option>
+
+                <option value="APARTMENT">
+                    Квартира
+                </option>
+
+                <option value="HOUSE">
+                    Дом
+                </option>
+
+                <option value="COMMERCIAL">
+                    Коммерческая
+                </option>
+
+            </select>
+
+        </section>
+
+
+        <!-- =====================================
+             PROPERTIES
+        ====================================== -->
+
+        <section
+            class="properties-grid"
+            id="propertiesGrid"
+        >
+
+            <div class="empty-state">
+
+                <h2>
+                    Загрузка объектов...
+                </h2>
+
+                <p>
+                    Получаем данные из базы данных.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================
+     MODAL
+========================================== -->
+
+<div
+    class="modal"
+    id="propertyModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="modal-content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+    >
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2 id="modalTitle">
+                    Добавить объект
+                </h2>
+
+                <p>
+                    Заполните информацию об объекте недвижимости.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="closeModal"
+                class="modal-close"
+                aria-label="Закрыть"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- =====================================
+             FORM
+        ====================================== -->
+
+        <form
+            id="propertyForm"
+            class="property-form"
+        >
+
+            <div
+                id="propertyFormMessage"
+                class="form-message"
+            ></div>
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label for="propertyName">
+                    Название объекта *
+                </label>
+
+                <input
+                    type="text"
+                    id="propertyName"
+                    name="name"
+                    placeholder="Например: Квартира №12"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="form-group">
+
+                <label for="propertyAddress">
+                    Адрес *
+                </label>
+
+                <input
+                    type="text"
+                    id="propertyAddress"
+                    name="address"
+                    placeholder="Москва, ул. Ленина, 24"
+                    required
+                >
+
+            </div>
+
+
+            <!-- TYPE + STATUS -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="propertyTypeInput">
+                        Тип объекта *
+                    </label>
+
+                    <select
+                        id="propertyTypeInput"
+                        name="type"
+                        required
+                    >
+
+                        <option value="APARTMENT">
+                            Квартира
+                        </option>
+
+                        <option value="HOUSE">
+                            Дом
+                        </option>
+
+                        <option value="COMMERCIAL">
+                            Коммерческая недвижимость
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="propertyStatusInput">
+                        Статус *
+                    </label>
+
+                    <select
+                        id="propertyStatusInput"
+                        name="status"
+                        required
+                    >
+
+                        <option value="AVAILABLE">
+                            Свободна
+                        </option>
+
+                        <option value="RENTED">
+                            Сдана
+                        </option>
+
+                        <option value="MAINTENANCE">
+                            Обслуживание
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- ROOMS + AREA -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="propertyRooms">
+                        Количество комнат *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="propertyRooms"
+                        name="rooms"
+                        min="0"
+                        step="1"
+                        placeholder="2"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="propertyArea">
+                        Площадь, м² *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="propertyArea"
+                        name="area"
+                        min="0"
+                        step="0.1"
+                        placeholder="54"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- FLOOR + RENT -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="propertyFloor">
+                        Этаж *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="propertyFloor"
+                        name="floor"
+                        min="0"
+                        step="1"
+                        placeholder="5"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="propertyRent">
+                        Арендная плата, ₽ *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="propertyRent"
+                        name="rent"
+                        min="0"
+                        step="1"
+                        placeholder="65000"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    id="cancelModal"
+                    class="outline-button"
+                >
+                    Отмена
+                </button>
+
+
+                <button
+                    type="submit"
+                    id="savePropertyButton"
+                    class="primary-button"
+                >
+                    Сохранить
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     JS
+========================================== -->
+
+<script src="../js/common.js"></script>
+<script src="../js/properties.js"></script>
+
+</body>
+</html>

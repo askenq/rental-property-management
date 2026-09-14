@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  OWNER
+  MANAGER
+  TENANT
+}
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  COMMERCIAL
+}
+
+enum PropertyStatus {
+  RENTED
+  AVAILABLE
+  MAINTENANCE
+}
+
+model User {
+  id           Int        @id @default(autoincrement())
+  name         String
+  email        String     @unique
+  password     String?
+  passwordHash String?
+  role         UserRole
+  createdAt    DateTime   @default(now())
+
+  properties   Property[]
+}
+
+model Property {
+  id          Int             @id @default(autoincrement())
+  name        String
+  address     String
+  type        PropertyType
+  area        Float
+  rooms       Int
+  floor       Int
+  rent        Float
+  status      PropertyStatus
+  tenantName  String?
+  createdAt   DateTime        @default(now())
+
+  ownerId     Int
+  owner       User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId])
+}
