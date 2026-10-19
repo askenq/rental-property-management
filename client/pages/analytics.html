@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111315">
+
+    <title>Аналитика — Rental Manager</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/analytics.css">
+</head>
+<body class="analytics-body">
+    <div class="app-layout analytics-layout">
+
+        <aside class="sidebar">
+            <a href="/index.html" class="brand">
+                <span class="brand-logo">RM</span>
+                <span>Rental Manager</span>
+            </a>
+
+            <nav class="sidebar-nav">
+                <a href="/index.html" class="nav-link">
+                    <span>⌂</span> Главная
+                </a>
+                <a href="/pages/properties.html" class="nav-link">
+                    <span>▦</span> Объекты
+                </a>
+                <a href="/pages/tenants.html" class="nav-link">
+                    <span>♙</span> Арендаторы
+                </a>
+                <a href="/pages/contracts.html" class="nav-link">
+                    <span>▤</span> Договоры
+                </a>
+                <a href="/pages/payments.html" class="nav-link">
+                    <span>₽</span> Платежи
+                </a>
+                <a href="/pages/requests.html" class="nav-link">
+                    <span>✓</span> Заявки
+                </a>
+                <a href="/pages/messages.html" class="nav-link">
+                    <span>✉</span> Сообщения
+                </a>
+                <a href="/pages/analytics.html" class="nav-link active">
+                    <span>▥</span> Аналитика
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="/pages/settings.html" class="nav-link">
+                    <span>⚙</span> Настройки
+                </a>
+                <a href="#" class="nav-link" id="logoutButton">
+                    <span>↪</span> Выйти
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content analytics-page">
+
+            <header class="analytics-header">
+                <div>
+                    <div class="eyebrow">
+                        BUSINESS INTELLIGENCE / ОБЗОР
+                    </div>
+
+                    <h1>Аналитика<span class="title-dot">.</span></h1>
+
+                    <p>
+                        Финансовая картина и эффективность вашей недвижимости.
+                    </p>
+                </div>
+
+                <div class="header-actions">
+                    <label class="period-control">
+                        <span>Период</span>
+                        <select id="periodSelect">
+                            <option value="3">3 месяца</option>
+                            <option value="6">6 месяцев</option>
+                            <option value="12" selected>12 месяцев</option>
+                        </select>
+                    </label>
+
+                    <button class="analytics-button" id="refreshAnalyticsButton">
+                        <span class="button-refresh-icon">↻</span>
+                        Обновить
+                    </button>
+                </div>
+            </header>
+
+            <div class="analytics-notice" id="analyticsNotice" hidden></div>
+
+            <section class="analytics-hero">
+                <div class="hero-copy">
+                    <span class="hero-kicker">
+                        <span class="live-dot"></span>
+                        ВАША НЕДВИЖИМОСТЬ В ЦИФРАХ
+                    </span>
+
+                    <h2>Управляйте на основе данных.</h2>
+
+                    <p>
+                        Доходы, платежи, загрузка объектов и состояние
+                        договоров — всё в одной аналитической панели.
+                    </p>
+
+                    <div class="hero-meta">
+                        <span class="hero-meta-icon">◷</span>
+                        Данные обновляются из вашей базы
+                    </div>
+                </div>
+
+                <div class="hero-decoration" aria-hidden="true">
+                    <div class="hero-orbit orbit-one"></div>
+                    <div class="hero-orbit orbit-two"></div>
+                    <div class="hero-orbit orbit-three"></div>
+                    <div class="hero-core">RM</div>
+                    <div class="hero-float hero-float-one">↗</div>
+                    <div class="hero-float hero-float-two">₽</div>
+                    <div class="hero-float hero-float-three">✦</div>
+                </div>
+            </section>
+
+            <section class="analytics-section">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-overline">OVERVIEW</span>
+                        <h2>Ключевые показатели</h2>
+                    </div>
+
+                    <span class="section-caption" id="overviewPeriod">
+                        За последние 12 месяцев
+                    </span>
+                </div>
+
+                <div class="analytics-kpi-grid">
+
+                    <article class="analytics-kpi kpi-revenue">
+                        <div class="kpi-top">
+                            <span class="kpi-label">Получено платежей</span>
+                            <span class="kpi-icon">↗</span>
+                        </div>
+
+                        <div class="kpi-value" id="kpiPaidAmount">—</div>
+
+                        <div class="kpi-bottom">
+                            <span class="kpi-indicator indicator-green"></span>
+                            <span id="kpiPaidCount">Загрузка...</span>
+                        </div>
+
+                        <div class="kpi-decoration revenue-decoration"></div>
+                    </article>
+
+                    <article class="analytics-kpi kpi-pending">
+                        <div class="kpi-top">
+                            <span class="kpi-label">Ожидается</span>
+                            <span class="kpi-icon">◷</span>
+                        </div>
+
+                        <div class="kpi-value" id="kpiPendingAmount">—</div>
+
+                        <div class="kpi-bottom">
+                            <span class="kpi-indicator indicator-blue"></span>
+                            <span id="kpiPendingCount">Загрузка...</span>
+                        </div>
+                    </article>
+
+                    <article class="analytics-kpi kpi-overdue">
+                        <div class="kpi-top">
+                            <span class="kpi-label">Просроченная задолженность</span>
+                            <span class="kpi-icon">!</span>
+                        </div>
+
+                        <div class="kpi-value" id="kpiOverdueAmount">—</div>
+
+                        <div class="kpi-bottom">
+                            <span class="kpi-indicator indicator-red"></span>
+                            <span id="kpiOverdueCount">Загрузка...</span>
+                        </div>
+                    </article>
+
+                    <article class="analytics-kpi kpi-occupancy">
+                        <div class="kpi-top">
+                            <span class="kpi-label">Загрузка недвижимости</span>
+                            <span class="kpi-icon">▦</span>
+                        </div>
+
+                        <div class="kpi-value" id="kpiOccupancy">—</div>
+
+                        <div class="occupancy-track">
+                            <div class="occupancy-fill" id="occupancyFill"></div>
+                        </div>
+
+                        <div class="kpi-bottom">
+                            <span id="kpiOccupancyDetail">Загрузка...</span>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+            <section class="analytics-chart-grid">
+
+                <article class="analytics-panel revenue-panel">
+                    <div class="analytics-panel-header">
+                        <div>
+                            <span class="section-overline">FINANCIAL PERFORMANCE</span>
+                            <h2>Динамика платежей</h2>
+                            <p>Начисления и фактически полученные деньги</p>
+                        </div>
+
+                        <div class="chart-legend">
+                            <span><i class="legend-dot legend-paid"></i> Получено</span>
+                            <span><i class="legend-dot legend-accrued"></i> Начислено</span>
+                        </div>
+                    </div>
+
+                    <div class="chart-summary">
+                        <div>
+                            <span>Получено за текущий месяц</span>
+                            <strong id="currentMonthReceived">—</strong>
+                        </div>
+
+                        <div>
+                            <span>Начислено за текущий месяц</span>
+                            <strong id="currentMonthAccrued">—</strong>
+                        </div>
+                    </div>
+
+                    <div class="revenue-chart" id="revenueChart">
+                        <div class="chart-loading">Загружаем финансовую аналитику...</div>
+                    </div>
+
+                    <div class="chart-footer">
+                        <span id="chartPeriodLabel">Данные за 12 месяцев</span>
+                        <span class="chart-footer-status">
+                            <span class="live-dot"></span> Из базы данных
+                        </span>
+                    </div>
+                </article>
+
+                <article class="analytics-panel occupancy-panel">
+                    <div class="analytics-panel-header">
+                        <div>
+                            <span class="section-overline">PORTFOLIO</span>
+                            <h2>Структура портфеля</h2>
+                            <p>Состояние объектов недвижимости</p>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-visual">
+                        <div class="portfolio-ring" id="portfolioRing">
+                            <div class="portfolio-ring-inner">
+                                <strong id="portfolioPercent">0%</strong>
+                                <span>занято</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-legend">
+                        <div class="portfolio-legend-row">
+                            <span class="portfolio-legend-name">
+                                <i class="legend-dot legend-occupied"></i>
+                                Сдано
+                            </span>
+                            <strong id="portfolioOccupied">0</strong>
+                        </div>
+
+                        <div class="portfolio-legend-row">
+                            <span class="portfolio-legend-name">
+                                <i class="legend-dot legend-available"></i>
+                                Свободно
+                            </span>
+                            <strong id="portfolioAvailable">0</strong>
+                        </div>
+
+                        <div class="portfolio-legend-row">
+                            <span class="portfolio-legend-name">
+                                <i class="legend-dot legend-maintenance"></i>
+                                На обслуживании
+                            </span>
+                            <strong id="portfolioMaintenance">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-footer">
+                        Всего объектов
+                        <strong id="portfolioTotal">0</strong>
+                    </div>
+                </article>
+
+            </section>
+
+            <section class="analytics-bottom-grid">
+
+                <article class="analytics-panel property-performance-panel">
+                    <div class="analytics-panel-header">
+                        <div>
+                            <span class="section-overline">ASSET PERFORMANCE</span>
+                            <h2>Эффективность объектов</h2>
+                            <p>Начисления и поступления за выбранный период</p>
+                        </div>
+
+                        <a class="analytics-text-link" href="/pages/properties.html">
+                            Все объекты <span>↗</span>
+                        </a>
+                    </div>
+
+                    <div class="analytics-table-wrap">
+                        <table class="analytics-table">
+                            <thead>
+                                <tr>
+                                    <th>ОБЪЕКТ</th>
+                                    <th>СТАТУС</th>
+                                    <th>НАЧИСЛЕНО</th>
+                                    <th>ПОЛУЧЕНО</th>
+                                    <th>ДОЛГ</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="propertyPerformanceBody">
+                                <tr>
+                                    <td colspan="5" class="table-loading">
+                                        Загружаем объекты...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="analytics-panel requests-panel">
+                    <div class="analytics-panel-header">
+                        <div>
+                            <span class="section-overline">OPERATIONS</span>
+                            <h2>Заявки</h2>
+                            <p>Состояние обслуживания недвижимости</p>
+                        </div>
+
+                        <a class="analytics-text-link" href="/pages/requests.html">
+                            Открыть <span>↗</span>
+                        </a>
+                    </div>
+
+                    <div class="requests-summary">
+                        <div class="requests-total">
+                            <span>Всего заявок</span>
+                            <strong id="requestsTotal">0</strong>
+                        </div>
+
+                        <div class="requests-open">
+                            <span class="kpi-indicator indicator-blue"></span>
+                            <span>Открытых</span>
+                            <strong id="requestsOpen">0</strong>
+                        </div>
+
+                        <div class="requests-completed">
+                            <span class="kpi-indicator indicator-green"></span>
+                            <span>Завершено</span>
+                            <strong id="requestsCompleted">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="request-status-list" id="requestStatusList">
+                        <div class="chart-loading">Загружаем заявки...</div>
+                    </div>
+
+                    <div class="priority-block">
+                        <h3>Приоритеты</h3>
+                        <div id="requestPriorityList" class="priority-list"></div>
+                    </div>
+                </article>
+
+            </section>
+
+            <section class="analytics-panel expiring-panel">
+                <div class="analytics-panel-header">
+                    <div>
+                        <span class="section-overline">CONTRACT CONTROL</span>
+                        <h2>Скоро истекают</h2>
+                        <p>Активные договоры с окончанием в ближайшие 30 дней</p>
+                    </div>
+
+                    <a class="analytics-text-link" href="/pages/contracts.html">
+                        Все договоры <span>↗</span>
+                    </a>
+                </div>
+
+                <div class="expiring-list" id="expiringContractsList">
+                    <div class="chart-loading">Проверяем сроки договоров...</div>
+                </div>
+            </section>
+
+            <footer class="analytics-footer">
+                <span class="footer-brand-mark">RM</span>
+                <span>Rental Manager Analytics</span>
+                <span class="footer-separator">/</span>
+                <span id="lastUpdated">Ожидание данных...</span>
+
+                <button id="backToTopButton" class="back-to-top" type="button">
+                    Наверх ↑
+                </button>
+            </footer>
+
+        </main>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/analytics.js"></script>
+</body>
+</html>

@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import createPaymentsRouter from "./routes/payments.js";
 import createRequestsRouter from "./routes/requests.js";
+import createMessagesRouter from "./routes/messages.js";
+import createAnalyticsRouter from "./routes/analytics.js";
 import { fileURLToPath } from "url";
 
 import { PrismaClient } from "@prisma/client";
@@ -4293,6 +4295,16 @@ app.use(
 app.use(
     "/api/requests",
     createRequestsRouter(prisma, authenticateToken)
+);
+
+app.use(
+    "/api/messages",
+    createMessagesRouter(prisma, authenticateToken)
+);
+
+app.use(
+    "/api/analytics",
+    createAnalyticsRouter(prisma, authenticateToken)
 );
 
 

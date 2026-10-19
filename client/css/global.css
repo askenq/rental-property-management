@@ -1,98 +1,88 @@
-/* =========================================
-   RENTAL MANAGER — DESIGN SYSTEM
-========================================= */
+/* =========================================================
+   RENTAL MANAGER — GLOBAL DESIGN SYSTEM
+========================================================= */
 
 :root {
+    color-scheme: dark;
 
-    --bg: #f5f7fb;
-    --surface: #ffffff;
-    --surface-soft: #f8faff;
+    --bg: #101214;
+    --bg-elevated: #15181b;
+    --surface: #191c1f;
+    --surface-hover: #202429;
+    --surface-soft: #16191c;
 
-    --text: #101828;
-    --text-secondary: #667085;
-    --text-muted: #98a2b3;
+    --text: #f5f7fa;
+    --text-secondary: #a3acb8;
+    --text-muted: #75808d;
 
-    --border: #e7eaf0;
-    --border-strong: #d9dee8;
+    --border: #30363d;
+    --border-strong: #414954;
 
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --primary-soft: #eff6ff;
+    --primary: #3978ff;
+    --primary-hover: #528aff;
+    --primary-dark: #2359dc;
+    --primary-soft: rgba(57, 120, 255, .13);
 
-    --success: #16a34a;
-    --success-soft: #ecfdf3;
+    --success: #35d6a0;
+    --success-soft: rgba(53, 214, 160, .12);
 
-    --warning: #d97706;
-    --warning-soft: #fffaeb;
+    --warning: #ffbd69;
+    --warning-soft: rgba(255, 189, 105, .12);
 
-    --danger: #dc2626;
-    --danger-soft: #fef2f2;
+    --danger: #ff647c;
+    --danger-soft: rgba(255, 100, 124, .12);
 
-    --shadow-sm:
-        0 1px 2px rgba(16, 24, 40, 0.04);
-
-    --shadow-md:
-        0 8px 24px rgba(16, 24, 40, 0.06);
-
-    --shadow-lg:
-        0 18px 45px rgba(16, 24, 40, 0.08);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, .12);
+    --shadow-md: 0 12px 30px rgba(0, 0, 0, .18);
+    --shadow-lg: 0 24px 70px rgba(0, 0, 0, .28);
 
     --radius-sm: 8px;
     --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 20px;
+    --radius-lg: 17px;
+    --radius-xl: 22px;
 
-    --transition:
-        0.2s ease;
+    --transition: .2s ease;
 }
 
-
-/* =========================================
-   RESET
-========================================= */
+/* RESET */
 
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
-
-html,
-body {
-    min-height: 100%;
-}
-
-
 html {
+    min-height: 100%;
     scroll-behavior: smooth;
+    scrollbar-color: #414954 #101214;
 }
 
-
 body {
+    min-height: 100vh;
+    margin: 0;
 
     font-family:
         Inter,
+        "Segoe UI",
         -apple-system,
         BlinkMacSystemFont,
-        "Segoe UI",
         Arial,
-        Helvetica,
         sans-serif;
 
-    background: var(--bg);
-
+    font-size: 14px;
+    line-height: 1.55;
     color: var(--text);
 
-    line-height: 1.5;
+    background:
+        radial-gradient(
+            ellipse at 92% 0%,
+            rgba(40, 92, 190, .09),
+            transparent 35%
+        ),
+        var(--bg);
 
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
-
-
-/* =========================================
-   FORM ELEMENTS
-========================================= */
 
 button,
 input,
@@ -101,371 +91,638 @@ textarea {
     font: inherit;
 }
 
-
 button {
+    color: inherit;
     cursor: pointer;
 }
 
-
 button:disabled {
+    opacity: .5;
     cursor: not-allowed;
 }
-
 
 input,
 select,
 textarea {
-    outline: none;
+    color: var(--text);
 }
 
+input,
+select,
+textarea,
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 1;
+}
 
 a {
     color: inherit;
     text-decoration: none;
 }
 
+img,
+svg {
+    max-width: 100%;
+}
 
-/* =========================================
-   APP
-========================================= */
+h1,
+h2,
+h3,
+h4,
+p {
+    margin-top: 0;
+}
 
-.app {
+h1,
+h2,
+h3,
+h4 {
+    color: var(--text);
+    letter-spacing: -.035em;
+}
 
+h1 {
+    font-size: clamp(28px, 3vw, 38px);
+    line-height: 1.15;
+    font-weight: 780;
+}
+
+h2 {
+    font-size: 21px;
+    line-height: 1.3;
+    font-weight: 720;
+}
+
+h3 {
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: 680;
+}
+
+p {
+    color: var(--text-secondary);
+}
+
+/* APP LAYOUT
+   Поддерживаем оба класса корневого контейнера. */
+
+.app,
+.app-layout {
     display: flex;
-
     width: 100%;
-
     min-height: 100vh;
 }
 
-
-/* =========================================
-   MAIN CONTENT
-========================================= */
+/* MAIN CONTENT */
 
 .main-content {
-
-    flex: 1;
-
+    flex: 1 1 auto;
     min-width: 0;
-
     min-height: 100vh;
 
-    padding: 32px 40px 50px;
+    padding: 34px clamp(20px, 3.2vw, 48px) 48px;
 
     background:
         radial-gradient(
-            circle at 85% 0%,
-            rgba(37, 99, 235, 0.035),
-            transparent 28%
-        ),
-        var(--bg);
+            ellipse at 100% 0%,
+            rgba(40, 92, 190, .055),
+            transparent 34%
+        );
 
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
+/* COMMON PAGE HEADERS */
 
-/* =========================================
-   PANELS
-========================================= */
+.page-header,
+.messages-header,
+.analytics-header,
+.requests-header,
+.contracts-header,
+.tenants-header,
+.properties-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.page-header h1,
+.messages-header h1,
+.analytics-header h1,
+.requests-header h1,
+.contracts-header h1,
+.tenants-header h1,
+.properties-header h1 {
+    margin-bottom: 8px;
+}
+
+.page-header p,
+.messages-header p,
+.analytics-header p,
+.requests-header p,
+.contracts-header p,
+.tenants-header p,
+.properties-header p {
+    margin-bottom: 0;
+    color: var(--text-secondary);
+}
+
+.eyebrow {
+    margin-bottom: 12px;
+    color: #75a4ff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .19em;
+    text-transform: uppercase;
+}
+
+.title-dot {
+    color: var(--primary);
+}
+
+/* PANELS */
+
+.panel,
+.payment-panel,
+.stat-card,
+.info-card,
+.analytics-card,
+.request-panel,
+.contracts-panel,
+.tenants-panel,
+.properties-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
 
 .panel {
-
     position: relative;
-
-    background: var(--surface);
-
-    border: 1px solid var(--border);
-
-    border-radius: var(--radius-lg);
-
     padding: 24px;
-
     margin-bottom: 24px;
-
-    box-shadow: var(--shadow-sm);
-
     transition:
-        box-shadow var(--transition),
-        border-color var(--transition);
+        border-color var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
 }
 
-
 .panel:hover {
-
-    border-color: #dde2ea;
-
+    border-color: var(--border-strong);
     box-shadow: var(--shadow-md);
 }
 
-
 .panel-header {
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
-    gap: 20px;
-
+    flex-wrap: wrap;
+    gap: 16px;
     margin-bottom: 22px;
 }
 
-
 .panel-header h2 {
-
-    margin: 0 0 5px;
-
+    margin-bottom: 5px;
     font-size: 18px;
-
-    line-height: 1.3;
-
-    color: var(--text);
-
-    letter-spacing: -0.01em;
 }
-
 
 .panel-header p {
-
-    margin: 0;
-
-    color: var(--text-secondary);
-
-    font-size: 13px;
+    margin-bottom: 0;
+    color: var(--text-muted);
+    font-size: 12px;
 }
 
+/* BUTTONS */
 
-/* =========================================
-   BUTTONS
-========================================= */
-
-.primary-button {
-
+.btn,
+.primary-button,
+.outline-button,
+.secondary-button {
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
-
-    gap: 8px;
+    gap: 9px;
 
     min-height: 42px;
+    padding: 0 17px;
 
-    padding: 0 18px;
+    border: 1px solid transparent;
+    border-radius: 11px;
 
-    border: 1px solid var(--primary);
-
-    border-radius: 10px;
-
-    background: var(--primary);
-
-    color: #ffffff;
-
-    font-size: 14px;
-
-    font-weight: 650;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 1px 2px rgba(37, 99, 235, 0.2);
+    font-size: 12px;
+    font-weight: 720;
+    white-space: nowrap;
 
     transition:
         background var(--transition),
+        border-color var(--transition),
+        color var(--transition),
         transform var(--transition),
         box-shadow var(--transition);
 }
 
+.btn-primary,
+.primary-button {
+    color: #fff;
+    background: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 4px 14px rgba(57, 120, 255, .14);
+}
 
+.btn-primary:hover,
 .primary-button:hover {
-
-    background: var(--primary-dark);
-
-    box-shadow:
-        0 5px 14px rgba(37, 99, 235, 0.2);
-
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    box-shadow: 0 7px 22px rgba(57, 120, 255, .22);
     transform: translateY(-1px);
 }
 
-
-.primary-button:active {
-
-    transform: translateY(0);
-
-    box-shadow: none;
-}
-
-
-.primary-button:disabled {
-
-    opacity: 0.55;
-
-    box-shadow: none;
-}
-
-
-.outline-button {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    min-height: 38px;
-
-    padding: 0 14px;
-
-    border: 1px solid var(--border-strong);
-
-    border-radius: 9px;
-
+.btn-secondary,
+.outline-button,
+.secondary-button {
+    color: var(--text);
     background: var(--surface);
+    border-color: var(--border-strong);
+}
 
-    color: #475467;
+.btn-secondary:hover,
+.outline-button:hover,
+.secondary-button:hover {
+    background: var(--surface-hover);
+    border-color: #657181;
+}
 
-    font-size: 13px;
+.btn:active,
+.primary-button:active,
+.outline-button:active,
+.secondary-button:active {
+    transform: translateY(0);
+}
 
-    font-weight: 600;
+/* FORMS */
 
-    cursor: pointer;
-
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+select,
+textarea {
+    max-width: 100%;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    background: #121518;
+    color: var(--text);
     transition:
         border-color var(--transition),
-        color var(--transition),
-        background var(--transition),
-        transform var(--transition);
+        box-shadow var(--transition),
+        background var(--transition);
 }
 
-
-.outline-button:hover {
-
-    border-color: #b8c7e6;
-
-    color: var(--primary);
-
-    background: var(--primary-soft);
-
-    transform: translateY(-1px);
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+select {
+    min-height: 42px;
+    padding: 0 13px;
 }
 
+textarea {
+    padding: 12px 13px;
+    resize: vertical;
+}
 
-/* =========================================
-   EMPTY STATE
-========================================= */
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(57, 120, 255, .13);
+    outline: none;
+}
 
-.empty-state {
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: var(--primary);
+}
 
+select option {
+    color: var(--text);
+    background: var(--surface);
+}
+
+/* TABLES */
+
+.table-wrap,
+.table-container {
     width: 100%;
-
-    padding: 45px 25px;
-
-    text-align: center;
-
-    color: var(--text-secondary);
+    overflow-x: auto;
+    scrollbar-width: thin;
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead th {
+    padding: 15px 16px;
+    color: var(--text-muted);
+    background: #15181b;
+    border-bottom: 1px solid var(--border);
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+tbody td {
+    padding: 17px 16px;
+    border-bottom: 1px solid rgba(65, 73, 84, .55);
+    color: var(--text-secondary);
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+tbody tr {
+    transition: background var(--transition);
+}
+
+tbody tr:hover {
+    background: rgba(255, 255, 255, .025);
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* STATUS COLORS */
+
+.status-active,
+.status-paid,
+.status-rented,
+.status-completed {
+    color: var(--success);
+    background: var(--success-soft);
+}
+
+.status-pending,
+.status-waiting,
+.status-available {
+    color: #79a7ff;
+    background: var(--primary-soft);
+}
+
+.status-overdue,
+.status-danger,
+.status-cancelled {
+    color: var(--danger);
+    background: var(--danger-soft);
+}
+
+.status-draft,
+.status-maintenance,
+.status-warning {
+    color: var(--warning);
+    background: var(--warning-soft);
+}
+
+/* NOTICES */
+
+.notice,
+.messages-notice {
+    margin-bottom: 20px;
+    padding: 13px 16px;
+    border: 1px solid rgba(57, 120, 255, .35);
+    border-radius: 11px;
+    background: var(--primary-soft);
+    color: #a9c5ff;
+    font-size: 12px;
+}
+
+.notice[hidden],
+.messages-notice[hidden] {
+    display: none !important;
+}
+
+/* EMPTY STATES */
+
+.empty-state,
+.analytics-empty,
+.table-message {
+    padding: 36px 20px;
+    color: var(--text-muted);
+    text-align: center;
+    font-size: 12px;
+}
 
 .empty-state h2,
-.empty-state h3 {
-
+.empty-state h3,
+.analytics-empty strong {
+    display: block;
     margin-bottom: 8px;
-
     color: var(--text);
-
-    font-size: 18px;
+    font-size: 15px;
 }
-
 
 .empty-state p {
-
+    margin-bottom: 0;
     color: var(--text-muted);
-
-    font-size: 13px;
 }
 
+/* ICON BUTTONS */
 
-/* =========================================
-   SCROLLBAR
-========================================= */
+.icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 38px;
+    height: 38px;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    background: var(--surface);
+    color: var(--text-secondary);
+
+    transition:
+        background var(--transition),
+        color var(--transition),
+        border-color var(--transition);
+}
+
+.icon-button:hover {
+    background: var(--primary-soft);
+    border-color: rgba(57, 120, 255, .4);
+    color: #8db2ff;
+}
+
+/* LINKS */
+
+.text-link,
+.analytics-text-link {
+    color: #82aaff;
+    transition: color var(--transition);
+}
+
+.text-link:hover,
+.analytics-text-link:hover {
+    color: #b0caff;
+}
+
+/* SCROLLBAR */
 
 ::-webkit-scrollbar {
-
     width: 8px;
-
     height: 8px;
 }
 
-
 ::-webkit-scrollbar-track {
-
-    background: transparent;
+    background: #101214;
 }
-
 
 ::-webkit-scrollbar-thumb {
-
+    background: #343b44;
+    border: 2px solid #101214;
     border-radius: 20px;
-
-    background: #d5dbe5;
 }
-
 
 ::-webkit-scrollbar-thumb:hover {
-
-    background: #b9c1ce;
+    background: #505b69;
 }
-
-
-/* =========================================
-   SELECTION
-========================================= */
 
 ::selection {
-
-    background: rgba(37, 99, 235, 0.15);
-
-    color: var(--text);
+    color: #fff;
+    background: rgba(57, 120, 255, .4);
 }
 
-
-/* =========================================
-   RESPONSIVE
-========================================= */
+/* RESPONSIVE */
 
 @media (max-width: 1100px) {
-
     .main-content {
-
-        padding: 28px 28px 45px;
+        padding: 28px 24px 40px;
     }
-
 }
 
-
 @media (max-width: 700px) {
-
     .main-content {
-
-        padding: 22px 16px 35px;
+        padding: 22px 15px 32px;
     }
 
+    h1 {
+        font-size: 29px;
+    }
+
+    .page-header,
+    .messages-header,
+    .analytics-header,
+    .requests-header,
+    .contracts-header,
+    .tenants-header,
+    .properties-header {
+        align-items: flex-start;
+        gap: 18px;
+    }
 
     .panel {
-
-        padding: 18px;
-
-        border-radius: 14px;
+        padding: 17px;
+        border-radius: 13px;
     }
-
 
     .panel-header {
-
         align-items: flex-start;
+    }
+}
 
-        flex-direction: column;
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* ========================================
+   Плавное появление страницы
+======================================== */
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
     }
 
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.main-content {
+    animation: pageEnter 0.35s ease-out both;
+}
+
+/* Плавные переходы для элементов интерфейса */
+button,
+a,
+.nav-link,
+.nav-item,
+.panel,
+.card,
+input,
+select,
+textarea {
+    transition:
+        background-color 0.22s ease,
+        color 0.22s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease,
+        transform 0.22s ease,
+        opacity 0.22s ease;
+}
+
+/* Плавная подсветка активной вкладки */
+.nav-link,
+.nav-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before,
+.nav-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 20%;
+    bottom: 20%;
+    width: 3px;
+    border-radius: 0 4px 4px 0;
+    background: var(--primary);
+    transform: scaleY(0);
+    transition: transform 0.22s ease;
+}
+
+.nav-link.active::before,
+.nav-item.active::before {
+    transform: scaleY(1);
+}
+
+/* Уважение к настройке уменьшения анимации */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }

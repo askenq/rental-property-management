@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Сообщения — Rental Manager</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/messages.css">
+</head>
+<body>
+    <div class="app-layout">
+
+        <aside class="sidebar">
+            <a href="/index.html" class="brand">
+                <span class="brand-logo">RM</span>
+                <span>Rental Manager</span>
+            </a>
+
+            <nav class="sidebar-nav">
+                <a href="/index.html" class="nav-link">
+                    <span>⌂</span> Главная
+                </a>
+
+                <a href="/pages/properties.html" class="nav-link">
+                    <span>▦</span> Объекты
+                </a>
+
+                <a href="/pages/tenants.html" class="nav-link">
+                    <span>♙</span> Арендаторы
+                </a>
+
+                <a href="/pages/contracts.html" class="nav-link">
+                    <span>▤</span> Договоры
+                </a>
+
+                <a href="/pages/payments.html" class="nav-link">
+                    <span>₽</span> Платежи
+                </a>
+
+                <a href="/pages/requests.html" class="nav-link">
+                    <span>✓</span> Заявки
+                </a>
+
+                <a href="/pages/messages.html" class="nav-link active">
+                    <span>✉</span> Сообщения
+                </a>
+
+                <a href="#" class="nav-link disabled-link" data-soon="Аналитика">
+                    <span>▥</span> Аналитика
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="#" class="nav-link disabled-link" data-soon="Настройки">
+                    <span>⚙</span> Настройки
+                </a>
+
+                <a href="#" class="nav-link" id="logoutButton">
+                    <span>↪</span> Выйти
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content messages-page">
+
+            <header class="messages-header">
+                <div>
+                    <div class="eyebrow">КОММУНИКАЦИИ / WORKSPACE</div>
+                    <h1>Сообщения<span class="title-dot">.</span></h1>
+                    <p>Все важные разговоры по вашей недвижимости — в одном месте.</p>
+                </div>
+
+                <button class="btn btn-primary" id="newConversationButton">
+                    <span>＋</span>
+                    Новый диалог
+                </button>
+            </header>
+
+            <div class="messages-notice" id="messagesNotice" hidden></div>
+
+            <section class="messenger-layout">
+
+                <!-- Список диалогов -->
+                <aside class="conversation-sidebar">
+
+                    <div class="conversation-sidebar-header">
+                        <div>
+                            <h2>Входящие</h2>
+                            <p id="conversationCount">Загрузка диалогов...</p>
+                        </div>
+
+                        <button
+                            class="icon-button"
+                            id="refreshConversationsButton"
+                            title="Обновить диалоги"
+                            aria-label="Обновить диалоги"
+                        >↻</button>
+                    </div>
+
+                    <label class="conversation-search">
+                        <span>⌕</span>
+
+                        <input
+                            id="conversationSearch"
+                            type="search"
+                            placeholder="Найти диалог..."
+                            autocomplete="off"
+                        >
+                    </label>
+
+                    <div class="conversation-list" id="conversationList">
+                        <div class="messenger-placeholder">
+                            <div class="placeholder-icon">✉</div>
+                            <strong>Загружаем переписки</strong>
+                            <span>Пожалуйста, подождите</span>
+                        </div>
+                    </div>
+
+                </aside>
+
+                <!-- Окно переписки -->
+                <section class="chat-panel">
+
+                    <div class="chat-empty-state" id="chatEmptyState">
+                        <div class="empty-chat-icon">✦</div>
+                        <h2>Ваше пространство общения</h2>
+                        <p>
+                            Выберите диалог слева или создайте новый,
+                            чтобы начать переписку.
+                        </p>
+
+                        <button class="btn btn-primary" id="emptyNewConversationButton">
+                            Начать переписку
+                        </button>
+                    </div>
+
+                    <div class="chat-content" id="chatContent" hidden>
+
+                        <header class="chat-header">
+                            <div class="chat-person">
+                                <div class="avatar" id="chatAvatar">RM</div>
+
+                                <div>
+                                    <h2 id="chatTitle">Диалог</h2>
+                                    <p id="chatSubtitle">Участники переписки</p>
+                                </div>
+                            </div>
+
+                            <button
+                                class="icon-button"
+                                id="chatRefreshButton"
+                                title="Обновить сообщения"
+                                aria-label="Обновить сообщения"
+                            >↻</button>
+                        </header>
+
+                        <div
+                            class="chat-messages"
+                            id="chatMessages"
+                            aria-live="polite"
+                        ></div>
+
+                        <form class="chat-composer" id="messageForm">
+                            <label class="composer-input">
+                                <textarea
+                                    id="messageInput"
+                                    name="content"
+                                    rows="1"
+                                    maxlength="10000"
+                                    placeholder="Напишите сообщение..."
+                                    aria-label="Текст сообщения"
+                                    required
+                                ></textarea>
+                            </label>
+
+                            <div class="composer-footer">
+                                <span>Enter — отправить · Shift + Enter — новая строка</span>
+
+                                <button
+                                    class="btn btn-primary send-button"
+                                    type="submit"
+                                    id="sendMessageButton"
+                                >
+                                    Отправить <span>↗</span>
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </section>
+
+                <!-- Информация о диалоге -->
+                <aside class="chat-details" id="chatDetails">
+                    <div class="details-empty">
+                        <div class="details-icon">◎</div>
+                        <strong>Информация о диалоге</strong>
+                        <p>Выберите переписку, чтобы увидеть участников.</p>
+                    </div>
+                </aside>
+
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Модальное окно создания диалога -->
+    <div
+        class="modal-overlay"
+        id="conversationModal"
+        hidden
+    >
+        <section
+            class="conversation-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="conversationModalTitle"
+        >
+            <header class="modal-header">
+                <div>
+                    <div class="eyebrow">НОВАЯ ПЕРЕПИСКА</div>
+                    <h2 id="conversationModalTitle">Создать диалог</h2>
+                    <p>Выберите пользователя и напишите первое сообщение.</p>
+                </div>
+
+                <button
+                    class="icon-button"
+                    type="button"
+                    id="closeConversationModalButton"
+                    aria-label="Закрыть"
+                >×</button>
+            </header>
+
+            <form id="conversationForm">
+
+                <label class="form-field">
+                    <span>Собеседник</span>
+
+                    <select id="participantSelect" required>
+                        <option value="">Загрузка пользователей...</option>
+                    </select>
+                </label>
+
+                <label class="form-field">
+                    <span>Название диалога <small>Необязательно</small></span>
+
+                    <input
+                        type="text"
+                        id="conversationTitleInput"
+                        maxlength="150"
+                        placeholder="Например, Аренда квартиры"
+                    >
+                </label>
+
+                <label class="form-field">
+                    <span>Первое сообщение</span>
+
+                    <textarea
+                        id="firstMessageInput"
+                        rows="4"
+                        maxlength="10000"
+                        placeholder="Здравствуйте! Хотел обсудить..."
+                    ></textarea>
+                </label>
+
+                <div class="modal-actions">
+                    <button
+                        class="btn btn-secondary"
+                        type="button"
+                        id="cancelConversationButton"
+                    >Отмена</button>
+
+                    <button
+                        class="btn btn-primary"
+                        type="submit"
+                        id="createConversationButton"
+                    >Создать диалог</button>
+                </div>
+
+            </form>
+        </section>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/messages.js"></script>
+</body>
+</html>
