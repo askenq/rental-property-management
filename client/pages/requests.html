@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101114">
+    <title>Заявки — Rental Manager</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/requests.css">
+</head>
+<body>
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">RM</div>
+            <div class="logo-text">Rental Manager</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="../index.html" class="nav-item">
+                <span class="nav-icon">⌂</span><span>Главная</span>
+            </a>
+            <a href="properties.html" class="nav-item">
+                <span class="nav-icon">▦</span><span>Объекты</span>
+            </a>
+            <a href="tenants.html" class="nav-item">
+                <span class="nav-icon">♙</span><span>Арендаторы</span>
+            </a>
+            <a href="contracts.html" class="nav-item">
+                <span class="nav-icon">▤</span><span>Договоры</span>
+            </a>
+            <a href="payments.html" class="nav-item">
+                <span class="nav-icon">₽</span><span>Платежи</span>
+            </a>
+            <a href="requests.html" class="nav-item active">
+                <span class="nav-icon">✓</span><span>Заявки</span>
+            </a>
+            <a href="#" class="nav-item disabled-link" data-soon="Сообщения">
+                <span class="nav-icon">✉</span><span>Сообщения</span>
+                <span class="message-count">3</span>
+            </a>
+            <a href="#" class="nav-item disabled-link" data-soon="Аналитика">
+                <span class="nav-icon">▥</span><span>Аналитика</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="#" class="nav-item disabled-link" data-soon="Настройки">
+                <span class="nav-icon">⚙</span><span>Настройки</span>
+            </a>
+            <button type="button" class="logout-button" id="logoutButton">
+                <span class="nav-icon">↪</span><span>Выйти</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-content requests-main">
+        <header class="requests-header">
+            <div>
+                <div class="requests-eyebrow">WORKSPACE / OPERATIONS</div>
+                <h1>Заявки<span class="title-dot">.</span></h1>
+                <p>Контроль обслуживания, ремонтов и обращений по недвижимости.</p>
+            </div>
+
+            <button class="primary-button" id="addRequestButton" type="button">
+                <span>＋</span> Создать заявку
+            </button>
+        </header>
+
+        <div id="requestNotice" class="request-notice" hidden></div>
+
+        <section class="request-stats">
+            <article class="request-stat-card">
+                <div class="request-stat-top">
+                    <span>Всего заявок</span>
+                    <span class="request-stat-icon">▤</span>
+                </div>
+                <strong id="totalRequests">0</strong>
+                <small>Все обращения</small>
+            </article>
+
+            <article class="request-stat-card">
+                <div class="request-stat-top">
+                    <span>Новые</span>
+                    <span class="request-stat-icon blue">✦</span>
+                </div>
+                <strong id="newRequests">0</strong>
+                <small>Требуют внимания</small>
+            </article>
+
+            <article class="request-stat-card">
+                <div class="request-stat-top">
+                    <span>В работе</span>
+                    <span class="request-stat-icon amber">◷</span>
+                </div>
+                <strong id="inProgressRequests">0</strong>
+                <small>В процессе решения</small>
+            </article>
+
+            <article class="request-stat-card">
+                <div class="request-stat-top">
+                    <span>Выполнены</span>
+                    <span class="request-stat-icon green">✓</span>
+                </div>
+                <strong id="completedRequests">0</strong>
+                <small>Успешно закрыты</small>
+            </article>
+        </section>
+
+        <section class="requests-panel">
+            <div class="requests-panel-header">
+                <div>
+                    <h2>Все обращения</h2>
+                    <p>Заявки по вашим объектам недвижимости</p>
+                </div>
+
+                <button type="button" class="secondary-button" id="refreshRequestsButton">
+                    ↻ Обновить
+                </button>
+            </div>
+
+            <div class="requests-filters">
+                <label class="request-search">
+                    <span>⌕</span>
+                    <input
+                        id="requestSearch"
+                        type="search"
+                        placeholder="Поиск по заявке, объекту или арендатору..."
+                        autocomplete="off"
+                    >
+                </label>
+
+                <select id="requestStatusFilter" aria-label="Фильтр по статусу">
+                    <option value="ALL">Все статусы</option>
+                    <option value="NEW">Новые</option>
+                    <option value="IN_PROGRESS">В работе</option>
+                    <option value="WAITING">Ожидают</option>
+                    <option value="COMPLETED">Выполнены</option>
+                    <option value="CANCELLED">Отменены</option>
+                </select>
+
+                <select id="requestPriorityFilter" aria-label="Фильтр по приоритету">
+                    <option value="ALL">Любой приоритет</option>
+                    <option value="URGENT">Срочный</option>
+                    <option value="HIGH">Высокий</option>
+                    <option value="NORMAL">Обычный</option>
+                    <option value="LOW">Низкий</option>
+                </select>
+
+                <select id="requestTypeFilter" aria-label="Фильтр по типу">
+                    <option value="ALL">Все типы</option>
+                    <option value="REPAIR">Ремонт</option>
+                    <option value="PLUMBING">Сантехника</option>
+                    <option value="ELECTRICITY">Электрика</option>
+                    <option value="HEATING">Отопление</option>
+                    <option value="CLEANING">Уборка</option>
+                    <option value="OTHER">Другое</option>
+                </select>
+            </div>
+
+            <div id="requestsList" class="requests-list">
+                <div class="requests-loading">
+                    <span class="loading-spinner"></span>
+                    <span>Загружаем заявки...</span>
+                </div>
+            </div>
+
+            <div class="requests-footer">
+                <span id="requestsResultsCount">Загрузка...</span>
+                <span>Данные сохраняются в PostgreSQL</span>
+            </div>
+        </section>
+
+        <section class="requests-info">
+            <div class="requests-info-icon">i</div>
+            <div>
+                <strong>Рабочий процесс</strong>
+                <p>
+                    Новая заявка проходит этапы обработки. После выполнения
+                    работ её можно закрыть, а историю статусов контролировать
+                    через текущее состояние заявки.
+                </p>
+            </div>
+        </section>
+    </main>
+</div>
+
+<div class="request-modal-overlay" id="requestModal" hidden>
+    <section class="request-modal" role="dialog" aria-modal="true" aria-labelledby="requestModalTitle">
+        <header class="request-modal-header">
+            <div>
+                <div class="requests-eyebrow">REQUEST MANAGEMENT</div>
+                <h2 id="requestModalTitle">Новая заявка</h2>
+                <p>Заполните информацию об обращении.</p>
+            </div>
+            <button type="button" class="request-modal-close" id="closeRequestModal" aria-label="Закрыть">×</button>
+        </header>
+
+        <form id="requestForm">
+            <input type="hidden" id="requestId">
+
+            <div class="request-form-grid">
+                <div class="request-form-group full">
+                    <label for="requestTitle">Название заявки *</label>
+                    <input id="requestTitle" type="text" maxlength="200" placeholder="Например: Протекает кран на кухне" required>
+                </div>
+
+                <div class="request-form-group full">
+                    <label for="requestDescription">Описание проблемы *</label>
+                    <textarea id="requestDescription" rows="4" maxlength="10000" placeholder="Опишите проблему и необходимые работы..." required></textarea>
+                </div>
+
+                <div class="request-form-group">
+                    <label for="requestProperty">Объект недвижимости *</label>
+                    <select id="requestProperty" required>
+                        <option value="">Загрузка объектов...</option>
+                    </select>
+                </div>
+
+                <div class="request-form-group">
+                    <label for="requestTenant">Арендатор</label>
+                    <select id="requestTenant">
+                        <option value="">Автоматически из объекта</option>
+                    </select>
+                </div>
+
+                <div class="request-form-group">
+                    <label for="requestType">Тип обращения</label>
+                    <select id="requestType">
+                        <option value="REPAIR">Ремонт</option>
+                        <option value="PLUMBING">Сантехника</option>
+                        <option value="ELECTRICITY">Электрика</option>
+                        <option value="HEATING">Отопление</option>
+                        <option value="CLEANING">Уборка</option>
+                        <option value="OTHER">Другое</option>
+                    </select>
+                </div>
+
+                <div class="request-form-group">
+                    <label for="requestPriority">Приоритет</label>
+                    <select id="requestPriority">
+                        <option value="LOW">Низкий</option>
+                        <option value="NORMAL" selected>Обычный</option>
+                        <option value="HIGH">Высокий</option>
+                        <option value="URGENT">Срочный</option>
+                    </select>
+                </div>
+
+                <div class="request-form-group full" id="requestStatusGroup" hidden>
+                    <label for="requestStatus">Статус заявки</label>
+                    <select id="requestStatus">
+                        <option value="NEW">Новая</option>
+                        <option value="IN_PROGRESS">В работе</option>
+                        <option value="WAITING">Ожидает</option>
+                        <option value="COMPLETED">Выполнена</option>
+                        <option value="CANCELLED">Отменена</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="requestFormError" class="request-form-error" hidden></div>
+
+            <div class="request-modal-actions">
+                <button type="button" class="secondary-button" id="cancelRequestButton">Отмена</button>
+                <button type="submit" class="primary-button" id="saveRequestButton">Создать заявку</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+<script src="../js/common.js"></script>
+<script src="../js/requests.js"></script>
+</body>
+</html>

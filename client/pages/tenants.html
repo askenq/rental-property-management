@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Арендаторы — Rental Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/global.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/sidebar.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/tenants.css"
+    >
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                RM
+            </div>
+
+            <span>
+                Rental Manager
+            </span>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="../index.html">
+                <span>⌂</span>
+                Главная
+            </a>
+
+            <a href="properties.html">
+                <span>▦</span>
+                Объекты
+            </a>
+
+            <a
+                href="tenants.html"
+                class="active"
+            >
+                <span>♙</span>
+                Арендаторы
+            </a>
+
+            <!-- ДОГОВОРЫ -->
+
+            <a href="contracts.html">
+                <span>▤</span>
+                Договоры
+            </a>
+
+            <a href="#">
+                <span>₽</span>
+                Платежи
+            </a>
+
+            <a href="#">
+                <span>✓</span>
+                Заявки
+            </a>
+
+            <a href="#">
+                <span>✉</span>
+                Сообщения
+            </a>
+
+            <a href="#">
+                <span>▥</span>
+                Аналитика
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="#">
+                <span>⚙</span>
+                Настройки
+            </a>
+
+            <a
+                href="login.html"
+                id="logoutLink"
+            >
+                <span>↪</span>
+                Выйти
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+        <header class="page-header">
+
+            <div>
+
+                <h1>
+                    Арендаторы
+                </h1>
+
+                <p>
+                    Управление арендаторами вашей недвижимости
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary-button"
+                id="addTenantButton"
+            >
+                + Добавить арендатора
+            </button>
+
+        </header>
+
+
+        <!-- STATISTICS -->
+
+        <section class="tenant-stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👤
+                </div>
+
+                <div>
+
+                    <span>
+                        Всего арендаторов
+                    </span>
+
+                    <strong id="totalTenants">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        Активные
+                    </span>
+
+                    <strong id="activeTenants">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ▦
+                </div>
+
+                <div>
+
+                    <span>
+                        С объектом
+                    </span>
+
+                    <strong id="assignedTenants">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FILTERS -->
+
+        <section class="filters">
+
+            <div class="search-wrapper">
+
+                <span>
+                    🔎
+                </span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Поиск по ФИО, email или телефону..."
+                >
+
+            </div>
+
+
+            <select id="statusFilter">
+
+                <option value="ALL">
+                    Все статусы
+                </option>
+
+                <option value="ACTIVE">
+                    Активные
+                </option>
+
+                <option value="INACTIVE">
+                    Неактивные
+                </option>
+
+            </select>
+
+        </section>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="tenantMessage"
+            class="tenant-message"
+        ></div>
+
+
+        <!-- TENANTS -->
+
+        <section
+            id="tenantsList"
+            class="tenants-list"
+        >
+
+            <div class="loading">
+                Загрузка арендаторов...
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div
+    id="tenantModal"
+    class="modal-overlay hidden"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2 id="modalTitle">
+                    Добавить арендатора
+                </h2>
+
+                <p>
+                    Заполните информацию об арендаторе
+                </p>
+
+            </div>
+
+            <button
+                class="modal-close"
+                id="closeModalButton"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="tenantForm">
+
+            <input
+                type="hidden"
+                id="tenantId"
+            >
+
+
+            <div class="form-grid">
+
+                <div class="form-group full">
+
+                    <label for="fullName">
+                        ФИО *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        placeholder="Иванов Иван Иванович"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="ivan@example.com"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Телефон
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="+7 900 000-00-00"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="passportSeries">
+                        Серия паспорта
+                    </label>
+
+                    <input
+                        type="text"
+                        id="passportSeries"
+                        placeholder="0000"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="passportNumber">
+                        Номер паспорта
+                    </label>
+
+                    <input
+                        type="text"
+                        id="passportNumber"
+                        placeholder="000000"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="passportIssuedAt">
+                        Дата выдачи
+                    </label>
+
+                    <input
+                        type="date"
+                        id="passportIssuedAt"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="status">
+                        Статус
+                    </label>
+
+                    <select id="status">
+
+                        <option value="ACTIVE">
+                            Активен
+                        </option>
+
+                        <option value="INACTIVE">
+                            Неактивен
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label for="propertyId">
+                        Объект недвижимости
+                    </label>
+
+                    <select id="propertyId">
+
+                        <option value="">
+                            Без объекта
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label for="notes">
+                        Примечание
+                    </label>
+
+                    <textarea
+                        id="notes"
+                        rows="4"
+                        placeholder="Дополнительная информация..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="formMessage"
+                class="form-message"
+            ></div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="cancelButton"
+                >
+                    Отмена
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                    id="saveTenantButton"
+                >
+                    Сохранить
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="../js/common.js"></script>
+
+<script src="../js/tenants.js"></script>
+
+</body>
+
+</html>

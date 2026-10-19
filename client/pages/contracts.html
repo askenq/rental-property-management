@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Договоры — Rental Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/global.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/sidebar.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/contracts.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            <div class="logo-icon">
+                RM
+            </div>
+
+            <div class="logo-text">
+                Rental Manager
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+
+            <!-- ГЛАВНАЯ -->
+
+            <a
+                href="../index.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">⌂</span>
+
+                <span>
+                    Главная
+                </span>
+
+            </a>
+
+
+            <!-- ОБЪЕКТЫ -->
+
+            <a
+                href="properties.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">▦</span>
+
+                <span>
+                    Объекты
+                </span>
+
+            </a>
+
+
+            <!-- АРЕНДАТОРЫ -->
+
+            <a
+                href="tenants.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">♙</span>
+
+                <span>
+                    Арендаторы
+                </span>
+
+            </a>
+
+
+            <!-- ДОГОВОРЫ -->
+
+            <a
+                href="contracts.html"
+                class="nav-item active"
+            >
+
+                <span class="nav-icon">▤</span>
+
+                <span>
+                    Договоры
+                </span>
+
+            </a>
+
+
+            <!-- ПЛАТЕЖИ -->
+
+            <a
+                href="coming-soon.html?section=payments"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">₽</span>
+
+                <span>
+                    Платежи
+                </span>
+
+            </a>
+
+
+            <!-- ЗАЯВКИ -->
+
+            <a
+                href="coming-soon.html?section=requests"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">✓</span>
+
+                <span>
+                    Заявки
+                </span>
+
+            </a>
+
+
+            <!-- СООБЩЕНИЯ -->
+
+            <a
+                href="coming-soon.html?section=messages"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">✉</span>
+
+                <span>
+                    Сообщения
+                </span>
+
+                <span class="message-count">
+                    3
+                </span>
+
+            </a>
+
+
+            <!-- АНАЛИТИКА -->
+
+            <a
+                href="coming-soon.html?section=analytics"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">▥</span>
+
+                <span>
+                    Аналитика
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- НИЖНЕЕ МЕНЮ -->
+
+        <div class="sidebar-bottom">
+
+
+            <!-- НАСТРОЙКИ -->
+
+            <a
+                href="coming-soon.html?section=settings"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">⚙</span>
+
+                <span>
+                    Настройки
+                </span>
+
+            </a>
+
+
+            <!-- ВЫХОД -->
+
+            <button
+                type="button"
+                class="logout-button"
+                id="logoutButton"
+            >
+
+                <span class="nav-icon">
+                    ↪
+                </span>
+
+                <span>
+                    Выйти
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =====================================
+             HEADER
+        ====================================== -->
+
+        <header class="contracts-header">
+
+            <div>
+
+                <h1>
+                    Договоры
+                </h1>
+
+                <p>
+                    Управление договорами аренды
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="primary-button"
+                id="addContractButton"
+            >
+
+                <span>
+                    +
+                </span>
+
+                Создать договор
+
+            </button>
+
+        </header>
+
+
+
+        <!-- =====================================
+             STATISTICS
+        ====================================== -->
+
+        <section class="contracts-stats">
+
+
+            <!-- ВСЕГО -->
+
+            <div class="contract-stat-card">
+
+                <div class="contract-stat-icon">
+                    ▤
+                </div>
+
+                <div class="contract-stat-content">
+
+                    <span>
+                        Всего договоров
+                    </span>
+
+                    <strong id="totalContracts">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- АКТИВНЫЕ -->
+
+            <div class="contract-stat-card">
+
+                <div class="contract-stat-icon">
+                    ✓
+                </div>
+
+                <div class="contract-stat-content">
+
+                    <span>
+                        Активные
+                    </span>
+
+                    <strong id="activeContracts">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- ИСТЕКАЮТ -->
+
+            <div class="contract-stat-card">
+
+                <div class="contract-stat-icon">
+                    !
+                </div>
+
+                <div class="contract-stat-content">
+
+                    <span>
+                        Истекают скоро
+                    </span>
+
+                    <strong id="expiringContracts">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- ЗАВЕРШЁННЫЕ -->
+
+            <div class="contract-stat-card">
+
+                <div class="contract-stat-icon">
+                    ○
+                </div>
+
+                <div class="contract-stat-content">
+
+                    <span>
+                        Завершённые
+                    </span>
+
+                    <strong id="finishedContracts">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             FILTERS
+        ====================================== -->
+
+        <section class="contracts-toolbar">
+
+
+            <!-- SEARCH -->
+
+            <div class="contracts-search">
+
+                <span class="search-icon">
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Поиск по номеру, арендатору или объекту..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <select
+                id="statusFilter"
+                class="contracts-filter"
+            >
+
+                <option value="">
+                    Все статусы
+                </option>
+
+                <option value="DRAFT">
+                    Черновик
+                </option>
+
+                <option value="ACTIVE">
+                    Активный
+                </option>
+
+                <option value="EXPIRED">
+                    Истёк
+                </option>
+
+                <option value="TERMINATED">
+                    Расторгнут
+                </option>
+
+            </select>
+
+        </section>
+
+
+
+        <!-- =====================================
+             CONTRACTS LIST
+        ====================================== -->
+
+        <section class="contracts-panel">
+
+            <div
+                id="contractsList"
+                class="contracts-list"
+            >
+
+                <div class="contracts-loading">
+                    Загрузка договоров...
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================
+     CONTRACT MODAL
+========================================== -->
+
+<div
+    class="modal-overlay"
+    id="contractModal"
+    hidden
+>
+
+    <div class="contract-modal">
+
+
+        <!-- MODAL HEADER -->
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2 id="modalTitle">
+                    Новый договор
+                </h2>
+
+                <p>
+                    Заполните данные договора аренды
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeModalButton"
+                aria-label="Закрыть"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+
+        <!-- FORM -->
+
+        <form
+            id="contractForm"
+            class="contract-form"
+        >
+
+            <input
+                type="hidden"
+                id="contractId"
+            >
+
+
+            <!-- НОМЕР ДОГОВОРА -->
+
+            <div class="form-group">
+
+                <label for="contractNumber">
+                    Номер договора *
+                </label>
+
+                <input
+                    type="text"
+                    id="contractNumber"
+                    placeholder="Например: Д-001/2026"
+                    required
+                >
+
+            </div>
+
+
+            <!-- АРЕНДАТОР -->
+
+            <div class="form-group">
+
+                <label for="tenantId">
+                    Арендатор *
+                </label>
+
+                <select
+                    id="tenantId"
+                    required
+                >
+
+                    <option value="">
+                        Выберите арендатора
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ОБЪЕКТ -->
+
+            <div class="form-group">
+
+                <label for="propertyId">
+                    Объект недвижимости *
+                </label>
+
+                <select
+                    id="propertyId"
+                    required
+                >
+
+                    <option value="">
+                        Выберите объект
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ДАТЫ -->
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="startDate">
+                        Дата начала *
+                    </label>
+
+                    <input
+                        type="date"
+                        id="startDate"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="endDate">
+                        Дата окончания *
+                    </label>
+
+                    <input
+                        type="date"
+                        id="endDate"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ФИНАНСЫ -->
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="rent">
+                        Арендная плата, ₽ *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rent"
+                        min="0"
+                        step="0.01"
+                        placeholder="65000"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="deposit">
+                        Депозит, ₽
+                    </label>
+
+                    <input
+                        type="number"
+                        id="deposit"
+                        min="0"
+                        step="0.01"
+                        placeholder="65000"
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ДЕНЬ ОПЛАТЫ -->
+
+            <div class="form-group">
+
+                <label for="paymentDay">
+                    День ежемесячной оплаты
+                </label>
+
+                <input
+                    type="number"
+                    id="paymentDay"
+                    min="1"
+                    max="31"
+                    placeholder="Например: 5"
+                >
+
+            </div>
+
+
+
+            <!-- СТАТУС -->
+
+            <div class="form-group">
+
+                <label for="contractStatus">
+                    Статус
+                </label>
+
+                <select
+                    id="contractStatus"
+                >
+
+                    <option value="DRAFT">
+                        Черновик
+                    </option>
+
+                    <option value="ACTIVE">
+                        Активный
+                    </option>
+
+                    <option value="EXPIRED">
+                        Истёк
+                    </option>
+
+                    <option value="TERMINATED">
+                        Расторгнут
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- ПРИМЕЧАНИЕ -->
+
+            <div class="form-group">
+
+                <label for="contractNotes">
+                    Примечание
+                </label>
+
+                <textarea
+                    id="contractNotes"
+                    rows="4"
+                    placeholder="Дополнительная информация..."
+                ></textarea>
+
+            </div>
+
+
+
+            <!-- ERROR -->
+
+            <div
+                id="formError"
+                class="form-error"
+                hidden
+            ></div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="cancelModalButton"
+                >
+                    Отмена
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                    id="saveContractButton"
+                >
+                    Сохранить договор
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     JS
+========================================== -->
+
+<script src="../js/common.js"></script>
+
+<script src="../js/contracts.js"></script>
+
+
+</body>
+
+</html>
