@@ -636,6 +636,16 @@ function createPropertyCard(
         ).toUpperCase();
 
 
+    /* ==================================================
+       АРЕНДАТОР
+    ================================================== */
+
+    const tenantName =
+        property.tenant?.fullName ||
+        property.tenantName ||
+        "Нет арендатора";
+
+
     let image =
         "🏢";
 
@@ -777,7 +787,9 @@ function createPropertyCard(
                     </small>
 
                     <strong>
-                        Нет арендатора
+                        ${escapeHtml(
+                            tenantName
+                        )}
                     </strong>
 
                 </div>

@@ -24,6 +24,48 @@ enum PropertyStatus {
   MAINTENANCE
 }
 
+enum TenantStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ContractStatus {
+  DRAFT
+  ACTIVE
+  EXPIRED
+  TERMINATED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+enum RequestStatus {
+  NEW
+  IN_PROGRESS
+  WAITING
+  COMPLETED
+  CANCELLED
+}
+
+enum RequestPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum RequestType {
+  REPAIR
+  PLUMBING
+  ELECTRICITY
+  HEATING
+  CLEANING
+  OTHER
+}
+
 model User {
   id           Int        @id @default(autoincrement())
   name         String
@@ -34,6 +76,11 @@ model User {
   createdAt    DateTime   @default(now())
 
   properties   Property[]
+  tenants      Tenant[]
+  contracts    Contract[]
+  payments     Payment[]
+  requests         Request[] @relation("RequestOwner")
+  assignedRequests Request[] @relation("RequestAssignee")
 }
 
 model Property {
@@ -46,11 +93,172 @@ model Property {
   floor       Int
   rent        Float
   status      PropertyStatus
+
+  // Старое поле оставляем,
+  // чтобы не потерять существующие данные
   tenantName  String?
+
+  // Связь с арендатором
+  tenantId    Int?
+  tenant      Tenant?         @relation(fields: [tenantId], references: [id], onDelete: SetNull)
+
+  // Договоры объекта
+  contracts   Contract[]
+  requests Request[]
+
   createdAt   DateTime        @default(now())
 
   ownerId     Int
   owner       User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
   @@index([ownerId])
+  @@index([tenantId])
+}
+
+model Tenant {
+  id               Int          @id @default(autoincrement())
+
+  fullName         String
+  email            String?
+  phone            String?
+
+  passportSeries   String?
+  passportNumber   String?
+  passportIssuedAt DateTime?
+
+  status           TenantStatus @default(ACTIVE)
+
+  notes            String?
+
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  ownerId          Int
+  owner            User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  properties       Property[]
+
+  contracts        Contract[]
+  requests Request[]
+
+  @@index([ownerId])
+  @@index([fullName])
+}
+
+model Contract {
+  id            Int            @id @default(autoincrement())
+
+  // Номер договора
+  number        String
+
+  // Даты договора
+  startDate     DateTime
+  endDate       DateTime
+
+  // Финансовые условия
+  rent          Float
+  deposit       Float?
+  paymentDay    Int?
+
+  // Статус
+  status        ContractStatus @default(DRAFT)
+
+  // Дополнительная информация
+  notes         String?
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  // Владелец договора
+  ownerId       Int
+  owner         User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  // Объект недвижимости
+  propertyId    Int
+  property      Property       @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  // Арендатор
+  tenantId      Int
+  tenant        Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  // Платежи по договору
+  payments      Payment[]
+
+  @@unique([ownerId, number])
+  @@index([ownerId])
+  @@index([propertyId])
+  @@index([tenantId])
+  @@index([status])
+  @@index([startDate])
+  @@index([endDate])
+}
+
+model Payment {
+  id          Int           @id @default(autoincrement())
+
+  // Сумма платежа
+  amount      Float
+
+  // Дата, до которой должен быть произведён платёж
+  dueDate     DateTime
+
+  // Фактическая дата оплаты
+  paidAt      DateTime?
+
+  // Статус платежа
+  status      PaymentStatus @default(PENDING)
+
+  // Назначение / комментарий
+  notes       String?
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Владелец платежа
+  ownerId     Int
+  owner       User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  // Договор
+  contractId  Int
+  contract    Contract      @relation(fields: [contractId], references: [id], onDelete: Cascade)
+
+  @@unique([contractId, dueDate])
+  @@index([ownerId])
+  @@index([contractId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+model Request {
+  id          Int             @id @default(autoincrement())
+
+  title       String
+  description String          @db.Text
+  type        RequestType     @default(OTHER)
+  status      RequestStatus   @default(NEW)
+  priority    RequestPriority @default(NORMAL)
+
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  completedAt DateTime?
+
+  ownerId     Int
+  owner       User            @relation("RequestOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  propertyId  Int
+  property    Property        @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  tenantId    Int?
+  tenant      Tenant?         @relation(fields: [tenantId], references: [id], onDelete: SetNull)
+
+  assignedToId Int?
+  assignedTo   User?          @relation("RequestAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+
+  @@index([ownerId])
+  @@index([propertyId])
+  @@index([tenantId])
+  @@index([assignedToId])
+  @@index([status])
+  @@index([priority])
+  @@index([createdAt])
 }

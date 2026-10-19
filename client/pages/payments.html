@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Платежи — Rental Manager</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/payments.css">
+</head>
+<body>
+    <div class="app-layout">
+
+        <aside class="sidebar">
+            <a href="/index.html" class="brand">
+                <span class="brand-logo">RM</span>
+                <span>Rental Manager</span>
+            </a>
+
+            <nav class="sidebar-nav">
+                <a href="/index.html" class="nav-link">
+                    <span>⌂</span> Главная
+                </a>
+                <a href="/pages/properties.html" class="nav-link">
+                    <span>▦</span> Объекты
+                </a>
+                <a href="/pages/tenants.html" class="nav-link">
+                    <span>♙</span> Арендаторы
+                </a>
+                <a href="/pages/contracts.html" class="nav-link">
+                    <span>▤</span> Договоры
+                </a>
+                <a href="/pages/payments.html" class="nav-link active">
+                    <span>₽</span> Платежи
+                </a>
+                <a href="#" class="nav-link disabled-link" data-soon="Заявки">
+                    <span>✓</span> Заявки
+                </a>
+                <a href="#" class="nav-link disabled-link" data-soon="Сообщения">
+                    <span>✉</span> Сообщения
+                </a>
+                <a href="#" class="nav-link disabled-link" data-soon="Аналитика">
+                    <span>▥</span> Аналитика
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="#" class="nav-link disabled-link" data-soon="Настройки">
+                    <span>⚙</span> Настройки
+                </a>
+                <a href="#" class="nav-link" id="logoutButton">
+                    <span>↪</span> Выйти
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <div class="eyebrow">ФИНАНСЫ / УПРАВЛЕНИЕ</div>
+                    <h1>Платежи<span class="title-dot">.</span></h1>
+                    <p>Контролируйте поступления, сроки и задолженности.</p>
+                </div>
+
+                <button class="btn btn-primary" id="generateButton">
+                    <span>✦</span>
+                    Сформировать график
+                </button>
+            </header>
+
+            <div class="notice" id="notice" hidden></div>
+
+            <section class="stats-grid">
+                <article class="stat-card stat-income">
+                    <div class="stat-top">
+                        <span class="stat-label">Получено</span>
+                        <span class="stat-icon">↗</span>
+                    </div>
+                    <div class="stat-value" id="paidValue">0 ₽</div>
+                    <div class="stat-foot">
+                        <span class="status-dot green"></span>
+                        <span id="paidCount">0 платежей</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Ожидается</span>
+                        <span class="stat-icon blue">◷</span>
+                    </div>
+                    <div class="stat-value" id="debtValue">0 ₽</div>
+                    <div class="stat-foot">
+                        <span class="status-dot blue-dot"></span>
+                        <span id="pendingCount">0 платежей</span>
+                    </div>
+                </article>
+
+                <article class="stat-card stat-danger">
+                    <div class="stat-top">
+                        <span class="stat-label">Просрочено</span>
+                        <span class="stat-icon red">!</span>
+                    </div>
+                    <div class="stat-value" id="overdueValue">0 ₽</div>
+                    <div class="stat-foot">
+                        <span class="status-dot red-dot"></span>
+                        <span id="overdueCount">0 просрочек</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Всего платежей</span>
+                        <span class="stat-icon">▤</span>
+                    </div>
+                    <div class="stat-value" id="totalCount">0</div>
+                    <div class="stat-foot">В текущем графике</div>
+                </article>
+            </section>
+
+            <section class="payment-panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>История платежей</h2>
+                        <p>Все начисления по вашим договорам</p>
+                    </div>
+                    <button class="btn btn-secondary" id="refreshButton">
+                        ↻ Обновить
+                    </button>
+                </div>
+
+                <div class="filters">
+                    <label class="search-box">
+                        <span>⌕</span>
+                        <input
+                            type="search"
+                            id="searchInput"
+                            placeholder="Поиск по договору, арендатору или объекту..."
+                        >
+                    </label>
+
+                    <select id="statusFilter" aria-label="Фильтр по статусу">
+                        <option value="ALL">Все статусы</option>
+                        <option value="PENDING">Ожидаются</option>
+                        <option value="PAID">Оплачены</option>
+                        <option value="OVERDUE">Просрочены</option>
+                    </select>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="payments-table">
+                        <thead>
+                            <tr>
+                                <th>ПЛАТЁЖ</th>
+                                <th>ДОГОВОР / ОБЪЕКТ</th>
+                                <th>СРОК ОПЛАТЫ</th>
+                                <th>СТАТУС</th>
+                                <th class="amount-column">СУММА</th>
+                                <th>ДЕЙСТВИЕ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsTableBody">
+                            <tr>
+                                <td colspan="6" class="table-message">
+                                    Загрузка платежей...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer">
+                    <span id="resultsCount">Загрузка...</span>
+                    <span>Данные обновляются из базы</span>
+                </div>
+            </section>
+
+            <section class="info-card">
+                <div class="info-icon">i</div>
+                <div>
+                    <strong>Как формируется график?</strong>
+                    <p>
+                        Система создаёт ежемесячные начисления по активным
+                        договорам с учётом дня оплаты. Повторная генерация
+                        не должна создавать дубликаты.
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/payments.js"></script>
+</body>
+</html>

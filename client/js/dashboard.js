@@ -1,1646 +1,1206 @@
-/* =========================================================
-   RENTAL MANAGER — DASHBOARD
-   Данные загружаются с сервера и из PostgreSQL
-========================================================= */
+/* ==================================================
+   DASHBOARD
+================================================== */
 
-let dashboardProperties = [];
-let dashboardUsers = [];
-let dashboardPayments = [];
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* ==================================================
+       ЭЛЕМЕНТЫ
+    ================================================== */
+
+    const welcomeName =
+        document.getElementById("welcomeName");
+
+    const userName =
+        document.getElementById("userName");
+
+    const userRole =
+        document.getElementById("userRole");
+
+    const userInitials =
+        document.getElementById("userInitials");
+
+    const propertiesCount =
+        document.getElementById("propertiesCount");
+
+    const tenantsCount =
+        document.getElementById("tenantsCount");
+
+    const incomeValue =
+        document.getElementById("incomeValue");
+
+    const debtValue =
+        document.getElementById("debtValue");
+
+    const dashboardProperties =
+        document.getElementById(
+            "dashboardProperties"
+        );
+
+    const paymentProgress =
+        document.getElementById(
+            "paymentProgress"
+        );
+
+    const paymentProgressFill =
+        document.getElementById(
+            "paymentProgressFill"
+        );
+
+    const paidAmount =
+        document.getElementById(
+            "paidAmount"
+        );
+
+    const expectedAmount =
+        document.getElementById(
+            "expectedAmount"
+        );
+
+    const logoutButton =
+        document.getElementById(
+            "logoutButton"
+        );
 
 
-/* =========================================================
-   ЗАПУСК
-========================================================= */
+    /* ==================================================
+       ТОКЕН
+    ================================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+    function getToken() {
 
-        initializeDashboard();
+        return (
+            localStorage.getItem("token") ||
+            localStorage.getItem("authToken") ||
+            localStorage.getItem("accessToken") ||
+            localStorage.getItem("jwt")
+        );
 
     }
-);
-
-
-/* =========================================================
-   ИНИЦИАЛИЗАЦИЯ
-========================================================= */
-
-async function initializeDashboard() {
-
-    console.log(
-        "Dashboard: запуск..."
-    );
 
 
     const token =
-        getAuthToken();
+        getToken();
 
 
     if (!token) {
 
-        console.warn(
-            "Dashboard: токен не найден."
-        );
-
         window.location.href =
-            "/pages/login.html";
+            "pages/login.html";
 
         return;
 
     }
 
 
-    try {
+    /* ==================================================
+       API GET
+    ================================================== */
 
-        await loadDashboardData();
-
-
-    } catch (error) {
-
-        console.error(
-            "Ошибка Dashboard:",
-            error
-        );
-
-
-        showDashboardError(
-            error.message
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   ПОЛУЧЕНИЕ TOKEN
-========================================================= */
-
-function getAuthToken() {
-
-    /*
-        Проверяем несколько возможных вариантов,
-        чтобы dashboard работал независимо
-        от того, как именно login.js сохранил token.
-    */
-
-    const possibleKeys = [
-        "token",
-        "authToken",
-        "accessToken",
-        "jwt"
-    ];
-
-
-    for (
-        const key of possibleKeys
-    ) {
-
-        const value =
-            localStorage.getItem(
-                key
-            );
-
-
-        if (value) {
-
-            return value;
-
-        }
-
-    }
-
-
-    return null;
-
-}
-
-
-/* =========================================================
-   ЗАГРУЗКА ВСЕХ ДАННЫХ
-========================================================= */
-
-async function loadDashboardData() {
-
-    console.log(
-        "Dashboard: загрузка данных..."
-    );
-
-
-    const token =
-        getAuthToken();
-
-
-    const headers = {
-
-        "Authorization":
-            `Bearer ${token}`,
-
-        "Content-Type":
-            "application/json"
-
-    };
-
-
-    /*
-        Загружаем данные независимо друг
-        от друга. Если одного endpoint пока
-        нет — остальные данные всё равно
-        смогут загрузиться.
-    */
-
-    const results =
-        await Promise.allSettled([
-
-            fetch(
-                "/api/properties",
-                {
-                    method: "GET",
-                    headers
-                }
-            ),
-
-            fetch(
-                "/api/users",
-                {
-                    method: "GET",
-                    headers
-                }
-            ),
-
-            fetch(
-                "/api/payments",
-                {
-                    method: "GET",
-                    headers
-                }
-            )
-
-        ]);
-
-
-    /* =========================================
-       PROPERTIES
-    ========================================= */
-
-    if (
-        results[0].status ===
-        "fulfilled"
-    ) {
+    async function apiRequest(url) {
 
         const response =
-            results[0].value;
+            await fetch(
+                url,
+                {
+                    method: "GET",
 
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`,
 
-        if (response.ok) {
-
-            const data =
-                await response.json();
-
-
-            dashboardProperties =
-                normalizeArray(
-                    data
-                );
-
-
-            console.log(
-                "Dashboard properties:",
-                dashboardProperties
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
             );
 
-        } else {
 
-            console.warn(
-                "Не удалось загрузить /api/properties"
+        let data = null;
+
+
+        try {
+
+            data =
+                await response.json();
+
+        } catch (error) {
+
+            data = null;
+
+        }
+
+
+        if (
+            response.status === 401
+        ) {
+
+            clearAuth();
+
+            window.location.href =
+                "pages/login.html";
+
+            throw new Error(
+                "Сессия истекла"
             );
 
         }
 
-    }
 
+        if (!response.ok) {
 
-    /* =========================================
-       USERS
-    ========================================= */
-
-    if (
-        results[1].status ===
-        "fulfilled"
-    ) {
-
-        const response =
-            results[1].value;
-
-
-        if (response.ok) {
-
-            const data =
-                await response.json();
-
-
-            dashboardUsers =
-                normalizeArray(
-                    data
-                );
-
-
-            console.log(
-                "Dashboard users:",
-                dashboardUsers
-            );
-
-        } else {
-
-            console.warn(
-                "Не удалось загрузить /api/users"
+            throw new Error(
+                data?.message ||
+                `Ошибка HTTP ${response.status}`
             );
 
         }
 
-    }
-
-
-    /* =========================================
-       PAYMENTS
-    ========================================= */
-
-    if (
-        results[2].status ===
-        "fulfilled"
-    ) {
-
-        const response =
-            results[2].value;
-
-
-        if (response.ok) {
-
-            const data =
-                await response.json();
-
-
-            dashboardPayments =
-                normalizeArray(
-                    data
-                );
-
-
-            console.log(
-                "Dashboard payments:",
-                dashboardPayments
-            );
-
-        } else {
-
-            console.warn(
-                "Платежи пока недоступны."
-            );
-
-        }
-
-    }
-
-
-    /*
-        После получения данных
-        обновляем интерфейс.
-    */
-
-    updateUserInfo();
-
-    updateStatistics();
-
-    renderRecentProperties();
-
-    updatePayments();
-
-
-    console.log(
-        "Dashboard: данные загружены."
-    );
-
-}
-
-
-/* =========================================================
-   НОРМАЛИЗАЦИЯ МАССИВА
-========================================================= */
-
-function normalizeArray(
-    data
-) {
-
-    if (
-        Array.isArray(data)
-    ) {
 
         return data;
 
     }
 
 
-    if (
-        Array.isArray(
-            data?.properties
-        )
-    ) {
+    /* ==================================================
+       ОЧИСТКА АВТОРИЗАЦИИ
+    ================================================== */
 
-        return data.properties;
+    function clearAuth() {
 
-    }
+        localStorage.removeItem("token");
 
+        localStorage.removeItem("authToken");
 
-    if (
-        Array.isArray(
-            data?.users
-        )
-    ) {
+        localStorage.removeItem("accessToken");
 
-        return data.users;
+        localStorage.removeItem("jwt");
+
+        localStorage.removeItem("user");
 
     }
 
 
-    if (
-        Array.isArray(
-            data?.payments
-        )
-    ) {
+    /* ==================================================
+       ПОЛЬЗОВАТЕЛЬ
+    ================================================== */
 
-        return data.payments;
-
-    }
-
-
-    if (
-        Array.isArray(
-            data?.data
-        )
-    ) {
-
-        return data.data;
-
-    }
-
-
-    return [];
-
-}
-
-
-/* =========================================================
-   ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ
-========================================================= */
-
-function updateUserInfo() {
-
-    const user =
-        getCurrentUser();
-
-
-    if (!user) {
-
-        return;
-
-    }
-
-
-    /*
-        Заголовок приветствия
-    */
-
-    const greeting =
-        document.querySelector(
-            ".dashboard-header h1"
-        );
-
-
-    if (greeting) {
-
-        const name =
-            getSafeString(
-                user.name
-            );
-
-
-        if (name) {
-
-            greeting.textContent =
-                `Добро пожаловать, ${name}!`;
-
-        }
-
-    }
-
-
-    /*
-        Имя пользователя в профиле,
-        если такой блок есть.
-    */
-
-    const profileName =
-        document.querySelector(
-            ".user-name"
-        );
-
-
-    if (profileName) {
-
-        profileName.textContent =
-            getSafeString(
-                user.name
-            ) ||
-            "Пользователь";
-
-    }
-
-
-    /*
-        Роль
-    */
-
-    const profileRole =
-        document.querySelector(
-            ".user-role"
-        );
-
-
-    if (profileRole) {
-
-        profileRole.textContent =
-            getRoleName(
-                user.role
-            );
-
-    }
-
-}
-
-
-/* =========================================================
-   ПОЛУЧЕНИЕ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
-========================================================= */
-
-function getCurrentUser() {
-
-    /*
-        1. Пытаемся взять пользователя
-        из localStorage.
-    */
-
-    const storedUser =
-        localStorage.getItem(
-            "user"
-        );
-
-
-    if (storedUser) {
+    function getSavedUser() {
 
         try {
 
-            return JSON.parse(
-                storedUser
-            );
+            const savedUser =
+                localStorage.getItem("user");
+
+
+            if (!savedUser) {
+
+                return null;
+
+            }
+
+
+            return JSON.parse(savedUser);
 
         } catch (error) {
-
-            console.warn(
-                "Не удалось прочитать user из localStorage."
-            );
-
-        }
-
-    }
-
-
-    /*
-        2. Пытаемся получить информацию
-        из JWT.
-    */
-
-    const token =
-        getAuthToken();
-
-
-    if (!token) {
-
-        return null;
-
-    }
-
-
-    try {
-
-        const parts =
-            token.split(".");
-
-
-        if (
-            parts.length !== 3
-        ) {
 
             return null;
 
         }
 
-
-        const payload =
-            JSON.parse(
-                decodeBase64Url(
-                    parts[1]
-                )
-            );
+    }
 
 
-        /*
-            JWT сейчас содержит:
-            userId
-            role
-        */
+    function getUserFromToken() {
 
-        return {
+        try {
 
-            id:
-                payload.userId,
+            const parts =
+                token.split(".");
 
-            role:
-                payload.role,
 
-            name:
-                null
+            if (
+                parts.length !== 3
+            ) {
+
+                return null;
+
+            }
+
+
+            const base64 =
+                parts[1]
+                    .replace(/-/g, "+")
+                    .replace(/_/g, "/");
+
+
+            const payload =
+                JSON.parse(
+                    atob(base64)
+                );
+
+
+            return {
+
+                id:
+                    payload.userId,
+
+                role:
+                    payload.role
+
+            };
+
+        } catch (error) {
+
+            return null;
+
+        }
+
+    }
+
+
+    function getRoleName(role) {
+
+        const roles = {
+
+            OWNER:
+                "Владелец",
+
+            MANAGER:
+                "Управляющий",
+
+            TENANT:
+                "Арендатор"
 
         };
 
-    } catch (error) {
 
-        console.warn(
-            "Не удалось разобрать JWT."
+        return (
+            roles[role] ||
+            "Пользователь"
         );
-
-
-        return null;
 
     }
 
-}
+
+    function getInitials(name) {
+
+        if (!name) {
+
+            return "?";
+
+        }
 
 
-/* =========================================================
-   BASE64 URL
-========================================================= */
-
-function decodeBase64Url(
-    value
-) {
-
-    const base64 =
-        value
-            .replace(
-                /-/g,
-                "+"
-            )
-            .replace(
-                /_/g,
-                "/"
-            );
+        const parts =
+            name
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean);
 
 
-    const padded =
-        base64 +
-        "=".repeat(
-            (4 -
-                base64.length %
-                4) % 4
-        );
+        if (!parts.length) {
+
+            return "?";
+
+        }
 
 
-    return atob(
-        padded
-    );
+        if (
+            parts.length === 1
+        ) {
 
-}
+            return parts[0]
+                .slice(0, 2)
+                .toUpperCase();
 
-
-/* =========================================================
-   СТАТИСТИКА
-========================================================= */
-
-function updateStatistics() {
-
-    const propertiesCount =
-        dashboardProperties.length;
+        }
 
 
-    /*
-        Считаем арендаторов.
+        return (
+            parts[0][0] +
+            parts[1][0]
+        ).toUpperCase();
 
-        Пользовательская таблица сейчас
-        содержит OWNER / MANAGER / TENANT.
-    */
+    }
 
-    const tenants =
-        dashboardUsers.filter(
-            function (user) {
 
-                return (
-                    String(
-                        user.role ||
-                        ""
-                    ).toUpperCase() ===
-                    "TENANT"
+    function renderUser() {
+
+        const savedUser =
+            getSavedUser();
+
+
+        const tokenUser =
+            getUserFromToken();
+
+
+        const user =
+            savedUser ||
+            tokenUser;
+
+
+        if (!user) {
+
+            return;
+
+        }
+
+
+        const name =
+            user.name ||
+            "Пользователь";
+
+
+        const role =
+            user.role ||
+            tokenUser?.role ||
+            "";
+
+
+        if (welcomeName) {
+
+            welcomeName.textContent =
+                name;
+
+        }
+
+
+        if (userName) {
+
+            userName.textContent =
+                name;
+
+        }
+
+
+        if (userRole) {
+
+            userRole.textContent =
+                getRoleName(role);
+
+        }
+
+
+        if (userInitials) {
+
+            userInitials.textContent =
+                getInitials(name);
+
+        }
+
+    }
+
+
+    /* ==================================================
+       НОРМАЛИЗАЦИЯ API
+    ================================================== */
+
+    function normalizeArray(data) {
+
+        if (
+            Array.isArray(data)
+        ) {
+
+            return data;
+
+        }
+
+
+        if (
+            Array.isArray(data?.data)
+        ) {
+
+            return data.data;
+
+        }
+
+
+        if (
+            Array.isArray(data?.items)
+        ) {
+
+            return data.items;
+
+        }
+
+
+        if (
+            Array.isArray(data?.properties)
+        ) {
+
+            return data.properties;
+
+        }
+
+
+        if (
+            Array.isArray(data?.tenants)
+        ) {
+
+            return data.tenants;
+
+        }
+
+
+        if (
+            Array.isArray(data?.payments)
+        ) {
+
+            return data.payments;
+
+        }
+
+
+        return [];
+
+    }
+
+
+    /* ==================================================
+       ЗАГРУЗКА DASHBOARD
+    ================================================== */
+
+    async function loadDashboard() {
+
+        const results =
+            await Promise.allSettled([
+
+                apiRequest(
+                    "/api/properties"
+                ),
+
+                apiRequest(
+                    "/api/tenants"
+                ),
+
+                apiRequest(
+                    "/api/payments"
+                )
+
+            ]);
+
+
+        /* ==============================================
+           ОБЪЕКТЫ
+        ============================================== */
+
+        let properties = [];
+
+
+        if (
+            results[0].status ===
+            "fulfilled"
+        ) {
+
+            properties =
+                normalizeArray(
+                    results[0].value
                 );
 
-            }
-        );
+        } else {
+
+            console.error(
+                "Ошибка загрузки объектов:",
+                results[0].reason
+            );
+
+        }
 
 
-    const tenantsCount =
-        tenants.length;
+        /* ==============================================
+           АРЕНДАТОРЫ
+        ============================================== */
+
+        let tenants = [];
 
 
-    /*
-        Доход.
+        if (
+            results[1].status ===
+            "fulfilled"
+        ) {
 
-        Если платежи уже существуют —
-        считаем их.
+            tenants =
+                normalizeArray(
+                    results[1].value
+                );
 
-        Если платежей пока нет —
-        считаем 0.
-    */
+        } else {
 
-    const income =
-        dashboardPayments
-            .filter(
-                function (payment) {
+            console.error(
+                "Ошибка загрузки арендаторов:",
+                results[1].reason
+            );
 
-                    return isPaymentCompleted(
-                        payment
-                    );
+        }
 
-                }
-            )
-            .reduce(
-                function (
-                    sum,
-                    payment
-                ) {
 
-                    return (
-                        sum +
-                        getPaymentAmount(
-                            payment
-                        )
-                    );
+        /* ==============================================
+           ПЛАТЕЖИ
+        ============================================== */
 
-                },
-                0
+        let payments = [];
+
+
+        if (
+            results[2].status ===
+            "fulfilled"
+        ) {
+
+            payments =
+                normalizeArray(
+                    results[2].value
+                );
+
+        }
+
+
+        /* ==============================================
+           СТАТИСТИКА
+        ============================================== */
+
+        if (propertiesCount) {
+
+            propertiesCount.textContent =
+                properties.length;
+
+        }
+
+
+        if (tenantsCount) {
+
+            tenantsCount.textContent =
+                tenants.length;
+
+        }
+
+
+        const income =
+            calculateIncome(
+                payments
             );
 
 
-    /*
-        Задолженность
-    */
-
-    const debt =
-        dashboardPayments
-            .filter(
-                function (payment) {
-
-                    return isPaymentDebt(
-                        payment
-                    );
-
-                }
-            )
-            .reduce(
-                function (
-                    sum,
-                    payment
-                ) {
-
-                    return (
-                        sum +
-                        getPaymentAmount(
-                            payment
-                        )
-                    );
-
-                },
-                0
+        const debt =
+            calculateDebt(
+                payments
             );
 
 
-    /*
-        Обновляем карточки.
+        if (incomeValue) {
 
-        Используем ID, если они есть.
-    */
+            incomeValue.textContent =
+                formatMoney(income);
 
-    setElementText(
-        "dashboardPropertiesCount",
-        propertiesCount
-    );
+        }
 
 
-    setElementText(
-        "dashboardTenantsCount",
-        tenantsCount
-    );
+        if (debtValue) {
+
+            debtValue.textContent =
+                formatMoney(debt);
+
+        }
 
 
-    setElementText(
-        "dashboardIncome",
-        formatMoney(
-            income
-        )
-    );
+        /* ==============================================
+           ОБЪЕКТЫ
+        ============================================== */
 
-
-    setElementText(
-        "dashboardDebt",
-        formatMoney(
-            debt
-        )
-    );
-
-
-    /*
-        Если старого HTML ещё нет
-        с этими ID — пытаемся найти
-        карточки автоматически.
-    */
-
-    const statCards =
-        document.querySelectorAll(
-            ".stat-card"
+        renderProperties(
+            properties
         );
 
 
-    if (
-        statCards.length >= 4
-    ) {
+        /* ==============================================
+           ПЛАТЕЖИ
+        ============================================== */
 
-        setStatCardValue(
-            statCards[0],
-            propertiesCount
-        );
-
-
-        setStatCardValue(
-            statCards[1],
-            tenantsCount
-        );
-
-
-        setStatCardValue(
-            statCards[2],
-            formatMoney(
-                income
-            )
-        );
-
-
-        setStatCardValue(
-            statCards[3],
-            formatMoney(
-                debt
-            )
+        renderPaymentStatistics(
+            payments
         );
 
     }
 
-}
+
+    /* ==================================================
+       ОТОБРАЖЕНИЕ ОБЪЕКТОВ
+    ================================================== */
+
+    function renderProperties(properties) {
+
+        if (
+            !dashboardProperties
+        ) {
+
+            return;
+
+        }
 
 
-/* =========================================================
-   ПОСЛЕДНИЕ ОБЪЕКТЫ
-========================================================= */
+        if (
+            !properties.length
+        ) {
 
-function renderRecentProperties() {
+            dashboardProperties.innerHTML = `
 
-    const container =
-        document.getElementById(
-            "dashboardProperties"
-        );
+                <div class="empty-state">
+
+                    <h3>
+                        Объектов пока нет
+                    </h3>
+
+                    <p>
+                        Добавьте первый объект недвижимости.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
 
 
-    /*
-        Если ID нет, ищем старый
-        контейнер Dashboard.
-    */
+        const latestProperties =
+            properties
+                .slice()
+                .sort(
+                    (
+                        a,
+                        b
+                    ) => {
 
-    const target =
-        container ||
-        document.querySelector(
-            ".dashboard-property-list"
-        );
+                        const dateA =
+                            new Date(
+                                a.createdAt || 0
+                            ).getTime();
 
 
-    if (!target) {
+                        const dateB =
+                            new Date(
+                                b.createdAt || 0
+                            ).getTime();
 
-        console.warn(
-            "Контейнер объектов Dashboard не найден."
-        );
 
-        return;
+                        return dateB - dateA;
+
+                    }
+                )
+                .slice(
+                    0,
+                    5
+                );
+
+
+        dashboardProperties.innerHTML =
+            latestProperties
+                .map(
+                    property =>
+                        createPropertyItem(
+                            property
+                        )
+                )
+                .join("");
 
     }
 
 
-    if (
-        dashboardProperties.length ===
-        0
-    ) {
+    /* ==================================================
+       КАРТОЧКА ОБЪЕКТА
+       ВАЖНО:
+       Классы полностью соответствуют dashboard.css
+    ================================================== */
 
-        target.innerHTML = `
+    function createPropertyItem(property) {
 
-            <div class="empty-state">
+        const type =
+            getPropertyType(
+                property.type
+            );
 
-                <h2>
-                    Пока нет объектов
-                </h2>
 
-                <p>
-                    Добавьте первый объект недвижимости.
-                </p>
+        const status =
+            getPropertyStatus(
+                property.status
+            );
+
+
+        const statusClass =
+            getStatusClass(
+                property.status
+            );
+
+
+        return `
+
+            <div class="dashboard-property-item">
+
+                <div class="dashboard-property-icon">
+                    🏢
+                </div>
+
+
+                <div class="dashboard-property-info">
+
+                    <strong>
+                        ${escapeHtml(
+                            property.name
+                        )}
+                    </strong>
+
+
+                    <span>
+                        ${escapeHtml(
+                            property.address
+                        )}
+                    </span>
+
+
+                    <span>
+                        ${type}
+                    </span>
+
+                </div>
+
+
+                <div class="dashboard-property-right">
+
+                    <strong>
+                        ${formatMoney(
+                            property.rent
+                        )}
+                        в месяц
+                    </strong>
+
+
+                    <span
+                        class="card-status ${statusClass}"
+                    >
+                        ${status}
+                    </span>
+
+                </div>
 
             </div>
 
         `;
 
-        return;
+    }
+
+
+    /* ==================================================
+       ТИП ОБЪЕКТА
+    ================================================== */
+
+    function getPropertyType(type) {
+
+        const types = {
+
+            APARTMENT:
+                "Квартира",
+
+            HOUSE:
+                "Дом",
+
+            COMMERCIAL:
+                "Коммерческое помещение"
+
+        };
+
+
+        return (
+            types[type] ||
+            "Недвижимость"
+        );
 
     }
 
 
-    /*
-        Показываем максимум 4 последних
-        объекта.
-    */
+    /* ==================================================
+       СТАТУС ОБЪЕКТА
+    ================================================== */
 
-    const recent =
-        [...dashboardProperties]
-            .sort(
-                function (
-                    a,
-                    b
-                ) {
+    function getPropertyStatus(status) {
 
-                    return (
-                        getDateValue(
-                            b.createdAt
-                        ) -
-                        getDateValue(
-                            a.createdAt
-                        )
-                    );
+        const statuses = {
 
-                }
-            )
-            .slice(
-                0,
-                4
-            );
+            RENTED:
+                "Сдана",
+
+            AVAILABLE:
+                "Свободна",
+
+            MAINTENANCE:
+                "На обслуживании"
+
+        };
 
 
-    target.innerHTML = "";
+        return (
+            statuses[status] ||
+            "Неизвестно"
+        );
+
+    }
 
 
-    recent.forEach(
-        function (property) {
+    /* ==================================================
+       CSS-КЛАСС СТАТУСА
+    ================================================== */
 
-            const item =
-                createDashboardProperty(
-                    property
-                );
+    function getStatusClass(status) {
 
+        if (
+            status === "RENTED"
+        ) {
 
-            target.appendChild(
-                item
-            );
+            return "rented";
 
         }
-    );
-
-}
 
 
-/* =========================================================
-   КАРТОЧКА ОБЪЕКТА НА DASHBOARD
-========================================================= */
+        if (
+            status === "MAINTENANCE"
+        ) {
 
-function createDashboardProperty(
-    property
-) {
+            return "maintenance";
 
-    const element =
-        document.createElement(
-            "div"
-        );
+        }
 
 
-    element.className =
-        "dashboard-property-item";
+        return "available";
+
+    }
 
 
-    const status =
-        getPropertyStatus(
-            property.status
-        );
+    /* ==================================================
+       ДОХОД
+    ================================================== */
 
+    function calculateIncome(payments) {
 
-    const type =
-        getPropertyType(
-            property.type
-        );
+        return payments.reduce(
 
-
-    element.innerHTML = `
-
-        <div
-            class="dashboard-property-image"
-        >
-            ${getPropertyIcon(
-                property.type
-            )}
-        </div>
-
-
-        <div
-            class="dashboard-property-info"
-        >
-
-            <strong>
-                ${escapeHtml(
-                    property.name ||
-                    "Без названия"
-                )}
-            </strong>
-
-            <span>
-                ${escapeHtml(
-                    property.address ||
-                    "Адрес не указан"
-                )}
-            </span>
-
-            <small>
-                ${type} · ${status.text}
-            </small>
-
-        </div>
-
-
-        <div
-            class="dashboard-property-rent"
-        >
-
-            <strong>
-                ${formatMoney(
-                    property.rent
-                )}
-            </strong>
-
-            <span>
-                в месяц
-            </span>
-
-        </div>
-
-    `;
-
-
-    return element;
-
-}
-
-
-/* =========================================================
-   ПЛАТЕЖИ
-========================================================= */
-
-function updatePayments() {
-
-    const total =
-        dashboardPayments.reduce(
-            function (
-                sum,
+            (
+                total,
                 payment
-            ) {
+            ) => {
+
+                const status =
+                    String(
+                        payment.status || ""
+                    ).toUpperCase();
+
+
+                const isPaid =
+                    status === "PAID" ||
+                    status === "COMPLETED" ||
+                    status === "SUCCESS";
+
+
+                if (!isPaid) {
+
+                    return total;
+
+                }
+
 
                 return (
-                    sum +
-                    getPaymentAmount(
-                        payment
+                    total +
+                    Number(
+                        payment.amount || 0
                     )
                 );
 
             },
+
             0
+
         );
 
-
-    const paid =
-        dashboardPayments
-            .filter(
-                isPaymentCompleted
-            )
-            .reduce(
-                function (
-                    sum,
-                    payment
-                ) {
-
-                    return (
-                        sum +
-                        getPaymentAmount(
-                            payment
-                        )
-                    );
-
-                },
-                0
-            );
+    }
 
 
-    const percentage =
-        total > 0
-            ? Math.round(
-                (
-                    paid /
-                    total
-                ) * 100
-            )
-            : 0;
+    /* ==================================================
+       ЗАДОЛЖЕННОСТЬ
+    ================================================== */
+
+    function calculateDebt(payments) {
+
+        return payments.reduce(
+
+            (
+                total,
+                payment
+            ) => {
+
+                const status =
+                    String(
+                        payment.status || ""
+                    ).toUpperCase();
 
 
-    /*
-        Прогресс
-    */
+                const isDebt =
+                    status === "UNPAID" ||
+                    status === "PENDING" ||
+                    status === "OVERDUE" ||
+                    status === "DUE";
 
-    const progress =
-        document.querySelector(
-            ".payment-progress"
+
+                if (!isDebt) {
+
+                    return total;
+
+                }
+
+
+                return (
+                    total +
+                    Number(
+                        payment.amount || 0
+                    )
+                );
+
+            },
+
+            0
+
         );
 
-
-    if (progress) {
-
-        progress.style.width =
-            `${percentage}%`;
-
     }
 
 
-    /*
-        Процент
-    */
-
-    const percentElement =
-        document.querySelector(
-            ".payment-percent"
-        );
-
-
-    if (percentElement) {
-
-        percentElement.textContent =
-            `${percentage}%`;
-
-    }
-
-
-    /*
-        Текст "оплачено"
-    */
-
-    const paidElement =
-        document.querySelector(
-            ".payments-paid"
-        );
-
-
-    if (paidElement) {
-
-        paidElement.textContent =
-            `${formatMoney(
-                paid
-            )} оплачено`;
-
-    }
-
-
-    /*
-        Текст "всего"
-    */
-
-    const totalElement =
-        document.querySelector(
-            ".payments-total"
-        );
-
-
-    if (totalElement) {
-
-        totalElement.textContent =
-            `${formatMoney(
-                total
-            )} всего`;
-
-    }
-
-}
-
-
-/* =========================================================
-   СТАТУС ОБЪЕКТА
-========================================================= */
-
-function getPropertyStatus(
-    status
-) {
-
-    const statuses = {
-
-        RENTED: {
-            text: "Сдана"
-        },
-
-        AVAILABLE: {
-            text: "Свободна"
-        },
-
-        MAINTENANCE: {
-            text: "Обслуживание"
-        }
-
-    };
-
-
-    const normalized =
-        String(
-            status ||
-            ""
-        ).toUpperCase();
-
-
-    return (
-        statuses[
-            normalized
-        ] || {
-            text:
-                status ||
-                "Не указан"
-        }
-    );
-
-}
-
-
-/* =========================================================
-   ТИП ОБЪЕКТА
-========================================================= */
-
-function getPropertyType(
-    type
-) {
-
-    const types = {
-
-        APARTMENT:
-            "Квартира",
-
-        HOUSE:
-            "Дом",
-
-        COMMERCIAL:
-            "Коммерческая недвижимость"
-
-    };
-
-
-    const normalized =
-        String(
-            type ||
-            ""
-        ).toUpperCase();
-
-
-    return (
-        types[
-            normalized
-        ] ||
-        type ||
-        "Объект"
-    );
-
-}
-
-
-/* =========================================================
-   ИКОНКА
-========================================================= */
-
-function getPropertyIcon(
-    type
-) {
-
-    const normalized =
-        String(
-            type ||
-            ""
-        ).toUpperCase();
-
-
-    if (
-        normalized ===
-        "HOUSE"
-    ) {
-
-        return "🏠";
-
-    }
-
-
-    if (
-        normalized ===
-        "COMMERCIAL"
-    ) {
-
-        return "🏢";
-
-    }
-
-
-    return "🏢";
-
-}
-
-
-/* =========================================================
-   ПЛАТЕЖ
-========================================================= */
-
-function getPaymentAmount(
-    payment
-) {
-
-    if (!payment) {
-
-        return 0;
-
-    }
-
-
-    const possibleValues = [
-
-        payment.amount,
-
-        payment.sum,
-
-        payment.price,
-
-        payment.value
-
-    ];
-
-
-    for (
-        const value of
-        possibleValues
+    /* ==================================================
+       СТАТИСТИКА ПЛАТЕЖЕЙ
+    ================================================== */
+
+    function renderPaymentStatistics(
+        payments
     ) {
 
         if (
-            value !==
-                undefined &&
-            value !==
-                null
+            !payments.length
         ) {
 
-            const number =
-                Number(
-                    value
-                );
+            if (paymentProgress) {
+
+                paymentProgress.textContent =
+                    "0%";
+
+            }
 
 
             if (
-                !Number.isNaN(
-                    number
-                )
+                paymentProgressFill
             ) {
 
-                return number;
+                paymentProgressFill.style.width =
+                    "0%";
 
             }
+
+
+            if (paidAmount) {
+
+                paidAmount.textContent =
+                    "0 ₽ оплачено";
+
+            }
+
+
+            if (expectedAmount) {
+
+                expectedAmount.textContent =
+                    "0 ₽ всего";
+
+            }
+
+
+            return;
+
+        }
+
+
+        let paid = 0;
+
+        let expected = 0;
+
+
+        payments.forEach(
+            payment => {
+
+                const amount =
+                    Number(
+                        payment.amount || 0
+                    );
+
+
+                expected +=
+                    amount;
+
+
+                const status =
+                    String(
+                        payment.status || ""
+                    ).toUpperCase();
+
+
+                if (
+                    status === "PAID" ||
+                    status === "COMPLETED" ||
+                    status === "SUCCESS"
+                ) {
+
+                    paid +=
+                        amount;
+
+                }
+
+            }
+        );
+
+
+        const percentage =
+            expected > 0
+
+                ? Math.round(
+                    (
+                        paid /
+                        expected
+                    ) * 100
+                )
+
+                : 0;
+
+
+        if (paymentProgress) {
+
+            paymentProgress.textContent =
+                `${percentage}%`;
+
+        }
+
+
+        if (
+            paymentProgressFill
+        ) {
+
+            paymentProgressFill.style.width =
+                `${percentage}%`;
+
+        }
+
+
+        if (paidAmount) {
+
+            paidAmount.textContent =
+                `${formatMoney(
+                    paid
+                )} оплачено`;
+
+        }
+
+
+        if (expectedAmount) {
+
+            expectedAmount.textContent =
+                `${formatMoney(
+                    expected
+                )} всего`;
 
         }
 
     }
 
 
-    return 0;
+    /* ==================================================
+       ВЫХОД
+    ================================================== */
 
-}
+    if (logoutButton) {
 
+        logoutButton.addEventListener(
+            "click",
+            () => {
 
-/* =========================================================
-   ОПЛАЧЕН
-========================================================= */
-
-function isPaymentCompleted(
-    payment
-) {
-
-    const status =
-        String(
-            payment?.status ||
-            ""
-        ).toUpperCase();
+                clearAuth();
 
 
-    return [
+                window.location.href =
+                    "pages/login.html";
 
-        "PAID",
-        "COMPLETED",
-        "SUCCESS",
-        "SUCCESSFUL"
-
-    ].includes(
-        status
-    );
-
-}
-
-
-/* =========================================================
-   ДОЛГ
-========================================================= */
-
-function isPaymentDebt(
-    payment
-) {
-
-    const status =
-        String(
-            payment?.status ||
-            ""
-        ).toUpperCase();
-
-
-    return [
-
-        "DEBT",
-        "OVERDUE",
-        "UNPAID",
-        "PENDING"
-
-    ].includes(
-        status
-    );
-
-}
-
-
-/* =========================================================
-   STAT CARD
-========================================================= */
-
-function setStatCardValue(
-    card,
-    value
-) {
-
-    if (!card) {
-
-        return;
-
-    }
-
-
-    const valueElement =
-        card.querySelector(
-            ".stat-value"
+            }
         );
 
-
-    if (valueElement) {
-
-        valueElement.textContent =
-            value;
-
     }
 
-}
 
+    /* ==================================================
+       ФОРМАТ ДЕНЕГ
+    ================================================== */
 
-/* =========================================================
-   TEXT BY ID
-========================================================= */
+    function formatMoney(value) {
 
-function setElementText(
-    id,
-    value
-) {
-
-    const element =
-        document.getElementById(
-            id
-        );
-
-
-    if (element) {
-
-        element.textContent =
-            value;
-
-    }
-
-}
-
-
-/* =========================================================
-   MONEY
-========================================================= */
-
-function formatMoney(
-    value
-) {
-
-    return (
-        new Intl.NumberFormat(
-            "ru-RU"
-        ).format(
+        const number =
             Number(
-                value
-            ) || 0
-        ) +
-        " ₽"
-    );
-
-}
+                value || 0
+            );
 
 
-/* =========================================================
-   DATE
-========================================================= */
-
-function getDateValue(
-    value
-) {
-
-    if (!value) {
-
-        return 0;
+        return (
+            new Intl.NumberFormat(
+                "ru-RU",
+                {
+                    maximumFractionDigits: 2
+                }
+            ).format(number)
+            + " ₽"
+        );
 
     }
 
 
-    const date =
-        new Date(
-            value
-        );
+    /* ==================================================
+       ЭКРАНИРОВАНИЕ HTML
+    ================================================== */
 
+    function escapeHtml(value) {
 
-    const timestamp =
-        date.getTime();
-
-
-    return Number.isNaN(
-        timestamp
-    )
-        ? 0
-        : timestamp;
-
-}
-
-
-/* =========================================================
-   ROLE
-========================================================= */
-
-function getRoleName(
-    role
-) {
-
-    const roles = {
-
-        OWNER:
-            "Владелец",
-
-        MANAGER:
-            "Управляющий",
-
-        TENANT:
-            "Арендатор"
-
-    };
-
-
-    return (
-        roles[
-            String(
-                role ||
-                ""
-            ).toUpperCase()
-        ] ||
-        "Пользователь"
-    );
-
-}
-
-
-/* =========================================================
-   SAFE STRING
-========================================================= */
-
-function getSafeString(
-    value
-) {
-
-    if (
-        value ===
-            null ||
-        value ===
-            undefined
-    ) {
-
-        return "";
+        return String(
+            value ?? ""
+        )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
 
     }
 
 
-    return String(
-        value
-    );
+    /* ==================================================
+       ЗАПУСК
+    ================================================== */
 
-}
+    renderUser();
 
+    loadDashboard();
 
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHtml(
-    value
-) {
-
-    const div =
-        document.createElement(
-            "div"
-        );
-
-
-    div.textContent =
-        getSafeString(
-            value
-        );
-
-
-    return div.innerHTML;
-
-}
-
-
-/* =========================================================
-   ОШИБКА DASHBOARD
-========================================================= */
-
-function showDashboardError(
-    message
-) {
-
-    const container =
-        document.querySelector(
-            ".dashboard-property-list"
-        );
-
-
-    if (!container) {
-
-        return;
-
-    }
-
-
-    container.innerHTML = `
-
-        <div class="empty-state">
-
-            <h2>
-                Не удалось загрузить данные
-            </h2>
-
-            <p>
-                ${escapeHtml(
-                    message ||
-                    "Неизвестная ошибка"
-                )}
-            </p>
-
-        </div>
-
-    `;
-
-}
+});
