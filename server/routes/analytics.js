@@ -6,8 +6,6 @@ export default function createAnalyticsRouter(prisma, authenticateToken) {
 
     router.use(authenticateToken);
 
-    // GET /api/analytics?period=12
-    // period: 3, 6 или 12 месяцев
     router.get("/", async (req, res) => {
         try {
             const ownerId = Number(req.user?.userId ?? req.user?.id);
@@ -50,7 +48,6 @@ export default function createAnalyticsRouter(prisma, authenticateToken) {
                         area: true
                     }
                 }),
-
                 prisma.contract.findMany({
                     where: { ownerId },
                     select: {
@@ -77,13 +74,21 @@ export default function createAnalyticsRouter(prisma, authenticateToken) {
                         }
                     }
                 }),
-
                 prisma.payment.findMany({
                     where: {
                         ownerId,
-                        dueDate: {
-                            gte: startDate
-                        }
+                        OR: [
+                            {
+                                dueDate: {
+                                    gte: startDate
+                                }
+                            },
+                            {
+                                paidAt: {
+                                    gte: startDate
+                                }
+                            }
+                        ]
                     },
                     select: {
                         id: true,
@@ -114,7 +119,6 @@ export default function createAnalyticsRouter(prisma, authenticateToken) {
                         dueDate: "asc"
                     }
                 }),
-
                 prisma.tenant.findMany({
                     where: { ownerId },
                     select: {
@@ -122,7 +126,6 @@ export default function createAnalyticsRouter(prisma, authenticateToken) {
                         status: true
                     }
                 }),
-
                 prisma.request.findMany({
                     where: { ownerId },
                     select: {
@@ -141,10 +144,12 @@ export default function createAnalyticsRouter(prisma, authenticateToken) {
                 Math.round((Number(value) + Number.EPSILON) * 100) / 100;
 
             const sum = (items) =>
-                money(items.reduce(
-                    (total, item) => total + Number(item.amount || 0),
-                    0
-                ));
+                money(
+                    items.reduce(
+                        (total, item) => total + Number(item.amount || 0),
+                        0
+                    )
+                );
 
             const currentMonthStart = new Date(
                 now.getFullYear(),
@@ -174,7 +179,6 @@ export default function createAnalyticsRouter(prisma, authenticateToken) {
                 (item) => item.status === "MAINTENANCE"
             );
 
-            // Для финансовых итогов используем фактический статус платежа.
             const paidPayments = payments.filter(
                 (item) => item.status === "PAID"
             );
@@ -196,11 +200,15 @@ export default function createAnalyticsRouter(prisma, authenticateToken) {
                 return date >= currentMonthStart && date < nextMonthStart;
             });
 
-            const currentMonthPaid = currentMonthPayments.filter(
-                (item) => item.status === "PAID"
-            );
+            const currentMonthPaid = payments.filter((payment) => {
+                if (payment.status !== "PAID" || !payment.paidAt) {
+                    return false;
+                }
 
-            // Помесячная динамика начислений и фактических оплат.
+                const date = new Date(payment.paidAt);
+                return date >= currentMonthStart && date < nextMonthStart;
+            });
+
             const monthly = [];
 
             for (let i = 0; i < period; i++) {
@@ -221,42 +229,40 @@ export default function createAnalyticsRouter(prisma, authenticateToken) {
                     return date >= monthStart && date < monthEnd;
                 });
 
-                const paidInMonth = monthPayments.filter((payment) => {
+                const paidInMonth = payments.filter((payment) => {
                     if (payment.status !== "PAID" || !payment.paidAt) {
                         return false;
                     }
 
                     const date = new Date(payment.paidAt);
-
                     return date >= monthStart && date < monthEnd;
                 });
+
+                const pendingInMonth = monthPayments.filter(
+                    (payment) => payment.status === "PENDING"
+                );
+
+                const overdueInMonth = monthPayments.filter(
+                    (payment) => payment.status === "OVERDUE"
+                );
 
                 monthly.push({
                     key: `${monthStart.getFullYear()}-${String(
                         monthStart.getMonth() + 1
                     ).padStart(2, "0")}`,
-
                     label: monthStart.toLocaleDateString("ru-RU", {
                         month: "short",
                         year: "2-digit"
                     }),
-
                     accrued: sum(monthPayments),
                     paid: sum(paidInMonth),
-                    pending: sum(
-                        monthPayments.filter(
-                            (payment) => payment.status === "PENDING"
-                        )
-                    ),
-                    overdue: sum(
-                        monthPayments.filter(
-                            (payment) => payment.status === "OVERDUE"
-                        )
-                    )
+                    pending: sum(pendingInMonth),
+                    overdue: sum(overdueInMonth),
+                    accruedCount: monthPayments.length,
+                    paidCount: paidInMonth.length
                 });
             }
 
-            // Рейтинг объектов по начислениям за выбранный период.
             const propertyStats = properties.map((property) => {
                 const propertyPayments = payments.filter(
                     (payment) =>
@@ -350,35 +356,28 @@ export default function createAnalyticsRouter(prisma, authenticateToken) {
             res.json({
                 period,
                 generatedAt: now.toISOString(),
-
                 summary: {
                     propertiesTotal: properties.length,
                     propertiesOccupied: occupiedProperties.length,
                     propertiesAvailable: availableProperties.length,
                     propertiesMaintenance: maintenanceProperties.length,
                     occupancyRate,
-
                     tenantsTotal: tenants.length,
                     tenantsActive: tenants.filter(
                         (tenant) => tenant.status === "ACTIVE"
                     ).length,
-
                     contractsTotal: contracts.length,
                     contractsActive: activeContracts.length,
                     contractsExpiringSoon: expiringSoon.length,
-
                     paymentsTotal: payments.length,
                     paidCount: paidPayments.length,
                     pendingCount: pendingPayments.length,
                     overdueCount: overduePayments.length,
-
                     paidAmount,
                     pendingAmount,
                     overdueAmount,
-
                     currentMonthAccrued: sum(currentMonthPayments),
                     currentMonthReceived: sum(currentMonthPaid),
-
                     requestsTotal: requests.length,
                     requestsOpen: requests.filter(
                         (request) =>
@@ -388,7 +387,6 @@ export default function createAnalyticsRouter(prisma, authenticateToken) {
                     ).length,
                     requestsCompleted: completedRequests.length
                 },
-
                 monthly,
                 properties: propertyStats,
                 expiringSoon,

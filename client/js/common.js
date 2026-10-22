@@ -274,3 +274,74 @@ document.addEventListener(
 
     }
 );
+
+document.addEventListener("DOMContentLoaded", () => {
+    const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+
+    const pageAliases = {
+        "/": "/index.html",
+        "/index.html": "/index.html",
+        "/pages/properties.html": "/pages/properties.html",
+        "/pages/tenants.html": "/pages/tenants.html",
+        "/pages/contracts.html": "/pages/contracts.html",
+        "/pages/payments.html": "/pages/payments.html",
+        "/pages/requests.html": "/pages/requests.html",
+        "/pages/messages.html": "/pages/messages.html",
+        "/pages/analytics.html": "/pages/analytics.html"
+    };
+
+    const currentPage = pageAliases[currentPath] || currentPath;
+
+    document.querySelectorAll(
+        ".sidebar a[href], .sidebar-nav a[href], .sidebar-bottom a[href]"
+    ).forEach(link => {
+        const href = link.getAttribute("href");
+
+        if (!href || href.startsWith("#") || href.startsWith("javascript:")) {
+            return;
+        }
+
+        let linkPath;
+
+        try {
+            linkPath = new URL(href, window.location.origin).pathname;
+        } catch {
+            return;
+        }
+
+        linkPath = linkPath.replace(/\/+$/, "") || "/";
+
+        if (linkPath === "/") {
+            linkPath = "/index.html";
+        }
+
+        const isActive = linkPath === currentPage;
+
+        link.classList.toggle("active", isActive);
+
+        if (isActive) {
+            link.setAttribute("aria-current", "page");
+        } else {
+            link.removeAttribute("aria-current");
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const currentPath = window.location.pathname.replace(/\/+$/, "");
+
+    document.querySelectorAll(".sidebar a.nav-item, .sidebar-nav a.nav-link").forEach(link => {
+        const url = new URL(link.href, window.location.origin);
+        const linkPath = url.pathname.replace(/\/+$/, "");
+
+        const isActive = linkPath === currentPath;
+
+        link.classList.toggle("active", isActive);
+
+        if (isActive) {
+            link.setAttribute("aria-current", "page");
+        } else {
+            link.removeAttribute("aria-current");
+        }
+    });
+});
