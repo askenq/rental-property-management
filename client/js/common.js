@@ -1,10 +1,5 @@
 const API_URL = window.location.origin;
 
-
-/* ==================================================
-   АВТОРИЗАЦИЯ
-================================================== */
-
 function getToken() {
     return localStorage.getItem("token");
 }
@@ -27,11 +22,6 @@ function logout() {
 
     window.location.href = "/pages/login.html";
 }
-
-
-/* ==================================================
-   ОБЩИЕ ФУНКЦИИ
-================================================== */
 
 function formatMoney(value) {
 
@@ -102,11 +92,6 @@ function getInitials(name) {
     ).toUpperCase();
 
 }
-
-
-/* ==================================================
-   API
-================================================== */
 
 async function apiRequest(
     url,
@@ -193,11 +178,6 @@ async function apiRequest(
 
 }
 
-
-/* ==================================================
-   ПОЛЬЗОВАТЕЛЬ
-================================================== */
-
 async function getCurrentUser() {
 
     return await apiRequest(
@@ -205,11 +185,6 @@ async function getCurrentUser() {
     );
 
 }
-
-
-/* ==================================================
-   ОБЪЕКТЫ — API
-================================================== */
 
 async function getProperties() {
 
@@ -271,11 +246,6 @@ async function deleteProperty(
     );
 
 }
-
-
-/* ==================================================
-   LOGOUT BUTTON
-================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",

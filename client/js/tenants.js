@@ -1,12 +1,5 @@
-/* ==================================================
-   АРЕНДАТОРЫ
-================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    /* =========================
-       ЭЛЕМЕНТЫ
-    ========================= */
 
     const tenantsList =
         document.getElementById("tenantsList");
@@ -83,19 +76,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveTenantButton =
         document.getElementById("saveTenantButton");
 
-
-    /* =========================
-       ДАННЫЕ
-    ========================= */
-
     let tenants = [];
 
     let properties = [];
-
-
-    /* ==================================================
-       АВТОРИЗАЦИЯ
-    ================================================== */
 
     function getToken() {
 
@@ -148,11 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
 
     }
-
-
-    /* ==================================================
-       API
-    ================================================== */
 
     async function apiRequest(
         url,
@@ -233,11 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-
-        /* =========================
-           НЕАВТОРИЗОВАН
-        ========================= */
-
         if (
             response.status === 401
         ) {
@@ -272,11 +245,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
         }
-
-
-        /* =========================
-           ОШИБКА API
-        ========================= */
 
         if (!response.ok) {
 
@@ -320,11 +288,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return data;
 
     }
-
-
-    /* ==================================================
-       ЗАГРУЗКА ДАННЫХ
-    ================================================== */
 
     async function loadData() {
 
@@ -410,11 +373,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       СТАТИСТИКА
-    ================================================== */
-
     function updateStatistics() {
 
         const total =
@@ -450,11 +408,6 @@ document.addEventListener("DOMContentLoaded", () => {
             assigned;
 
     }
-
-
-    /* ==================================================
-       ОБЪЕКТЫ
-    ================================================== */
 
     function renderPropertyOptions(
         selectedPropertyId = ""
@@ -545,11 +498,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       ПОИСК И ФИЛЬТР
-    ================================================== */
-
     function getFilteredTenants() {
 
         const search =
@@ -614,11 +562,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       ОТОБРАЖЕНИЕ
-    ================================================== */
-
     function renderTenants() {
 
         const filtered =
@@ -668,11 +611,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 .join("");
 
     }
-
-
-    /* ==================================================
-       КАРТОЧКА АРЕНДАТОРА
-    ================================================== */
 
     function createTenantCard(
         tenant
@@ -839,11 +777,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       ДОБАВЛЕНИЕ
-    ================================================== */
-
     function openCreateModal() {
 
         tenantForm.reset();
@@ -879,11 +812,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     }
-
-
-    /* ==================================================
-       РЕДАКТИРОВАНИЕ
-    ================================================== */
 
     function openEditModal(
         tenantId
@@ -996,11 +924,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       ЗАКРЫТИЕ
-    ================================================== */
-
     function closeModal() {
 
         tenantModal.classList.add(
@@ -1017,11 +940,6 @@ document.addEventListener("DOMContentLoaded", () => {
             "";
 
     }
-
-
-    /* ==================================================
-       ПРОВЕРКА ДАТЫ
-    ================================================== */
 
     function validateDate(
         value
@@ -1068,11 +986,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
 
     }
-
-
-    /* ==================================================
-       СОХРАНЕНИЕ
-    ================================================== */
 
     async function saveTenant(
         event
@@ -1279,11 +1192,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       УДАЛЕНИЕ
-    ================================================== */
-
     async function deleteTenant(
         tenantId
     ) {
@@ -1361,11 +1269,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       EMAIL
-    ================================================== */
-
     function isValidEmail(
         email
     ) {
@@ -1374,11 +1277,6 @@ document.addEventListener("DOMContentLoaded", () => {
             .test(email);
 
     }
-
-
-    /* ==================================================
-       СОБЫТИЯ
-    ================================================== */
 
     addTenantButton.addEventListener(
         "click",
@@ -1497,11 +1395,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
-
-    /* ==================================================
-       ВЫХОД
-    ================================================== */
-
     const logoutLink =
         document.getElementById(
             "logoutLink"
@@ -1546,11 +1439,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       СООБЩЕНИЯ
-    ================================================== */
-
     function showMessage(
         message,
         isError = false
@@ -1581,11 +1469,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     }
-
-
-    /* ==================================================
-       ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-    ================================================== */
 
     function getInitials(
         name
@@ -1704,11 +1587,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
     }
-
-
-    /* ==================================================
-       ЗАПУСК
-    ================================================== */
 
     loadData();
 

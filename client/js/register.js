@@ -1,7 +1,3 @@
-/* =========================================================
-   RENTAL MANAGER — REGISTRATION
-========================================================= */
-
 document.addEventListener(
     "DOMContentLoaded",
     function () {
@@ -10,11 +6,6 @@ document.addEventListener(
 
     }
 );
-
-
-/* =========================================================
-   ИНИЦИАЛИЗАЦИЯ
-========================================================= */
 
 function initializeRegistration() {
 
@@ -46,11 +37,6 @@ function initializeRegistration() {
     );
 
 }
-
-
-/* =========================================================
-   РЕГИСТРАЦИЯ
-========================================================= */
 
 async function handleRegistration(
     event
@@ -84,11 +70,6 @@ async function handleRegistration(
         getInputValue(
             "role"
         );
-
-
-    /* =========================================
-       ПРОВЕРКА
-    ========================================= */
 
     if (!name) {
 
@@ -158,11 +139,6 @@ async function handleRegistration(
 
     }
 
-
-    /* =========================================
-       КНОПКА
-    ========================================= */
-
     const submitButton =
         document.querySelector(
             "#registerForm button[type='submit']"
@@ -178,11 +154,6 @@ async function handleRegistration(
             "Регистрация...";
 
     }
-
-
-    /* =========================================
-       ЗАПРОС
-    ========================================= */
 
     try {
 
@@ -248,12 +219,6 @@ async function handleRegistration(
             data
         );
 
-
-        /*
-            Сервер возвращает token и user.
-            Сохраняем их сразу.
-        */
-
         if (data.token) {
 
             saveToken(
@@ -277,12 +242,6 @@ async function handleRegistration(
             "Регистрация выполнена успешно.",
             "success"
         );
-
-
-        /*
-            После успешной регистрации
-            переходим на главную.
-        */
 
         setTimeout(
             function () {
@@ -325,11 +284,6 @@ async function handleRegistration(
 
 }
 
-
-/* =========================================================
-   TOKEN
-========================================================= */
-
 function saveToken(
     token
 ) {
@@ -340,11 +294,6 @@ function saveToken(
     );
 
 }
-
-
-/* =========================================================
-   USER
-========================================================= */
 
 function saveUser(
     user
@@ -358,11 +307,6 @@ function saveUser(
     );
 
 }
-
-
-/* =========================================================
-   RESPONSE
-========================================================= */
 
 async function parseResponse(
     response
@@ -397,11 +341,6 @@ async function parseResponse(
 
 }
 
-
-/* =========================================================
-   INPUT
-========================================================= */
-
 function getInputValue(
     id
 ) {
@@ -423,11 +362,6 @@ function getInputValue(
 
 }
 
-
-/* =========================================================
-   EMAIL
-========================================================= */
-
 function isValidEmail(
     email
 ) {
@@ -439,11 +373,6 @@ function isValidEmail(
 
 }
 
-
-/* =========================================================
-   MESSAGE
-========================================================= */
-
 function showMessage(
     message,
     type = "error"
@@ -453,12 +382,6 @@ function showMessage(
         document.getElementById(
             "registerMessage"
         );
-
-
-    /*
-        Если в HTML пока нет отдельного
-        блока для сообщения — создаём его.
-    */
 
     if (!element) {
 
@@ -500,11 +423,6 @@ function showMessage(
         `auth-message ${type}`;
 
 }
-
-
-/* =========================================================
-   CLEAR MESSAGE
-========================================================= */
 
 function clearMessage() {
 

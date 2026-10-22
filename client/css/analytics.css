@@ -1,9 +1,3 @@
-
-/* =========================================================
-   RENTAL MANAGER — ANALYTICS
-   Premium dark dashboard
-========================================================= */
-
 .analytics-body {
     --an-bg: #111315;
     --an-surface: #181a1c;
@@ -238,8 +232,6 @@
     display: none;
 }
 
-/* Hero */
-
 .analytics-hero {
     position: relative;
     display: flex;
@@ -399,8 +391,6 @@
     bottom: 18px;
     color: #f7c76a;
 }
-
-/* Sections */
 
 .analytics-section {
     margin-bottom: 34px;
@@ -563,8 +553,6 @@
     transition: width .7s ease;
 }
 
-/* Panels and charts */
-
 .analytics-chart-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.8fr) minmax(260px, .85fr);
@@ -716,8 +704,6 @@
     gap: 7px;
 }
 
-/* Portfolio ring */
-
 .occupancy-panel {
     display: flex;
     flex-direction: column;
@@ -819,8 +805,6 @@
     color: #f4f6f8;
     font-size: 16px;
 }
-
-/* Bottom section */
 
 .analytics-bottom-grid {
     display: grid;
@@ -1001,8 +985,6 @@
     font-size: 12px;
 }
 
-/* Requests */
-
 .requests-panel {
     padding-bottom: 18px;
 }
@@ -1143,8 +1125,6 @@
     background: rgba(255, 91, 112, .06);
 }
 
-/* Expiring contracts */
-
 .expiring-panel {
     margin-bottom: 24px;
 }
@@ -1239,8 +1219,6 @@
     background: #27354b;
 }
 
-/* Footer */
-
 .analytics-footer {
     display: flex;
     align-items: center;
@@ -1281,8 +1259,6 @@
     color: #fff;
     border-color: #52647e;
 }
-
-/* Responsive */
 
 @media (max-width: 1250px) {
     .analytics-kpi-grid {

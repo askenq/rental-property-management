@@ -1,7 +1,3 @@
-/* =========================================================
-   RENTAL MANAGER — LOGIN
-========================================================= */
-
 document.addEventListener(
     "DOMContentLoaded",
     function () {
@@ -10,11 +6,6 @@ document.addEventListener(
 
     }
 );
-
-
-/* =========================================================
-   ИНИЦИАЛИЗАЦИЯ
-========================================================= */
 
 function initializeLogin() {
 
@@ -47,11 +38,6 @@ function initializeLogin() {
 
 }
 
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
 async function handleLogin(
     event
 ) {
@@ -73,10 +59,6 @@ async function handleLogin(
             "password"
         );
 
-
-    /* =========================================
-       ПРОВЕРКА
-    ========================================= */
 
     if (!email) {
 
@@ -111,10 +93,6 @@ async function handleLogin(
     }
 
 
-    /* =========================================
-       КНОПКА
-    ========================================= */
-
     const submitButton =
         document.querySelector(
             "#loginForm button[type='submit']"
@@ -130,11 +108,6 @@ async function handleLogin(
             "Вход...";
 
     }
-
-
-    /* =========================================
-       ЗАПРОС
-    ========================================= */
 
     try {
 
@@ -192,11 +165,6 @@ async function handleLogin(
             data
         );
 
-
-        /*
-            Сохраняем JWT
-        */
-
         if (data.token) {
 
             saveToken(
@@ -211,10 +179,6 @@ async function handleLogin(
 
         }
 
-
-        /*
-            Сохраняем пользователя
-        */
 
         if (data.user) {
 
@@ -231,10 +195,6 @@ async function handleLogin(
             "success"
         );
 
-
-        /*
-            Переход на Dashboard
-        */
 
         setTimeout(
             function () {
@@ -278,10 +238,6 @@ async function handleLogin(
 }
 
 
-/* =========================================================
-   TOKEN
-========================================================= */
-
 function saveToken(
     token
 ) {
@@ -292,11 +248,6 @@ function saveToken(
     );
 
 }
-
-
-/* =========================================================
-   USER
-========================================================= */
 
 function saveUser(
     user
@@ -310,11 +261,6 @@ function saveUser(
     );
 
 }
-
-
-/* =========================================================
-   RESPONSE
-========================================================= */
 
 async function parseResponse(
     response
@@ -350,10 +296,6 @@ async function parseResponse(
 }
 
 
-/* =========================================================
-   INPUT
-========================================================= */
-
 function getInputValue(
     id
 ) {
@@ -376,10 +318,6 @@ function getInputValue(
 }
 
 
-/* =========================================================
-   EMAIL
-========================================================= */
-
 function isValidEmail(
     email
 ) {
@@ -392,10 +330,6 @@ function isValidEmail(
 }
 
 
-/* =========================================================
-   MESSAGE
-========================================================= */
-
 function showMessage(
     message,
     type = "error"
@@ -406,10 +340,6 @@ function showMessage(
             "loginMessage"
         );
 
-
-    /*
-        Если блока нет — создаём его.
-    */
 
     if (!element) {
 
@@ -452,10 +382,6 @@ function showMessage(
 
 }
 
-
-/* =========================================================
-   CLEAR MESSAGE
-========================================================= */
 
 function clearMessage() {
 

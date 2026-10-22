@@ -2,11 +2,6 @@ let properties = [];
 
 let editingPropertyId = null;
 
-
-/* ==================================================
-   ЗАПУСК
-================================================== */
-
 document.addEventListener(
     "DOMContentLoaded",
     function () {
@@ -48,11 +43,6 @@ document.addEventListener(
     }
 );
 
-
-/* ==================================================
-   ИНИЦИАЛИЗАЦИЯ
-================================================== */
-
 function initializePropertiesPage() {
 
     setupAddButton();
@@ -66,11 +56,6 @@ function initializePropertiesPage() {
     loadProperties();
 
 }
-
-
-/* ==================================================
-   КНОПКА ДОБАВЛЕНИЯ
-================================================== */
 
 function setupAddButton() {
 
@@ -107,11 +92,6 @@ function setupAddButton() {
     );
 
 }
-
-
-/* ==================================================
-   MODAL
-================================================== */
 
 function setupModal() {
 
@@ -218,11 +198,6 @@ function setupModal() {
 
 }
 
-
-/* ==================================================
-   ФИЛЬТРЫ
-================================================== */
-
 function setupFilters() {
 
     const searchInput =
@@ -273,11 +248,6 @@ function setupFilters() {
     }
 
 }
-
-
-/* ==================================================
-   ДЕЙСТВИЯ КАРТОЧЕК
-================================================== */
 
 function setupPropertyActions() {
 
@@ -357,11 +327,6 @@ function setupPropertyActions() {
     );
 
 }
-
-
-/* ==================================================
-   ЗАГРУЗКА ИЗ БД
-================================================== */
 
 async function loadProperties() {
 
@@ -452,11 +417,6 @@ async function loadProperties() {
     }
 
 }
-
-
-/* ==================================================
-   ОТОБРАЖЕНИЕ
-================================================== */
 
 function renderProperties() {
 
@@ -605,11 +565,6 @@ function renderProperties() {
 
 }
 
-
-/* ==================================================
-   КАРТОЧКА
-================================================== */
-
 function createPropertyCard(
     property
 ) {
@@ -634,11 +589,6 @@ function createPropertyCard(
         String(
             property.type || ""
         ).toUpperCase();
-
-
-    /* ==================================================
-       АРЕНДАТОР
-    ================================================== */
 
     const tenantName =
         property.tenant?.fullName ||
@@ -822,11 +772,6 @@ function createPropertyCard(
 
 }
 
-
-/* ==================================================
-   СТАТУС
-================================================== */
-
 function getStatusInfo(
     status
 ) {
@@ -863,11 +808,6 @@ function getStatusInfo(
 
 }
 
-
-/* ==================================================
-   ТИП
-================================================== */
-
 function getPropertyTypeName(
     type
 ) {
@@ -893,11 +833,6 @@ function getPropertyTypeName(
     );
 
 }
-
-
-/* ==================================================
-   СТАТИСТИКА
-================================================== */
 
 function updateStatistics() {
 
@@ -990,11 +925,6 @@ function updateStatistics() {
     );
 
 }
-
-
-/* ==================================================
-   ОТКРЫТИЕ MODAL
-================================================== */
 
 function openPropertyModal(
     property = null
@@ -1170,11 +1100,6 @@ function openPropertyModal(
 
 }
 
-
-/* ==================================================
-   ЗАКРЫТИЕ MODAL
-================================================== */
-
 function closePropertyModal() {
 
     const modal =
@@ -1218,11 +1143,6 @@ function closePropertyModal() {
     clearFormMessage();
 
 }
-
-
-/* ==================================================
-   СОХРАНЕНИЕ
-================================================== */
 
 async function handlePropertySubmit(
     event
@@ -1493,11 +1413,6 @@ async function handlePropertySubmit(
 
 }
 
-
-/* ==================================================
-   УДАЛЕНИЕ ИЗ БД
-================================================== */
-
 async function deletePropertyFromDatabase(
     id
 ) {
@@ -1556,11 +1471,6 @@ async function deletePropertyFromDatabase(
     }
 
 }
-
-
-/* ==================================================
-   ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-================================================== */
 
 function getValue(id) {
 

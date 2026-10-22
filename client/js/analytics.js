@@ -1,8 +1,3 @@
-
-/* =========================================================
-   RENTAL MANAGER — ANALYTICS
-========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
     const periodSelect = document.getElementById("periodSelect");
     const refreshButton = document.getElementById("refreshAnalyticsButton");

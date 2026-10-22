@@ -1,12 +1,4 @@
-/* ==================================================
-   DASHBOARD
-================================================== */
-
 document.addEventListener("DOMContentLoaded", () => {
-
-    /* ==================================================
-       ЭЛЕМЕНТЫ
-    ================================================== */
 
     const welcomeName =
         document.getElementById("welcomeName");
@@ -63,10 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    /* ==================================================
-       ТОКЕН
-    ================================================== */
-
     function getToken() {
 
         return (
@@ -91,11 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
 
     }
-
-
-    /* ==================================================
-       API GET
-    ================================================== */
 
     async function apiRequest(url) {
 
@@ -161,11 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       ОЧИСТКА АВТОРИЗАЦИИ
-    ================================================== */
-
     function clearAuth() {
 
         localStorage.removeItem("token");
@@ -179,11 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.removeItem("user");
 
     }
-
-
-    /* ==================================================
-       ПОЛЬЗОВАТЕЛЬ
-    ================================================== */
 
     function getSavedUser() {
 
@@ -391,11 +364,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       НОРМАЛИЗАЦИЯ API
-    ================================================== */
-
     function normalizeArray(data) {
 
         if (
@@ -456,11 +424,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       ЗАГРУЗКА DASHBOARD
-    ================================================== */
-
     async function loadDashboard() {
 
         const results =
@@ -479,11 +442,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 )
 
             ]);
-
-
-        /* ==============================================
-           ОБЪЕКТЫ
-        ============================================== */
 
         let properties = [];
 
@@ -508,10 +466,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* ==============================================
-           АРЕНДАТОРЫ
-        ============================================== */
-
         let tenants = [];
 
 
@@ -535,10 +489,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* ==============================================
-           ПЛАТЕЖИ
-        ============================================== */
-
         let payments = [];
 
 
@@ -553,11 +503,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
         }
-
-
-        /* ==============================================
-           СТАТИСТИКА
-        ============================================== */
 
         if (propertiesCount) {
 
@@ -603,29 +548,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* ==============================================
-           ОБЪЕКТЫ
-        ============================================== */
-
         renderProperties(
             properties
         );
-
-
-        /* ==============================================
-           ПЛАТЕЖИ
-        ============================================== */
 
         renderPaymentStatistics(
             payments
         );
 
     }
-
-
-    /* ==================================================
-       ОТОБРАЖЕНИЕ ОБЪЕКТОВ
-    ================================================== */
 
     function renderProperties(properties) {
 
@@ -706,13 +637,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       КАРТОЧКА ОБЪЕКТА
-       ВАЖНО:
-       Классы полностью соответствуют dashboard.css
-    ================================================== */
-
     function createPropertyItem(property) {
 
         const type =
@@ -789,11 +713,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       ТИП ОБЪЕКТА
-    ================================================== */
-
     function getPropertyType(type) {
 
         const types = {
@@ -816,11 +735,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     }
-
-
-    /* ==================================================
-       СТАТУС ОБЪЕКТА
-    ================================================== */
 
     function getPropertyStatus(status) {
 
@@ -845,11 +759,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       CSS-КЛАСС СТАТУСА
-    ================================================== */
-
     function getStatusClass(status) {
 
         if (
@@ -873,11 +782,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return "available";
 
     }
-
-
-    /* ==================================================
-       ДОХОД
-    ================================================== */
 
     function calculateIncome(payments) {
 
@@ -922,11 +826,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ==================================================
-       ЗАДОЛЖЕННОСТЬ
-    ================================================== */
-
     function calculateDebt(payments) {
 
         return payments.reduce(
@@ -970,11 +869,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     }
-
-
-    /* ==================================================
-       СТАТИСТИКА ПЛАТЕЖЕЙ
-    ================================================== */
 
     function renderPaymentStatistics(
         payments
@@ -1115,10 +1009,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ==================================================
-       ВЫХОД
-    ================================================== */
-
     if (logoutButton) {
 
         logoutButton.addEventListener(
@@ -1135,11 +1025,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     }
-
-
-    /* ==================================================
-       ФОРМАТ ДЕНЕГ
-    ================================================== */
 
     function formatMoney(value) {
 
@@ -1160,11 +1045,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     }
-
-
-    /* ==================================================
-       ЭКРАНИРОВАНИЕ HTML
-    ================================================== */
 
     function escapeHtml(value) {
 
@@ -1193,11 +1073,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
     }
-
-
-    /* ==================================================
-       ЗАПУСК
-    ================================================== */
 
     renderUser();
 

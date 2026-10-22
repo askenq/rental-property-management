@@ -35,10 +35,6 @@
 <div class="app">
 
 
-    <!-- =========================================
-         SIDEBAR
-    ========================================== -->
-
     <aside class="sidebar">
 
         <div class="sidebar-logo">
@@ -57,8 +53,6 @@
         <nav class="sidebar-nav">
 
 
-            <!-- ГЛАВНАЯ -->
-
             <a
                 href="../index.html"
                 class="nav-item"
@@ -73,8 +67,6 @@
             </a>
 
 
-            <!-- ОБЪЕКТЫ -->
-
             <a
                 href="properties.html"
                 class="nav-item"
@@ -87,9 +79,6 @@
                 </span>
 
             </a>
-
-
-            <!-- АРЕНДАТОРЫ -->
 
             <a
                 href="tenants.html"
@@ -104,9 +93,6 @@
 
             </a>
 
-
-            <!-- ДОГОВОРЫ -->
-
             <a
                 href="contracts.html"
                 class="nav-item active"
@@ -119,9 +105,6 @@
                 </span>
 
             </a>
-
-
-            <!-- ПЛАТЕЖИ -->
 
             <a
                 href="coming-soon.html?section=payments"
@@ -136,9 +119,6 @@
 
             </a>
 
-
-            <!-- ЗАЯВКИ -->
-
             <a
                 href="coming-soon.html?section=requests"
                 class="nav-item"
@@ -151,9 +131,6 @@
                 </span>
 
             </a>
-
-
-            <!-- СООБЩЕНИЯ -->
 
             <a
                 href="coming-soon.html?section=messages"
@@ -172,9 +149,6 @@
 
             </a>
 
-
-            <!-- АНАЛИТИКА -->
-
             <a
                 href="coming-soon.html?section=analytics"
                 class="nav-item"
@@ -190,13 +164,7 @@
 
         </nav>
 
-
-        <!-- НИЖНЕЕ МЕНЮ -->
-
         <div class="sidebar-bottom">
-
-
-            <!-- НАСТРОЙКИ -->
 
             <a
                 href="coming-soon.html?section=settings"
@@ -210,9 +178,6 @@
                 </span>
 
             </a>
-
-
-            <!-- ВЫХОД -->
 
             <button
                 type="button"
@@ -234,18 +199,7 @@
 
     </aside>
 
-
-
-    <!-- =========================================
-         MAIN
-    ========================================== -->
-
     <main class="main-content">
-
-
-        <!-- =====================================
-             HEADER
-        ====================================== -->
 
         <header class="contracts-header">
 
@@ -278,16 +232,7 @@
 
         </header>
 
-
-
-        <!-- =====================================
-             STATISTICS
-        ====================================== -->
-
         <section class="contracts-stats">
-
-
-            <!-- ВСЕГО -->
 
             <div class="contract-stat-card">
 
@@ -310,8 +255,6 @@
             </div>
 
 
-            <!-- АКТИВНЫЕ -->
-
             <div class="contract-stat-card">
 
                 <div class="contract-stat-icon">
@@ -333,8 +276,6 @@
             </div>
 
 
-            <!-- ИСТЕКАЮТ -->
-
             <div class="contract-stat-card">
 
                 <div class="contract-stat-icon">
@@ -354,9 +295,6 @@
                 </div>
 
             </div>
-
-
-            <!-- ЗАВЕРШЁННЫЕ -->
 
             <div class="contract-stat-card">
 
@@ -381,16 +319,7 @@
 
         </section>
 
-
-
-        <!-- =====================================
-             FILTERS
-        ====================================== -->
-
         <section class="contracts-toolbar">
-
-
-            <!-- SEARCH -->
 
             <div class="contracts-search">
 
@@ -407,8 +336,6 @@
 
             </div>
 
-
-            <!-- STATUS -->
 
             <select
                 id="statusFilter"
@@ -440,11 +367,6 @@
         </section>
 
 
-
-        <!-- =====================================
-             CONTRACTS LIST
-        ====================================== -->
-
         <section class="contracts-panel">
 
             <div
@@ -466,11 +388,6 @@
 </div>
 
 
-
-<!-- =========================================
-     CONTRACT MODAL
-========================================== -->
-
 <div
     class="modal-overlay"
     id="contractModal"
@@ -478,9 +395,6 @@
 >
 
     <div class="contract-modal">
-
-
-        <!-- MODAL HEADER -->
 
         <div class="modal-header">
 
@@ -508,10 +422,6 @@
 
         </div>
 
-
-
-        <!-- FORM -->
-
         <form
             id="contractForm"
             class="contract-form"
@@ -521,9 +431,6 @@
                 type="hidden"
                 id="contractId"
             >
-
-
-            <!-- НОМЕР ДОГОВОРА -->
 
             <div class="form-group">
 
@@ -539,9 +446,6 @@
                 >
 
             </div>
-
-
-            <!-- АРЕНДАТОР -->
 
             <div class="form-group">
 
@@ -563,8 +467,6 @@
             </div>
 
 
-            <!-- ОБЪЕКТ -->
-
             <div class="form-group">
 
                 <label for="propertyId">
@@ -583,9 +485,6 @@
                 </select>
 
             </div>
-
-
-            <!-- ДАТЫ -->
 
             <div class="form-row">
 
@@ -620,10 +519,6 @@
                 </div>
 
             </div>
-
-
-
-            <!-- ФИНАНСЫ -->
 
             <div class="form-row">
 
@@ -664,10 +559,6 @@
 
             </div>
 
-
-
-            <!-- ДЕНЬ ОПЛАТЫ -->
-
             <div class="form-group">
 
                 <label for="paymentDay">
@@ -684,9 +575,6 @@
 
             </div>
 
-
-
-            <!-- СТАТУС -->
 
             <div class="form-group">
 
@@ -718,10 +606,6 @@
 
             </div>
 
-
-
-            <!-- ПРИМЕЧАНИЕ -->
-
             <div class="form-group">
 
                 <label for="contractNotes">
@@ -736,19 +620,12 @@
 
             </div>
 
-
-
-            <!-- ERROR -->
-
             <div
                 id="formError"
                 class="form-error"
                 hidden
             ></div>
 
-
-
-            <!-- BUTTONS -->
 
             <div class="modal-actions">
 
@@ -776,12 +653,6 @@
     </div>
 
 </div>
-
-
-
-<!-- =========================================
-     JS
-========================================== -->
 
 <script src="../js/common.js"></script>
 

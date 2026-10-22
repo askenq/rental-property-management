@@ -1,9 +1,3 @@
-
-/* =========================================================
-   RENTAL MANAGER — MESSENGER
-   API: /api/messages
-========================================================= */
-
 document.addEventListener("DOMContentLoaded", initMessages);
 
 const MessagesApp = {
@@ -21,10 +15,6 @@ const MessagesApp = {
 
 const MESSAGES_API = "/api/messages";
 const MESSAGE_REFRESH_INTERVAL = 5000;
-
-/* =========================================================
-   ИНИЦИАЛИЗАЦИЯ
-========================================================= */
 
 async function initMessages() {
     if (!localStorage.getItem("token")) {
@@ -44,10 +34,6 @@ async function initMessages() {
         showMessagesNotice(error.message || "Не удалось загрузить мессенджер", "error");
     }
 }
-
-/* =========================================================
-   СОБЫТИЯ
-========================================================= */
 
 function bindMessagesEvents() {
     const $ = (id) => document.getElementById(id);
@@ -93,10 +79,6 @@ function bindMessagesEvents() {
     });
 }
 
-/* =========================================================
-   API ЗАПРОСЫ
-========================================================= */
-
 async function messagesRequest(path, options = {}) {
     const token = localStorage.getItem("token");
 
@@ -140,10 +122,6 @@ async function messagesRequest(path, options = {}) {
 
     return data;
 }
-
-/* =========================================================
-   ПОЛЬЗОВАТЕЛЬ
-========================================================= */
 
 function getCurrentUserId() {
     const user = MessagesApp.currentUser;
@@ -212,10 +190,6 @@ function getRoleLabel(role) {
 
     return roles[role] || "Участник";
 }
-
-/* =========================================================
-   ДИАЛОГИ
-========================================================= */
 
 async function loadConversations() {
     const list = document.getElementById("conversationList");
@@ -350,10 +324,6 @@ function renderConversations() {
     });
 }
 
-/* =========================================================
-   ОТКРЫТИЕ ДИАЛОГА
-========================================================= */
-
 async function openConversation(conversationId) {
     const conversation = MessagesApp.conversations.find(
         (item) => Number(item.id) === Number(conversationId)
@@ -418,10 +388,6 @@ function showEmptyChat() {
         `;
     }
 }
-
-/* =========================================================
-   ИСТОРИЯ СООБЩЕНИЙ
-========================================================= */
 
 async function loadConversationMessages(conversationId) {
     if (MessagesApp.loadingMessages) return;
@@ -524,10 +490,6 @@ function renderMessages(messages) {
     }
 }
 
-/* =========================================================
-   ОТПРАВКА СООБЩЕНИЯ
-========================================================= */
-
 async function sendMessage(event) {
     event.preventDefault();
 
@@ -589,10 +551,6 @@ async function sendMessage(event) {
     }
 }
 
-/* =========================================================
-   ПРОЧТЕНИЕ
-========================================================= */
-
 async function markConversationRead(conversationId) {
     try {
         await messagesRequest(
@@ -604,10 +562,6 @@ async function markConversationRead(conversationId) {
         console.warn("Не удалось отметить диалог прочитанным:", error.message);
     }
 }
-
-/* =========================================================
-   СОЗДАНИЕ ДИАЛОГА
-========================================================= */
 
 async function openConversationModal() {
     const modal = document.getElementById("conversationModal");
@@ -711,10 +665,6 @@ async function createConversation(event) {
     }
 }
 
-/* =========================================================
-   ИНФОРМАЦИЯ О СОБЕСЕДНИКАХ
-========================================================= */
-
 function renderChatDetails(conversation) {
     const details = document.getElementById("chatDetails");
 
@@ -749,10 +699,6 @@ function renderChatDetails(conversation) {
     `;
 }
 
-/* =========================================================
-   АВТООБНОВЛЕНИЕ
-========================================================= */
-
 function startMessageRefresh() {
     if (MessagesApp.refreshTimer) {
         clearInterval(MessagesApp.refreshTimer);
@@ -779,10 +725,6 @@ function startMessageRefresh() {
     });
 }
 
-/* =========================================================
-   УВЕДОМЛЕНИЯ
-========================================================= */
-
 function showMessagesNotice(message, type = "info") {
     const notice = document.getElementById("messagesNotice");
 
@@ -795,10 +737,6 @@ function showMessagesNotice(message, type = "info") {
     notice.className = `messages-notice ${type}`;
     notice.hidden = false;
 }
-
-/* =========================================================
-   ФОРМАТИРОВАНИЕ
-========================================================= */
 
 function formatMessageTime(value) {
     if (!value) return "";

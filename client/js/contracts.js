@@ -1,12 +1,3 @@
-/* ==================================================
-   CONTRACTS
-================================================== */
-
-
-/* ==================================================
-   STATE
-================================================== */
-
 let contracts = [];
 
 let tenants = [];
@@ -14,11 +5,6 @@ let tenants = [];
 let properties = [];
 
 let editingContractId = null;
-
-
-/* ==================================================
-   ELEMENTS
-================================================== */
 
 const contractsList =
     document.getElementById(
@@ -150,11 +136,6 @@ const logoutButton =
         "logoutButton"
     );
 
-
-/* ==================================================
-   TOKEN
-================================================== */
-
 function getToken() {
 
     return (
@@ -167,11 +148,6 @@ function getToken() {
     );
 
 }
-
-
-/* ==================================================
-   API REQUEST
-================================================== */
 
 async function apiRequest(
     url,
@@ -266,11 +242,6 @@ async function apiRequest(
 
 }
 
-
-/* ==================================================
-   INIT
-================================================== */
-
 document.addEventListener(
     "DOMContentLoaded",
     async () => {
@@ -281,11 +252,6 @@ document.addEventListener(
 
     }
 );
-
-
-/* ==================================================
-   EVENTS
-================================================== */
 
 function bindEvents() {
 
@@ -382,11 +348,6 @@ function bindEvents() {
     );
 
 }
-
-
-/* ==================================================
-   LOAD DATA
-================================================== */
 
 async function loadData() {
 
@@ -488,11 +449,6 @@ async function loadData() {
 
 }
 
-
-/* ==================================================
-   TENANTS SELECT
-================================================== */
-
 function fillTenantSelect(
     selectedId = null
 ) {
@@ -543,11 +499,6 @@ function fillTenantSelect(
     );
 
 }
-
-
-/* ==================================================
-   PROPERTY SELECT
-================================================== */
 
 function fillPropertySelect(
     selectedId = null
@@ -600,11 +551,6 @@ function fillPropertySelect(
 
 }
 
-
-/* ==================================================
-   STATISTICS
-================================================== */
-
 function updateStatistics() {
 
     const total =
@@ -651,11 +597,6 @@ function updateStatistics() {
         finished;
 
 }
-
-
-/* ==================================================
-   EXPIRING
-================================================== */
 
 function isExpiringSoon(
     contract
@@ -711,11 +652,6 @@ function isExpiringSoon(
     );
 
 }
-
-
-/* ==================================================
-   RENDER CONTRACTS
-================================================== */
 
 function renderContracts() {
 
@@ -829,11 +765,6 @@ function renderContracts() {
             .join("");
 
 }
-
-
-/* ==================================================
-   CONTRACT CARD
-================================================== */
 
 function renderContractCard(
     contract
@@ -1017,11 +948,6 @@ function renderContractCard(
 
 }
 
-
-/* ==================================================
-   CARD ACTIONS
-================================================== */
-
 contractsList.addEventListener(
     "click",
     async (event) => {
@@ -1073,11 +999,6 @@ contractsList.addEventListener(
     }
 );
 
-
-/* ==================================================
-   CREATE MODAL
-================================================== */
-
 function openCreateModal() {
 
     editingContractId =
@@ -1118,11 +1039,6 @@ function openCreateModal() {
     contractNumber.focus();
 
 }
-
-
-/* ==================================================
-   EDIT MODAL
-================================================== */
 
 async function openEditModal(
     id
@@ -1230,11 +1146,6 @@ async function openEditModal(
 
 }
 
-
-/* ==================================================
-   CLOSE MODAL
-================================================== */
-
 function closeModal() {
 
     contractModal.hidden =
@@ -1249,11 +1160,6 @@ function closeModal() {
         null;
 
 }
-
-
-/* ==================================================
-   SUBMIT
-================================================== */
 
 async function handleSubmit(
     event
@@ -1451,11 +1357,6 @@ async function handleSubmit(
 
 }
 
-
-/* ==================================================
-   DELETE
-================================================== */
-
 async function deleteContract(
     id
 ) {
@@ -1518,11 +1419,6 @@ async function deleteContract(
 
 }
 
-
-/* ==================================================
-   DATE VALIDATION
-================================================== */
-
 function validateDates() {
 
     hideFormError();
@@ -1542,11 +1438,6 @@ function validateDates() {
     }
 
 }
-
-
-/* ==================================================
-   STATUS
-================================================== */
 
 function getStatusText(
     status
@@ -1605,11 +1496,6 @@ function getStatusClass(
     );
 
 }
-
-
-/* ==================================================
-   DATE FORMAT
-================================================== */
 
 function formatDate(
     value
@@ -1702,11 +1588,6 @@ function toInputDate(
 
 }
 
-
-/* ==================================================
-   MONEY
-================================================== */
-
 function formatMoney(
     value
 ) {
@@ -1741,11 +1622,6 @@ function formatMoney(
 
 }
 
-
-/* ==================================================
-   FORM ERROR
-================================================== */
-
 function showFormError(
     message
 ) {
@@ -1768,11 +1644,6 @@ function hideFormError() {
         true;
 
 }
-
-
-/* ==================================================
-   HTML ESCAPE
-================================================== */
 
 function escapeHtml(
     value
