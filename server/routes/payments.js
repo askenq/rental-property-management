@@ -137,16 +137,119 @@ export default function createPaymentsRouter(
     }
 
     // GET /api/payments
-    router.get(
-        "/",
-        authenticateToken,
-        async (req, res) => {
-            try {
+    
+router.get(
+    "/",
+    authenticateToken,
+    async (req, res) => {
+        try {
+            let payments;
+
+            if (req.user.role === "TENANT") {
+                const userId = Number(req.user.userId);
+
+                const tenant = await prisma.tenant.findUnique({
+                    where: {
+                        userId
+                    },
+                    select: {
+                        id: true,
+                        contracts: {
+                            select: {
+                                id: true
+                            }
+                        }
+                    }
+                });
+
+                if (!tenant) {
+                    return res.status(404).json({
+                        message: "Профиль арендатора не найден"
+                    });
+                }
+
+                const contractIds = tenant.contracts.map(
+                    contract => contract.id
+                );
+
+                if (contractIds.length) {
+                    const today = utcDay(new Date());
+
+                    await prisma.payment.updateMany({
+                        where: {
+                            contractId: {
+                                in: contractIds
+                            },
+                            status: "PENDING",
+                            dueDate: {
+                                lt: today
+                            }
+                        },
+                        data: {
+                            status: "OVERDUE"
+                        }
+                    });
+
+                    await prisma.payment.updateMany({
+                        where: {
+                            contractId: {
+                                in: contractIds
+                            },
+                            status: "OVERDUE",
+                            dueDate: {
+                                gte: today
+                            }
+                        },
+                        data: {
+                            status: "PENDING"
+                        }
+                    });
+                }
+
+                payments = await prisma.payment.findMany({
+                    where: {
+                        contractId: {
+                            in: contractIds
+                        }
+                    },
+                    include: {
+                        contract: {
+                            select: {
+                                id: true,
+                                number: true,
+                                startDate: true,
+                                endDate: true,
+                                rent: true,
+                                status: true,
+                                tenant: {
+                                    select: {
+                                        id: true,
+                                        fullName: true
+                                    }
+                                },
+                                property: {
+                                    select: {
+                                        id: true,
+                                        name: true,
+                                        address: true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    orderBy: [
+                        { dueDate: "desc" },
+                        { id: "desc" }
+                    ]
+                });
+            } else if (
+                ["OWNER", "MANAGER"].includes(req.user.role)
+            ) {
                 const ownerId = req.user.userId;
 
                 await refreshOverdue(ownerId);
 
-                const payments = await prisma.payment.findMany({
+                payments = await prisma.payment.findMany({
                     where: {
                         ownerId
                     },
@@ -180,54 +283,60 @@ export default function createPaymentsRouter(
                         { id: "desc" }
                     ]
                 });
-
-                const summary = payments.reduce(
-                    (result, payment) => {
-                        const amount = Number(payment.amount) || 0;
-
-                        if (payment.status === "PAID") {
-                            result.paid += amount;
-                            result.paidCount++;
-                        } else {
-                            result.debt += amount;
-
-                            if (payment.status === "OVERDUE") {
-                                result.overdue += amount;
-                                result.overdueCount++;
-                            } else {
-                                result.pendingCount++;
-                            }
-                        }
-
-                        return result;
-                    },
-                    {
-                        paid: 0,
-                        debt: 0,
-                        overdue: 0,
-                        paidCount: 0,
-                        overdueCount: 0,
-                        pendingCount: 0,
-                        totalCount: payments.length
-                    }
-                );
-
-                res.json({
-                    payments,
-                    summary
-                });
-            } catch (error) {
-                console.error(
-                    "Ошибка получения платежей:",
-                    error
-                );
-
-                res.status(500).json({
-                    message: "Не удалось загрузить платежи"
+            } else {
+                return res.status(403).json({
+                    message: "Недостаточно прав для просмотра платежей"
                 });
             }
+
+            const summary = payments.reduce(
+                (result, payment) => {
+                    const amount = Number(payment.amount) || 0;
+
+                    if (payment.status === "PAID") {
+                        result.paid += amount;
+                        result.paidCount++;
+                    } else {
+                        result.debt += amount;
+
+                        if (payment.status === "OVERDUE") {
+                            result.overdue += amount;
+                            result.overdueCount++;
+                        } else {
+                            result.pendingCount++;
+                        }
+                    }
+
+                    return result;
+                },
+                {
+                    paid: 0,
+                    debt: 0,
+                    overdue: 0,
+                    paidCount: 0,
+                    overdueCount: 0,
+                    pendingCount: 0,
+                    totalCount: payments.length
+                }
+            );
+
+            return res.json({
+                payments,
+                summary
+            });
+        } catch (error) {
+            console.error(
+                "Ошибка получения платежей:",
+                error
+            );
+
+            return res.status(500).json({
+                message: "Не удалось загрузить платежи"
+            });
         }
-    );
+    }
+);
+
 
     // POST /api/payments/generate
     // Синхронизация графика по активным договорам.

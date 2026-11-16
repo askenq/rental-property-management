@@ -85,6 +85,7 @@ model User {
 
   sentMessages     Message[] @relation("MessageSender")
   conversations   ConversationParticipant[]
+  tenantProfile Tenant? @relation("TenantAccount")
 }
 
 model Property {
@@ -139,6 +140,8 @@ model Tenant {
 
   ownerId          Int
   owner            User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  userId Int?  @unique
+  user   User? @relation("TenantAccount", fields: [userId], references: [id], onDelete: SetNull)
 
   properties       Property[]
 

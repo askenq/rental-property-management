@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rental Manager — Мои платежи</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/tenantDashboard.css">
+    <link rel="stylesheet" href="../css/tenantPayments.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <div class="logo-icon">RM</div>
+            <div class="logo-text">Rental Manager</div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="tenantDashboard.html" class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Главная</span>
+            </a>
+
+            <a href="tenantDashboard.html#propertySection" class="nav-item">
+                <span class="nav-icon">▦</span>
+                <span>Моё жильё</span>
+            </a>
+
+            <a href="tenantDashboard.html#contractSection" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Мой договор</span>
+            </a>
+
+            <a href="tenantPayments.html" class="nav-item active">
+                <span class="nav-icon">₽</span>
+                <span>Мои платежи</span>
+            </a>
+
+            <a href="tenantDashboard.html#requestsSection" class="nav-item">
+                <span class="nav-icon">✓</span>
+                <span>Мои заявки</span>
+            </a>
+
+            <a href="tenantDashboard.html#messagesSection" class="nav-item">
+                <span class="nav-icon">✉</span>
+                <span>Сообщения</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <button type="button" class="logout-button" id="logoutButton">
+                <span class="nav-icon">↪</span>
+                <span>Выйти</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+    <main class="main-content tenant-main-content payments-main">
+
+        <header class="tenant-header">
+
+            <div>
+                <div class="eyebrow">ЛИЧНЫЙ КАБИНЕТ</div>
+
+                <h1>Мои платежи</h1>
+
+                <p>История и состояние платежей по вашим договорам аренды.</p>
+            </div>
+
+            <div class="tenant-user">
+
+                <div class="tenant-avatar" id="userInitials">?</div>
+
+                <div>
+                    <strong id="userName">Пользователь</strong>
+                    <span>Арендатор</span>
+                </div>
+
+            </div>
+
+        </header>
+
+        <div class="tenant-message" id="tenantMessage" hidden></div>
+
+        <section class="payments-stats">
+
+            <article class="tenant-stat-card">
+                <div class="tenant-stat-icon">📋</div>
+                <div>
+                    <span>Всего платежей</span>
+                    <strong id="totalCount">0</strong>
+                    <small id="totalAmount">0 ₽ начислено</small>
+                </div>
+            </article>
+
+            <article class="tenant-stat-card">
+                <div class="tenant-stat-icon">✓</div>
+                <div>
+                    <span>Оплачено</span>
+                    <strong id="paidCount">0</strong>
+                    <small id="paidAmount">0 ₽ оплачено</small>
+                </div>
+            </article>
+
+            <article class="tenant-stat-card">
+                <div class="tenant-stat-icon">◷</div>
+                <div>
+                    <span>Ожидает оплаты</span>
+                    <strong id="pendingCount">0</strong>
+                    <small id="pendingAmount">0 ₽ ожидает</small>
+                </div>
+            </article>
+
+            <article class="tenant-stat-card">
+                <div class="tenant-stat-icon">!</div>
+                <div>
+                    <span>Просрочено</span>
+                    <strong id="overdueCount">0</strong>
+                    <small id="overdueAmount">0 ₽ просрочено</small>
+                </div>
+            </article>
+
+        </section>
+
+        <section class="panel payments-panel">
+
+            <div class="panel-header">
+                <div>
+                    <h2>История платежей</h2>
+                    <p>Все начисления по вашим договорам аренды</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="payments-refresh"
+                    id="refreshPayments"
+                >
+                    ↻ Обновить
+                </button>
+            </div>
+
+            <div class="payments-filters">
+
+                <div class="payments-search">
+                    <input
+                        type="search"
+                        id="paymentSearch"
+                        placeholder="Поиск по договору или объекту..."
+                    >
+                </div>
+
+                <select id="statusFilter">
+                    <option value="all">Все статусы</option>
+                    <option value="PAID">Оплачено</option>
+                    <option value="PENDING">Ожидает оплаты</option>
+                    <option value="OVERDUE">Просрочено</option>
+                </select>
+
+                <select id="contractFilter">
+                    <option value="all">Все договоры</option>
+                </select>
+
+            </div>
+
+            <div class="payments-table-wrapper">
+
+                <table class="payments-table">
+
+                    <thead>
+                        <tr>
+                            <th>Договор</th>
+                            <th>Объект</th>
+                            <th>Дата платежа</th>
+                            <th>Сумма</th>
+                            <th>Дата оплаты</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="paymentsTableBody">
+
+                        <tr>
+                            <td colspan="6" class="payments-loading">
+                                Загрузка платежей...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="payments-mobile-list" id="paymentsMobileList"></div>
+
+            <div class="payments-footer">
+                <span id="paymentsResultCount">Загружено 0 платежей</span>
+
+                <span id="paymentsResultAmount">Сумма: 0 ₽</span>
+            </div>
+
+        </section>
+
+        <section class="payments-info">
+
+            <div class="payments-info-icon">ℹ</div>
+
+            <div>
+                <strong>Информация о платежах</strong>
+                <p>
+                    Статусы платежей обновляются системой автоматически.
+                    Если вы уже внесли оплату, но она ещё не отмечена,
+                    обратитесь к владельцу недвижимости.
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="../js/tenantPayments.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rental Manager — Кабинет арендатора</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/tenantDashboard.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <div class="logo-icon">RM</div>
+            <div class="logo-text">Rental Manager</div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="tenantDashboard.html" class="nav-item active">
+                <span class="nav-icon">⌂</span>
+                <span>Главная</span>
+            </a>
+
+            <a href="#propertySection" class="nav-item">
+                <span class="nav-icon">▦</span>
+                <span>Моё жильё</span>
+            </a>
+
+            <a href="#contractSection" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Мой договор</span>
+            </a>
+
+            <a href="tenantPayments.html" class="nav-item">
+                <span class="nav-icon">₽</span>
+                <span>Мои платежи</span>
+            </a>
+
+            <a href="#requestsSection" class="nav-item">
+                <span class="nav-icon">✓</span>
+                <span>Мои заявки</span>
+            </a>
+
+            <a href="#messagesSection" class="nav-item">
+                <span class="nav-icon">✉</span>
+                <span>Сообщения</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <button type="button" class="logout-button" id="logoutButton">
+                <span class="nav-icon">↪</span>
+                <span>Выйти</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+    <main class="main-content tenant-main-content">
+
+        <header class="tenant-header">
+
+            <div>
+                <div class="eyebrow">ЛИЧНЫЙ КАБИНЕТ</div>
+
+                <h1>
+                    Добро пожаловать,
+                    <span id="welcomeName">арендатор</span>!
+                </h1>
+
+                <p>Здесь собрана информация о вашей аренде.</p>
+            </div>
+
+            <div class="tenant-user">
+
+                <div class="tenant-avatar" id="userInitials">?</div>
+
+                <div>
+                    <strong id="userName">Пользователь</strong>
+                    <span>Арендатор</span>
+                </div>
+
+            </div>
+
+        </header>
+
+        <div class="tenant-message" id="tenantMessage" hidden></div>
+
+        <section class="tenant-stats">
+
+            <article class="tenant-stat-card">
+                <div class="tenant-stat-icon">🏠</div>
+                <div>
+                    <span>Моя аренда</span>
+                    <strong id="rentValue">—</strong>
+                    <small>Ежемесячная стоимость</small>
+                </div>
+            </article>
+
+            <article class="tenant-stat-card">
+                <div class="tenant-stat-icon">📅</div>
+                <div>
+                    <span>Следующий платёж</span>
+                    <strong id="nextPaymentDate">—</strong>
+                    <small id="nextPaymentAmount">Нет предстоящих платежей</small>
+                </div>
+            </article>
+
+            <article class="tenant-stat-card">
+                <div class="tenant-stat-icon">₽</div>
+                <div>
+                    <span>Задолженность</span>
+                    <strong id="debtValue">0 ₽</strong>
+                    <small>Сумма неоплаченных платежей</small>
+                </div>
+            </article>
+
+            <article class="tenant-stat-card">
+                <div class="tenant-stat-icon">📄</div>
+                <div>
+                    <span>Мой договор</span>
+                    <strong id="contractStatus">Не найден</strong>
+                    <small id="contractNumber">Договор аренды</small>
+                </div>
+            </article>
+
+        </section>
+
+        <div class="tenant-content-grid">
+
+            <section class="panel tenant-panel" id="propertySection">
+
+                <div class="panel-header">
+                    <div>
+                        <h2>Моё жильё</h2>
+                        <p>Информация об арендуемом объекте</p>
+                    </div>
+                    <span class="tenant-section-icon">🏠</span>
+                </div>
+
+                <div id="propertyContent" class="tenant-detail-content">
+                    <div class="empty-state">Загрузка информации...</div>
+                </div>
+
+            </section>
+
+            <section class="panel tenant-panel" id="contractSection">
+
+                <div class="panel-header">
+                    <div>
+                        <h2>Мой договор</h2>
+                        <p>Информация о договоре аренды</p>
+                    </div>
+                    <span class="tenant-section-icon">📄</span>
+                </div>
+
+                <div id="contractContent" class="tenant-detail-content">
+                    <div class="empty-state">Загрузка информации...</div>
+                </div>
+
+            </section>
+
+        </div>
+
+        <section class="panel tenant-panel" id="paymentsSection">
+
+            <div class="panel-header">
+                <div>
+                    <h2>Мои платежи</h2>
+                    <p>Краткая информация о платежах по аренде</p>
+                </div>
+            </div>
+
+            <div class="payment-summary">
+
+                <div>
+                    <span>Всего платежей</span>
+                    <strong id="paymentsCount">0</strong>
+                </div>
+
+                <div>
+                    <span>Оплачено</span>
+                    <strong id="paidPaymentsCount">0</strong>
+                </div>
+
+                <div>
+                    <span>Осталось оплатить</span>
+                    <strong id="unpaidPaymentsCount">0</strong>
+                </div>
+
+            </div>
+
+            <div class="tenant-info-note">
+                Полная история платежей будет доступна в разделе «Мои платежи».
+            </div>
+
+        </section>
+
+        <div class="tenant-bottom-grid">
+
+            <section class="panel tenant-panel" id="requestsSection">
+
+                <div class="panel-header">
+                    <div>
+                        <h2>Мои заявки</h2>
+                        <p>Обслуживание и вопросы по жилью</p>
+                    </div>
+                    <span class="tenant-section-icon">✓</span>
+                </div>
+
+                <div class="tenant-placeholder">
+                    <div class="placeholder-icon">🔧</div>
+                    <strong>Заявки на обслуживание</strong>
+                    <p>Здесь вы сможете сообщать о неисправностях и отслеживать их решение.</p>
+                </div>
+
+            </section>
+
+            <section class="panel tenant-panel" id="messagesSection">
+
+                <div class="panel-header">
+                    <div>
+                        <h2>Сообщения</h2>
+                        <p>Связь с владельцем недвижимости</p>
+                    </div>
+                    <span class="tenant-section-icon">✉</span>
+                </div>
+
+                <div class="tenant-placeholder">
+                    <div class="placeholder-icon">💬</div>
+                    <strong>Общение с владельцем</strong>
+                    <p>Здесь будет доступна переписка с владельцем или менеджером.</p>
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="../js/tenantDashboard.js"></script>
+
+</body>
+</html>

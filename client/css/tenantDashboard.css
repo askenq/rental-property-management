@@ -1,0 +1,338 @@
+
+.tenant-main-content {
+    padding-top: 38px;
+}
+
+.tenant-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+}
+
+.tenant-header h1 {
+    margin-bottom: 9px;
+}
+
+.tenant-header p {
+    margin-bottom: 0;
+}
+
+.tenant-user {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 10px 15px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+}
+
+.tenant-user > div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.tenant-user strong {
+    font-size: 13px;
+}
+
+.tenant-user span {
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.tenant-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--primary-soft);
+    color: #8db2ff;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.tenant-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 17px;
+    margin-bottom: 24px;
+}
+
+.tenant-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 0;
+    padding: 21px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.tenant-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 45px;
+    height: 45px;
+    border-radius: 13px;
+    background: var(--primary-soft);
+    font-size: 20px;
+}
+
+.tenant-stat-card > div:last-child {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 4px;
+}
+
+.tenant-stat-card span {
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.tenant-stat-card strong {
+    overflow-wrap: anywhere;
+    font-size: 20px;
+    font-weight: 760;
+}
+
+.tenant-stat-card small {
+    color: var(--text-muted);
+    font-size: 10px;
+}
+
+.tenant-content-grid,
+.tenant-bottom-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 22px;
+}
+
+.tenant-panel {
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.tenant-section-icon {
+    font-size: 23px;
+}
+
+.tenant-detail-content {
+    min-height: 155px;
+}
+
+.tenant-property-name,
+.tenant-contract-number {
+    margin-bottom: 18px;
+    font-size: 18px;
+    font-weight: 750;
+    color: var(--text);
+}
+
+.tenant-detail-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.tenant-detail-row:last-child {
+    border-bottom: 0;
+}
+
+.tenant-detail-row span {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.tenant-detail-row strong {
+    max-width: 65%;
+    color: var(--text);
+    font-size: 12px;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.tenant-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 155px;
+    padding: 20px;
+    text-align: center;
+}
+
+.tenant-empty strong {
+    margin: 12px 0 5px;
+    font-size: 14px;
+}
+
+.tenant-empty p {
+    max-width: 340px;
+    margin-bottom: 0;
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.placeholder-icon {
+    font-size: 29px;
+}
+
+.payment-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.payment-summary > div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 18px;
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.payment-summary span {
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.payment-summary strong {
+    font-size: 22px;
+}
+
+.tenant-info-note {
+    margin-top: 18px;
+    padding: 13px 15px;
+    border-radius: 10px;
+    background: var(--primary-soft);
+    color: #a9c5ff;
+    font-size: 11px;
+}
+
+.tenant-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 175px;
+    padding: 15px;
+    text-align: center;
+}
+
+.tenant-placeholder strong {
+    margin: 12px 0 5px;
+    font-size: 14px;
+}
+
+.tenant-placeholder p {
+    max-width: 310px;
+    margin-bottom: 0;
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.tenant-message {
+    margin-bottom: 20px;
+    padding: 13px 16px;
+    border: 1px solid rgba(53, 214, 160, .3);
+    border-radius: 11px;
+    background: var(--success-soft);
+    color: var(--success);
+    font-size: 12px;
+}
+
+.tenant-message.error {
+    border-color: rgba(255, 100, 124, .3);
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.tenant-message[hidden] {
+    display: none;
+}
+
+@media (max-width: 1200px) {
+    .tenant-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 800px) {
+    .tenant-content-grid,
+    .tenant-bottom-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 550px) {
+    .tenant-main-content {
+        padding: 22px 14px 32px;
+    }
+
+    .tenant-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .tenant-stat-card {
+        padding: 17px;
+    }
+
+    .payment-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .tenant-header {
+        align-items: flex-start;
+    }
+
+    .tenant-detail-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .tenant-detail-row strong {
+        max-width: 100%;
+        text-align: left;
+    }
+}
+
+
+.tenant-record-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.tenant-record-card {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-soft);
+}
+
+.tenant-record-card .tenant-property-name,
+.tenant-record-card .tenant-contract-number {
+    margin-bottom: 10px;
+}
+
+.tenant-record-card + .tenant-record-card {
+    margin-top: 0;
+}
