@@ -1,10 +1,7 @@
--- CreateEnum
 CREATE TYPE "PropertyType" AS ENUM ('APARTMENT', 'HOUSE', 'COMMERCIAL');
 
--- CreateEnum
 CREATE TYPE "PropertyStatus" AS ENUM ('RENTED', 'AVAILABLE', 'MAINTENANCE');
 
--- CreateTable
 CREATE TABLE "Property" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
@@ -23,5 +20,4 @@ CREATE TABLE "Property" (
     CONSTRAINT "Property_pkey" PRIMARY KEY ("id")
 );
 
--- AddForeignKey
 ALTER TABLE "Property" ADD CONSTRAINT "Property_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -14,8 +14,6 @@ export default function createPaymentsRouter(
             : null;
     }
 
-    // Используем календарные даты в UTC,
-    // чтобы не получать сдвиги из-за часового пояса.
     function utcDay(date) {
         return new Date(Date.UTC(
             date.getUTCFullYear(),
@@ -136,7 +134,6 @@ export default function createPaymentsRouter(
         });
     }
 
-    // GET /api/payments
     
 router.get(
     "/",
@@ -338,8 +335,6 @@ router.get(
 );
 
 
-    // POST /api/payments/generate
-    // Синхронизация графика по активным договорам.
     router.post(
         "/generate",
         authenticateToken,
@@ -397,7 +392,6 @@ router.get(
                             )
                         );
 
-                        // Создаём недостающие платежи.
                         for (const dueDate of schedule) {
                             const key = dateKey(dueDate);
 
@@ -422,8 +416,6 @@ router.get(
                             createdCount++;
                         }
 
-                        // Убираем старые неоплаченные начисления,
-                        // даты которых больше не входят в договор.
                         for (const payment of existing) {
                             const key = dateKey(
                                 utcDay(new Date(payment.dueDate))
@@ -434,7 +426,6 @@ router.get(
                             }
 
                             if (payment.status === "PAID") {
-                                // Оплаченные записи и их история сохраняются.
                                 preservedPaidCount++;
                                 continue;
                             }
@@ -481,7 +472,6 @@ router.get(
         }
     );
 
-    // PATCH /api/payments/:id/status
     router.patch(
         "/:id/status",
         authenticateToken,

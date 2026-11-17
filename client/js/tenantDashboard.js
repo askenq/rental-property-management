@@ -149,7 +149,9 @@ function renderProperties(properties) {
     if (!properties.length) {
         container.innerHTML = `
             <div class="tenant-empty">
-                <div class="placeholder-icon">🏠</div>
+                <div class="placeholder-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+                </div>
                 <strong>Объекты пока не назначены</strong>
                 <p>Владелец недвижимости ещё не закрепил за вами объекты аренды.</p>
             </div>
@@ -198,7 +200,9 @@ function renderContracts(contracts) {
     if (!contracts.length) {
         container.innerHTML = `
             <div class="tenant-empty">
-                <div class="placeholder-icon">📄</div>
+                <div class="placeholder-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
                 <strong>Активные договоры не найдены</strong>
                 <p>После оформления договора здесь появятся его номер, срок действия и условия аренды.</p>
             </div>

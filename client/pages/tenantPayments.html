@@ -1,106 +1,110 @@
-
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Rental Manager — Мои платежи</title>
 
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/tenantDashboard.css">
     <link rel="stylesheet" href="../css/tenantPayments.css">
+    <link rel="stylesheet" href="../css/ui.css">
+    <script src="../js/config.js"></script>
+    <script src="../js/theme.js"></script>
 </head>
-
 <body>
-
 <div class="app">
 
     <aside class="sidebar">
-
         <div class="sidebar-logo">
-            <div class="logo-icon">RM</div>
-            <div class="logo-text">Rental Manager</div>
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+            </div>
+            <div class="logo-text">
+                Rental Manager
+                <span class="logo-subtext">Кабинет резидента</span>
+            </div>
         </div>
 
         <nav class="sidebar-nav">
-
             <a href="tenantDashboard.html" class="nav-item">
-                <span class="nav-icon">⌂</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                </span>
                 <span>Главная</span>
             </a>
 
             <a href="tenantDashboard.html#propertySection" class="nav-item">
-                <span class="nav-icon">▦</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+                </span>
                 <span>Моё жильё</span>
             </a>
 
             <a href="tenantDashboard.html#contractSection" class="nav-item">
-                <span class="nav-icon">▤</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </span>
                 <span>Мой договор</span>
             </a>
 
             <a href="tenantPayments.html" class="nav-item active">
-                <span class="nav-icon">₽</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                </span>
                 <span>Мои платежи</span>
             </a>
 
             <a href="tenantDashboard.html#requestsSection" class="nav-item">
-                <span class="nav-icon">✓</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </span>
                 <span>Мои заявки</span>
             </a>
 
             <a href="tenantDashboard.html#messagesSection" class="nav-item">
-                <span class="nav-icon">✉</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </span>
                 <span>Сообщения</span>
             </a>
-
         </nav>
 
         <div class="sidebar-bottom">
-
             <button type="button" class="logout-button" id="logoutButton">
-                <span class="nav-icon">↪</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                </span>
                 <span>Выйти</span>
             </button>
-
         </div>
-
     </aside>
 
     <main class="main-content tenant-main-content payments-main">
-
         <header class="tenant-header">
-
             <div>
-                <div class="eyebrow">ЛИЧНЫЙ КАБИНЕТ</div>
-
+                <div class="eyebrow">ЛИЧНЫЙ КАБИНЕТ РЕЗИДЕНТА</div>
                 <h1>Мои платежи</h1>
-
-                <p>История и состояние платежей по вашим договорам аренды.</p>
+                <p>История начислений и статус расчётов по договорам аренды.</p>
             </div>
 
             <div class="tenant-user">
-
                 <div class="tenant-avatar" id="userInitials">?</div>
-
                 <div>
                     <strong id="userName">Пользователь</strong>
                     <span>Арендатор</span>
                 </div>
-
             </div>
-
         </header>
 
         <div class="tenant-message" id="tenantMessage" hidden></div>
 
         <section class="payments-stats">
-
             <article class="tenant-stat-card">
-                <div class="tenant-stat-icon">📋</div>
+                <div class="tenant-stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
                 <div>
                     <span>Всего платежей</span>
                     <strong id="totalCount">0</strong>
@@ -109,7 +113,9 @@
             </article>
 
             <article class="tenant-stat-card">
-                <div class="tenant-stat-icon">✓</div>
+                <div class="tenant-stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
                 <div>
                     <span>Оплачено</span>
                     <strong id="paidCount">0</strong>
@@ -118,7 +124,9 @@
             </article>
 
             <article class="tenant-stat-card">
-                <div class="tenant-stat-icon">◷</div>
+                <div class="tenant-stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
                 <div>
                     <span>Ожидает оплаты</span>
                     <strong id="pendingCount">0</strong>
@@ -127,35 +135,30 @@
             </article>
 
             <article class="tenant-stat-card">
-                <div class="tenant-stat-icon">!</div>
+                <div class="tenant-stat-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
                 <div>
                     <span>Просрочено</span>
                     <strong id="overdueCount">0</strong>
                     <small id="overdueAmount">0 ₽ просрочено</small>
                 </div>
             </article>
-
         </section>
 
         <section class="panel payments-panel">
-
             <div class="panel-header">
                 <div>
-                    <h2>История платежей</h2>
+                    <h2>Ведомость платежей</h2>
                     <p>Все начисления по вашим договорам аренды</p>
                 </div>
 
-                <button
-                    type="button"
-                    class="payments-refresh"
-                    id="refreshPayments"
-                >
-                    ↻ Обновить
+                <button type="button" class="payments-refresh" id="refreshPayments">
+                    Обновить
                 </button>
             </div>
 
             <div class="payments-filters">
-
                 <div class="payments-search">
                     <input
                         type="search"
@@ -174,13 +177,10 @@
                 <select id="contractFilter">
                     <option value="all">Все договоры</option>
                 </select>
-
             </div>
 
             <div class="payments-table-wrapper">
-
                 <table class="payments-table">
-
                     <thead>
                         <tr>
                             <th>Договор</th>
@@ -193,49 +193,37 @@
                     </thead>
 
                     <tbody id="paymentsTableBody">
-
                         <tr>
                             <td colspan="6" class="payments-loading">
                                 Загрузка платежей...
                             </td>
                         </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
 
             <div class="payments-mobile-list" id="paymentsMobileList"></div>
 
             <div class="payments-footer">
                 <span id="paymentsResultCount">Загружено 0 платежей</span>
-
                 <span id="paymentsResultAmount">Сумма: 0 ₽</span>
             </div>
-
         </section>
 
         <section class="payments-info">
-
-            <div class="payments-info-icon">ℹ</div>
-
+            <div class="payments-info-icon">§</div>
             <div>
-                <strong>Информация о платежах</strong>
+                <strong>Порядок учёта платежей</strong>
                 <p>
-                    Статусы платежей обновляются системой автоматически.
-                    Если вы уже внесли оплату, но она ещё не отмечена,
-                    обратитесь к владельцу недвижимости.
+                    Статусы платежей обновляются после подтверждения оплаты управляющим.
+                    Если вы уже внесли платёж, но статус ещё не обновлён, свяжитесь с собственником.
                 </p>
             </div>
-
         </section>
-
     </main>
 
 </div>
 
 <script src="../js/tenantPayments.js"></script>
-
 </body>
 </html>

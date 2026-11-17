@@ -1,58 +1,89 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#101114">
+    <meta name="theme-color" content="#F5F2EC">
     <title>Заявки — Rental Manager</title>
 
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/requests.css">
+    <link rel="stylesheet" href="../css/ui.css">
+    <script src="../js/config.js"></script>
+    <script src="../js/theme.js"></script>
 </head>
 <body>
 <div class="app">
 
     <aside class="sidebar">
-        <div class="sidebar-logo">
-            <div class="logo-icon">RM</div>
-            <div class="logo-text">Rental Manager</div>
-        </div>
+        <a href="../index.html" class="sidebar-logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/><path d="M9 9h.01"/><path d="M15 9h.01"/><path d="M9 12h.01"/><path d="M15 12h.01"/></svg>
+            </div>
+            <div class="logo-text">
+                Rental Manager
+                <span class="logo-subtext">Реестр активов</span>
+            </div>
+        </a>
 
         <nav class="sidebar-nav">
             <a href="../index.html" class="nav-item">
-                <span class="nav-icon">⌂</span><span>Главная</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                </span>
+                <span>Главная</span>
             </a>
             <a href="properties.html" class="nav-item">
-                <span class="nav-icon">▦</span><span>Объекты</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>
+                </span>
+                <span>Объекты</span>
             </a>
             <a href="tenants.html" class="nav-item">
-                <span class="nav-icon">♙</span><span>Арендаторы</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </span>
+                <span>Арендаторы</span>
             </a>
             <a href="contracts.html" class="nav-item">
-                <span class="nav-icon">▤</span><span>Договоры</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                </span>
+                <span>Договоры</span>
             </a>
             <a href="payments.html" class="nav-item">
-                <span class="nav-icon">₽</span><span>Платежи</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><path d="M6 15h4"/></svg>
+                </span>
+                <span>Платежи</span>
             </a>
             <a href="requests.html" class="nav-item active">
-                <span class="nav-icon">✓</span><span>Заявки</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </span>
+                <span>Заявки</span>
             </a>
-            <a href="messages.html" class="nav-item disabled-link" data-soon="Сообщения">
-                <span class="nav-icon">✉</span><span>Сообщения</span>
+            <a href="messages.html" class="nav-item">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </span>
+                <span>Сообщения</span>
             </a>
-            <a href="analytics.html" class="nav-item disabled-link" data-soon="Аналитика">
-                <span class="nav-icon">▥</span><span>Аналитика</span>
+            <a href="analytics.html" class="nav-item">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                </span>
+                <span>Аналитика</span>
             </a>
         </nav>
 
         <div class="sidebar-bottom">
-            <a href="#" class="nav-item disabled-link" data-soon="Настройки">
-                <span class="nav-icon">⚙</span><span>Настройки</span>
-            </a>
             <button type="button" class="logout-button" id="logoutButton">
-                <span class="nav-icon">↪</span><span>Выйти</span>
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                </span>
+                <span>Выйти</span>
             </button>
         </div>
     </aside>
@@ -60,13 +91,14 @@
     <main class="main-content requests-main">
         <header class="requests-header">
             <div>
-                <div class="requests-eyebrow">WORKSPACE / OPERATIONS</div>
-                <h1>Заявки<span class="title-dot">.</span></h1>
-                <p>Контроль обслуживания, ремонтов и обращений по недвижимости.</p>
+                <div class="requests-eyebrow">Инженерно-сервисная служба</div>
+                <h1>Заявки на обслуживание</h1>
+                <p>Контроль регламентных работ, ремонтов и обращений арендаторов.</p>
             </div>
 
             <button class="primary-button" id="addRequestButton" type="button">
-                <span>＋</span> Создать заявку
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Создать заявку
             </button>
         </header>
 
@@ -76,55 +108,63 @@
             <article class="request-stat-card">
                 <div class="request-stat-top">
                     <span>Всего заявок</span>
-                    <span class="request-stat-icon">▤</span>
+                    <span class="request-stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    </span>
                 </div>
                 <strong id="totalRequests">0</strong>
-                <small>Все обращения</small>
+                <small>Все обращения в журнале</small>
             </article>
 
             <article class="request-stat-card">
                 <div class="request-stat-top">
                     <span>Новые</span>
-                    <span class="request-stat-icon blue">✦</span>
+                    <span class="request-stat-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    </span>
                 </div>
                 <strong id="newRequests">0</strong>
-                <small>Требуют внимания</small>
+                <small>Ожидают назначения</small>
             </article>
 
             <article class="request-stat-card">
                 <div class="request-stat-top">
                     <span>В работе</span>
-                    <span class="request-stat-icon amber">◷</span>
+                    <span class="request-stat-icon amber">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </span>
                 </div>
                 <strong id="inProgressRequests">0</strong>
-                <small>В процессе решения</small>
+                <small>На стадии устранения</small>
             </article>
 
             <article class="request-stat-card">
                 <div class="request-stat-top">
                     <span>Выполнены</span>
-                    <span class="request-stat-icon green">✓</span>
+                    <span class="request-stat-icon green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </span>
                 </div>
                 <strong id="completedRequests">0</strong>
-                <small>Успешно закрыты</small>
+                <small>Работы приняты</small>
             </article>
         </section>
 
         <section class="requests-panel">
             <div class="requests-panel-header">
                 <div>
-                    <h2>Все обращения</h2>
-                    <p>Заявки по вашим объектам недвижимости</p>
+                    <h2>Журнал обращений</h2>
+                    <p>Все заявки по объектам недвижимости</p>
                 </div>
 
                 <button type="button" class="secondary-button" id="refreshRequestsButton">
-                    ↻ Обновить
+                    Обновить список
                 </button>
             </div>
 
             <div class="requests-filters">
                 <label class="request-search">
-                    <span>⌕</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                     <input
                         id="requestSearch"
                         type="search"
@@ -151,7 +191,7 @@
                 </select>
 
                 <select id="requestTypeFilter" aria-label="Фильтр по типу">
-                    <option value="ALL">Все типы</option>
+                    <option value="ALL">Все категории</option>
                     <option value="REPAIR">Ремонт</option>
                     <option value="PLUMBING">Сантехника</option>
                     <option value="ELECTRICITY">Электрика</option>
@@ -170,18 +210,17 @@
 
             <div class="requests-footer">
                 <span id="requestsResultsCount">Загрузка...</span>
-                <span>Данные сохраняются в PostgreSQL</span>
+                <span>Данные синхронизированы с реестром</span>
             </div>
         </section>
 
         <section class="requests-info">
-            <div class="requests-info-icon">i</div>
+            <div class="requests-info-icon">§</div>
             <div>
-                <strong>Рабочий процесс</strong>
+                <strong>Порядок ведения сервисных заявок</strong>
                 <p>
-                    Новая заявка проходит этапы обработки. После выполнения
-                    работ её можно закрыть, а историю статусов контролировать
-                    через текущее состояние заявки.
+                    Каждое обращение фиксируется с привязкой к объекту и категории работ.
+                    По завершении обслуживания переведите статус заявки в «Выполнена» для учёта в аналитике.
                 </p>
             </div>
         </section>
@@ -192,9 +231,9 @@
     <section class="request-modal" role="dialog" aria-modal="true" aria-labelledby="requestModalTitle">
         <header class="request-modal-header">
             <div>
-                <div class="requests-eyebrow">REQUEST MANAGEMENT</div>
+                <div class="requests-eyebrow">СЕРВИСНЫЙ НАРЯД</div>
                 <h2 id="requestModalTitle">Новая заявка</h2>
-                <p>Заполните информацию об обращении.</p>
+                <p>Заполните описание работ и выберите объект недвижимости.</p>
             </div>
             <button type="button" class="request-modal-close" id="closeRequestModal" aria-label="Закрыть">×</button>
         </header>
@@ -204,13 +243,13 @@
 
             <div class="request-form-grid">
                 <div class="request-form-group full">
-                    <label for="requestTitle">Название заявки *</label>
-                    <input id="requestTitle" type="text" maxlength="200" placeholder="Например: Протекает кран на кухне" required>
+                    <label for="requestTitle">Тема обращения *</label>
+                    <input id="requestTitle" type="text" maxlength="200" placeholder="Например: Замена смесителя на кухне" required>
                 </div>
 
                 <div class="request-form-group full">
-                    <label for="requestDescription">Описание проблемы *</label>
-                    <textarea id="requestDescription" rows="4" maxlength="10000" placeholder="Опишите проблему и необходимые работы..." required></textarea>
+                    <label for="requestDescription">Описание проблемы и перечень работ *</label>
+                    <textarea id="requestDescription" rows="4" maxlength="10000" placeholder="Подробно опишите характер неисправности..." required></textarea>
                 </div>
 
                 <div class="request-form-group">
@@ -228,7 +267,7 @@
                 </div>
 
                 <div class="request-form-group">
-                    <label for="requestType">Тип обращения</label>
+                    <label for="requestType">Категория работ</label>
                     <select id="requestType">
                         <option value="REPAIR">Ремонт</option>
                         <option value="PLUMBING">Сантехника</option>

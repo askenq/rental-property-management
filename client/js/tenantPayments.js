@@ -120,7 +120,7 @@ async function loadPayments() {
         document.getElementById("paymentsMobileList").innerHTML = "";
     } finally {
         button.disabled = false;
-        button.textContent = "↻ Обновить";
+        button.textContent = "Обновить";
     }
 }
 

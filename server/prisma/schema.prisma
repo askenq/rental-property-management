@@ -99,15 +99,11 @@ model Property {
   rent        Float
   status      PropertyStatus
 
-  // Старое поле оставляем,
-  // чтобы не потерять существующие данные
   tenantName  String?
 
-  // Связь с арендатором
   tenantId    Int?
   tenant      Tenant?         @relation(fields: [tenantId], references: [id], onDelete: SetNull)
 
-  // Договоры объекта
   contracts   Contract[]
   requests Request[]
 
@@ -155,40 +151,31 @@ model Tenant {
 model Contract {
   id            Int            @id @default(autoincrement())
 
-  // Номер договора
   number        String
 
-  // Даты договора
   startDate     DateTime
   endDate       DateTime
 
-  // Финансовые условия
   rent          Float
   deposit       Float?
   paymentDay    Int?
 
-  // Статус
   status        ContractStatus @default(DRAFT)
 
-  // Дополнительная информация
   notes         String?
 
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
-  // Владелец договора
   ownerId       Int
   owner         User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
-  // Объект недвижимости
   propertyId    Int
   property      Property       @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 
-  // Арендатор
   tenantId      Int
   tenant        Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-  // Платежи по договору
   payments      Payment[]
 
   @@unique([ownerId, number])
@@ -203,29 +190,22 @@ model Contract {
 model Payment {
   id          Int           @id @default(autoincrement())
 
-  // Сумма платежа
   amount      Float
 
-  // Дата, до которой должен быть произведён платёж
   dueDate     DateTime
 
-  // Фактическая дата оплаты
   paidAt      DateTime?
 
-  // Статус платежа
   status      PaymentStatus @default(PENDING)
 
-  // Назначение / комментарий
   notes       String?
 
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
-  // Владелец платежа
   ownerId     Int
   owner       User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
-  // Договор
   contractId  Int
   contract    Contract      @relation(fields: [contractId], references: [id], onDelete: Cascade)
 
