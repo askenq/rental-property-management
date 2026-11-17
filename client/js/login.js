@@ -198,10 +198,22 @@ async function handleLogin(
 
         setTimeout(
             function () {
+                const role = data.user?.role;
 
-                window.location.href =
-                    "/index.html";
+                if (role === "TENANT") {
+                    window.location.href = "/pages/tenantDashboard.html";
+                    return;
+                }
 
+                if (role === "OWNER" || role === "MANAGER") {
+                    window.location.href = "/index.html";
+                    return;
+                }
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+
+                showMessage("Неизвестная роль пользователя.");
             },
             500
         );

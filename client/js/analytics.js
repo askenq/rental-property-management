@@ -509,11 +509,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (ring) {
             ring.style.background = total
                 ? `conic-gradient(
-                    var(--an-blue) 0deg ${occupiedDegrees}deg,
-                    var(--an-green) ${occupiedDegrees}deg ${availableDegrees}deg,
+                    var(--an-green) 0deg ${occupiedDegrees}deg,
+                    var(--an-blue) ${occupiedDegrees}deg ${availableDegrees}deg,
                     var(--an-orange) ${availableDegrees}deg 360deg
                 )`
-                : "#2b3035";
+                : "#E8E3D9";
         }
 
         setText("portfolioPercent", `${Math.round(occupancy)}%`);
@@ -556,7 +556,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 <tr>
                     <td>
                         <div class="property-cell">
-                            <div class="property-cell-icon">▦</div>
+                            <div class="property-cell-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+                            </div>
                             <div class="property-cell-info">
                                 <strong>${escapeHtml(property.name)}</strong>
                                 <span>${escapeHtml(property.address || "Адрес не указан")}</span>
@@ -655,7 +657,9 @@ document.addEventListener("DOMContentLoaded", () => {
         container.innerHTML = contracts.map((contract) => `
             <div class="expiring-item">
                 <div class="expiring-main">
-                    <div class="expiring-icon">◷</div>
+                    <div class="expiring-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
                     <div>
                         <strong>Договор №${escapeHtml(contract.number)}</strong>
                         <span>${escapeHtml(contract.property)}</span>
@@ -670,7 +674,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <strong class="expiring-date">${escapeHtml(formatDate(contract.endDate))}</strong>
                 </div>
                 <a class="expiring-link" href="/pages/contracts.html" aria-label="Перейти к договорам">
-                    Договоры ↗
+                    К договорам
                 </a>
             </div>
         `).join("");

@@ -6,10 +6,8 @@ export default function createMessagesRouter(
 ) {
     const router = Router();
 
-    // Все маршруты требуют авторизации
     router.use(authenticateToken);
 
-    // Проверка, что пользователь состоит в диалоге
     async function getParticipant(conversationId, userId) {
         return prisma.conversationParticipant.findFirst({
             where: {
@@ -19,8 +17,6 @@ export default function createMessagesRouter(
         });
     }
 
-    // GET /api/messages
-    // Список диалогов пользователя
     router.get("/", async (req, res) => {
         try {
             const userId = Number(req.user.userId);
@@ -103,8 +99,6 @@ export default function createMessagesRouter(
         }
     });
 
-    // POST /api/messages/conversations
-    // Создать диалог с одним или несколькими пользователями
     router.post("/conversations", async (req, res) => {
         try {
             const userId = Number(req.user.userId);
@@ -219,8 +213,6 @@ export default function createMessagesRouter(
         }
     });
 
-    // GET /api/messages/conversations/:id
-    // Получить историю сообщений
     router.get("/conversations/:id", async (req, res) => {
         try {
             const conversationId = Number(req.params.id);
@@ -263,8 +255,6 @@ export default function createMessagesRouter(
         }
     });
 
-    // POST /api/messages/conversations/:id
-    // Отправить сообщение
     router.post("/conversations/:id", async (req, res) => {
         try {
             const conversationId = Number(req.params.id);
@@ -337,8 +327,6 @@ export default function createMessagesRouter(
         }
     });
 
-    // PATCH /api/messages/conversations/:id/read
-    // Отметить диалог прочитанным
     router.patch("/conversations/:id/read", async (req, res) => {
         try {
             const conversationId = Number(req.params.id);
@@ -381,8 +369,6 @@ export default function createMessagesRouter(
         }
     });
 
-    // GET /api/messages/users
-    // Пользователи для создания нового диалога
     router.get("/users", async (req, res) => {
         try {
             const userId = Number(req.user.userId);

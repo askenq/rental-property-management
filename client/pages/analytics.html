@@ -1,59 +1,90 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#111315">
+    <meta name="theme-color" content="#F5F2EC">
 
     <title>Аналитика — Rental Manager</title>
 
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/analytics.css">
+    <link rel="stylesheet" href="../css/ui.css">
+    <script src="../js/config.js"></script>
+    <script src="../js/theme.js"></script>
 </head>
 <body class="analytics-body">
     <div class="app-layout analytics-layout">
 
         <aside class="sidebar">
-            <a href="/index.html" class="brand">
-                <span class="brand-logo">RM</span>
-                <span>Rental Manager</span>
+            <a href="../index.html" class="brand">
+                <span class="brand-logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/><path d="M9 9h.01"/><path d="M15 9h.01"/><path d="M9 12h.01"/><path d="M15 12h.01"/></svg>
+                </span>
+                <span class="logo-text">
+                    Rental Manager
+                    <span class="logo-subtext">Реестр активов</span>
+                </span>
             </a>
 
             <nav class="sidebar-nav">
-                <a href="/index.html" class="nav-link">
-                    <span>⌂</span> Главная
+                <a href="../index.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    </span>
+                    <span>Главная</span>
                 </a>
-                <a href="/pages/properties.html" class="nav-link">
-                    <span>▦</span> Объекты
+                <a href="properties.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>
+                    </span>
+                    <span>Объекты</span>
                 </a>
-                <a href="/pages/tenants.html" class="nav-link">
-                    <span>♙</span> Арендаторы
+                <a href="tenants.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </span>
+                    <span>Арендаторы</span>
                 </a>
-                <a href="/pages/contracts.html" class="nav-link">
-                    <span>▤</span> Договоры
+                <a href="contracts.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                    </span>
+                    <span>Договоры</span>
                 </a>
-                <a href="/pages/payments.html" class="nav-link">
-                    <span>₽</span> Платежи
+                <a href="payments.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><path d="M6 15h4"/></svg>
+                    </span>
+                    <span>Платежи</span>
                 </a>
-                <a href="/pages/requests.html" class="nav-link">
-                    <span>✓</span> Заявки
+                <a href="requests.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    </span>
+                    <span>Заявки</span>
                 </a>
-                <a href="/pages/messages.html" class="nav-link">
-                    <span>✉</span> Сообщения
+                <a href="messages.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </span>
+                    <span>Сообщения</span>
                 </a>
-                <a href="/pages/analytics.html" class="nav-link active">
-                    <span>▥</span> Аналитика
+                <a href="analytics.html" class="nav-link active">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    </span>
+                    <span>Аналитика</span>
                 </a>
             </nav>
 
             <div class="sidebar-bottom">
-                <a href="/pages/settings.html" class="nav-link">
-                    <span>⚙</span> Настройки
-                </a>
                 <a href="#" class="nav-link" id="logoutButton">
-                    <span>↪</span> Выйти
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    </span>
+                    <span>Выйти</span>
                 </a>
             </div>
         </aside>
@@ -62,20 +93,14 @@
 
             <header class="analytics-header">
                 <div>
-                    <div class="eyebrow">
-                        BUSINESS INTELLIGENCE / ОБЗОР
-                    </div>
-
-                    <h1>Аналитика<span class="title-dot">.</span></h1>
-
-                    <p>
-                        Финансовая картина и эффективность вашей недвижимости.
-                    </p>
+                    <div class="eyebrow">Финансово-операционный отчёт</div>
+                    <h1>Аналитика портфеля</h1>
+                    <p>Доходность объектов, собираемость арендных платежей и загрузка площадей.</p>
                 </div>
 
                 <div class="header-actions">
                     <label class="period-control">
-                        <span>Период</span>
+                        <span>Горизонт отчёта</span>
                         <select id="periodSelect">
                             <option value="3">3 месяца</option>
                             <option value="6">6 месяцев</option>
@@ -84,7 +109,9 @@
                     </label>
 
                     <button class="analytics-button" id="refreshAnalyticsButton">
-                        <span class="button-refresh-icon">↻</span>
+                        <span class="button-refresh-icon">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                        </span>
                         Обновить
                     </button>
                 </div>
@@ -96,37 +123,38 @@
                 <div class="hero-copy">
                     <span class="hero-kicker">
                         <span class="live-dot"></span>
-                        ВАША НЕДВИЖИМОСТЬ В ЦИФРАХ
+                        СВОДНАЯ ВЕДОМОСТЬ ДОХОДНОСТИ
                     </span>
 
-                    <h2>Управляйте на основе данных.</h2>
+                    <h2>Управление активами на основе точных цифр.</h2>
 
                     <p>
-                        Доходы, платежи, загрузка объектов и состояние
-                        договоров — всё в одной аналитической панели.
+                        Сопоставление начисленной и фактически полученной выручки, контроль кассовых разрывов, загрузки площадей и сроков истечения договоров.
                     </p>
 
                     <div class="hero-meta">
-                        <span class="hero-meta-icon">◷</span>
-                        Данные обновляются из вашей базы
+                        <span class="hero-meta-icon">§</span>
+                        Расчёт ведётся автоматически по действующим договорам и ведомостям
                     </div>
                 </div>
 
                 <div class="hero-decoration" aria-hidden="true">
-                    <div class="hero-orbit orbit-one"></div>
-                    <div class="hero-orbit orbit-two"></div>
-                    <div class="hero-orbit orbit-three"></div>
-                    <div class="hero-core">RM</div>
-                    <div class="hero-float hero-float-one">↗</div>
-                    <div class="hero-float hero-float-two">₽</div>
-                    <div class="hero-float hero-float-three">✦</div>
+                    <div class="hero-core">
+                        <svg width="56" height="56" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4">
+                            <rect x="8" y="14" width="48" height="42" rx="2"/>
+                            <line x1="8" y1="26" x2="56" y2="26"/>
+                            <line x1="24" y1="26" x2="24" y2="56"/>
+                            <line x1="40" y1="26" x2="40" y2="56"/>
+                            <path d="M18 14V8h28v6"/>
+                        </svg>
+                    </div>
                 </div>
             </section>
 
             <section class="analytics-section">
                 <div class="section-heading">
                     <div>
-                        <span class="section-overline">OVERVIEW</span>
+                        <span class="section-overline">I. ФИНАНСОВЫЙ СРЕЗ</span>
                         <h2>Ключевые показатели</h2>
                     </div>
 
@@ -140,7 +168,9 @@
                     <article class="analytics-kpi kpi-revenue">
                         <div class="kpi-top">
                             <span class="kpi-label">Получено платежей</span>
-                            <span class="kpi-icon">↗</span>
+                            <span class="kpi-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                            </span>
                         </div>
 
                         <div class="kpi-value" id="kpiPaidAmount">—</div>
@@ -149,14 +179,14 @@
                             <span class="kpi-indicator indicator-green"></span>
                             <span id="kpiPaidCount">Загрузка...</span>
                         </div>
-
-                        <div class="kpi-decoration revenue-decoration"></div>
                     </article>
 
                     <article class="analytics-kpi kpi-pending">
                         <div class="kpi-top">
-                            <span class="kpi-label">Ожидается</span>
-                            <span class="kpi-icon">◷</span>
+                            <span class="kpi-label">Ожидается к оплате</span>
+                            <span class="kpi-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </span>
                         </div>
 
                         <div class="kpi-value" id="kpiPendingAmount">—</div>
@@ -169,8 +199,10 @@
 
                     <article class="analytics-kpi kpi-overdue">
                         <div class="kpi-top">
-                            <span class="kpi-label">Просроченная задолженность</span>
-                            <span class="kpi-icon">!</span>
+                            <span class="kpi-label">Просроченный долг</span>
+                            <span class="kpi-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            </span>
                         </div>
 
                         <div class="kpi-value" id="kpiOverdueAmount">—</div>
@@ -183,8 +215,10 @@
 
                     <article class="analytics-kpi kpi-occupancy">
                         <div class="kpi-top">
-                            <span class="kpi-label">Загрузка недвижимости</span>
-                            <span class="kpi-icon">▦</span>
+                            <span class="kpi-label">Загрузка фонда</span>
+                            <span class="kpi-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+                            </span>
                         </div>
 
                         <div class="kpi-value" id="kpiOccupancy">—</div>
@@ -206,9 +240,9 @@
                 <article class="analytics-panel revenue-panel">
                     <div class="analytics-panel-header">
                         <div>
-                            <span class="section-overline">FINANCIAL PERFORMANCE</span>
-                            <h2>Динамика платежей</h2>
-                            <p>Начисления и фактически полученные деньги</p>
+                            <span class="section-overline">II. ДИНАМИКА ПОТОКОВ</span>
+                            <h2>График начислений и поступлений</h2>
+                            <p>Помесячное соотношение плановых и фактических арендных платежей</p>
                         </div>
 
                         <div class="chart-legend">
@@ -236,7 +270,7 @@
                     <div class="chart-footer">
                         <span id="chartPeriodLabel">Данные за 12 месяцев</span>
                         <span class="chart-footer-status">
-                            <span class="live-dot"></span> Из базы данных
+                            <span class="live-dot"></span> Реестр платежей
                         </span>
                     </div>
                 </article>
@@ -244,9 +278,9 @@
                 <article class="analytics-panel occupancy-panel">
                     <div class="analytics-panel-header">
                         <div>
-                            <span class="section-overline">PORTFOLIO</span>
-                            <h2>Структура портфеля</h2>
-                            <p>Состояние объектов недвижимости</p>
+                            <span class="section-overline">III. СТРУКТУРА ФОНДА</span>
+                            <h2>Распределение объектов</h2>
+                            <p>Текущий статус эксплуатации лотов</p>
                         </div>
                     </div>
 
@@ -298,13 +332,13 @@
                 <article class="analytics-panel property-performance-panel">
                     <div class="analytics-panel-header">
                         <div>
-                            <span class="section-overline">ASSET PERFORMANCE</span>
-                            <h2>Эффективность объектов</h2>
-                            <p>Начисления и поступления за выбранный период</p>
+                            <span class="section-overline">IV. ДОХОДНОСТЬ АКТИВОВ</span>
+                            <h2>Финансовый результат по объектам</h2>
+                            <p>Начисления, фактическая оплата и задолженность в разрезе лотов</p>
                         </div>
 
                         <a class="analytics-text-link" href="/pages/properties.html">
-                            Все объекты <span>↗</span>
+                            Все объекты
                         </a>
                     </div>
 
@@ -334,13 +368,13 @@
                 <article class="analytics-panel requests-panel">
                     <div class="analytics-panel-header">
                         <div>
-                            <span class="section-overline">OPERATIONS</span>
-                            <h2>Заявки</h2>
-                            <p>Состояние обслуживания недвижимости</p>
+                            <span class="section-overline">V. ЭКСПЛУАТАЦИЯ</span>
+                            <h2>Сервисные заявки</h2>
+                            <p>Статистика обращений по ремонту и обслуживанию</p>
                         </div>
 
                         <a class="analytics-text-link" href="/pages/requests.html">
-                            Открыть <span>↗</span>
+                            Открыть журнал
                         </a>
                     </div>
 
@@ -368,7 +402,7 @@
                     </div>
 
                     <div class="priority-block">
-                        <h3>Приоритеты</h3>
+                        <h3>По приоритету</h3>
                         <div id="requestPriorityList" class="priority-list"></div>
                     </div>
                 </article>
@@ -378,13 +412,13 @@
             <section class="analytics-panel expiring-panel">
                 <div class="analytics-panel-header">
                     <div>
-                        <span class="section-overline">CONTRACT CONTROL</span>
-                        <h2>Скоро истекают</h2>
-                        <p>Активные договоры с окончанием в ближайшие 30 дней</p>
+                        <span class="section-overline">VI. КОНТРОЛЬ СРОКОВ</span>
+                        <h2>Договоры к пролонгации</h2>
+                        <p>Активные договоры со сроком окончания в ближайшие 30 дней</p>
                     </div>
 
                     <a class="analytics-text-link" href="/pages/contracts.html">
-                        Все договоры <span>↗</span>
+                        Все договоры
                     </a>
                 </div>
 
@@ -395,12 +429,12 @@
 
             <footer class="analytics-footer">
                 <span class="footer-brand-mark">RM</span>
-                <span>Rental Manager Analytics</span>
+                <span>Rental Manager — Аналитическая ведомость</span>
                 <span class="footer-separator">/</span>
                 <span id="lastUpdated">Ожидание данных...</span>
 
                 <button id="backToTopButton" class="back-to-top" type="button">
-                    Наверх ↑
+                    Наверх
                 </button>
             </footer>
 

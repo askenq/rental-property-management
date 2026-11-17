@@ -131,8 +131,6 @@ export default function createRequestsRouter(prisma, authenticateToken) {
         }
     };
 
-    // GET /api/requests
-    // Список заявок текущего владельца.
     router.get("/", authenticateToken, async (req, res) => {
         try {
             const ownerId = getOwnerId(req);
@@ -263,7 +261,6 @@ export default function createRequestsRouter(prisma, authenticateToken) {
         }
     });
 
-    // GET /api/requests/:id
     router.get("/:id", authenticateToken, async (req, res) => {
         try {
             const ownerId = getOwnerId(req);
@@ -296,7 +293,6 @@ export default function createRequestsRouter(prisma, authenticateToken) {
         }
     });
 
-    // POST /api/requests
     router.post("/", authenticateToken, async (req, res) => {
         try {
             const ownerId = getOwnerId(req);
@@ -416,7 +412,6 @@ export default function createRequestsRouter(prisma, authenticateToken) {
         }
     });
 
-    // PUT /api/requests/:id
     router.put("/:id", authenticateToken, async (req, res) => {
         try {
             const ownerId = getOwnerId(req);
@@ -579,7 +574,6 @@ export default function createRequestsRouter(prisma, authenticateToken) {
         }
     });
 
-    // DELETE /api/requests/:id
     router.delete("/:id", authenticateToken, async (req, res) => {
         try {
             const ownerId = getOwnerId(req);

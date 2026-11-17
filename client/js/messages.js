@@ -197,7 +197,9 @@ async function loadConversations() {
     if (list && MessagesApp.conversations.length === 0) {
         list.innerHTML = `
             <div class="messenger-placeholder">
-                <div class="placeholder-icon">✉</div>
+                <div class="placeholder-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
                 <strong>Загружаем переписки</strong>
                 <span>Пожалуйста, подождите</span>
             </div>
@@ -227,8 +229,6 @@ async function loadConversations() {
             MessagesApp.currentConversationId === null &&
             MessagesApp.conversations.length > 0
         ) {
-            // Не открываем диалог автоматически:
-            // пользователь сам выбирает нужную переписку.
         }
 
     } catch (error) {
@@ -381,8 +381,10 @@ function showEmptyChat() {
     if (details) {
         details.innerHTML = `
             <div class="details-empty">
-                <div class="details-icon">◎</div>
-                <strong>Информация о диалоге</strong>
+                <div class="details-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </div>
+                <strong>Сведения о диалоге</strong>
                 <p>Выберите переписку, чтобы увидеть участников.</p>
             </div>
         `;
@@ -546,7 +548,7 @@ async function sendMessage(event) {
 
         if (button) {
             button.disabled = false;
-            button.innerHTML = 'Отправить <span>↗</span>';
+            button.textContent = "Отправить";
         }
     }
 }
@@ -558,7 +560,6 @@ async function markConversationRead(conversationId) {
             { method: "PATCH" }
         );
     } catch (error) {
-        // Не блокируем переписку, если обновление отметки прочтения не удалось.
         console.warn("Не удалось отметить диалог прочитанным:", error.message);
     }
 }

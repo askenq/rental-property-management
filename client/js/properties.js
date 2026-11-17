@@ -596,37 +596,37 @@ function createPropertyCard(
         "Нет арендатора";
 
 
-    let image =
-        "🏢";
+    const photos = {
+        APARTMENT: [
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80"
+        ],
+        HOUSE: [
+            "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80"
+        ],
+        COMMERCIAL: [
+            "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=800&q=80"
+        ]
+    };
 
+    const photoSet = photos[type] || photos.APARTMENT;
+    const photoUrl = photoSet[Math.abs(Number(property.id) || 0) % photoSet.length];
 
-    let imageClass =
-        "image-blue";
-
+    let imageClass = "image-sage";
 
     if (type === "HOUSE") {
-
-        image =
-            "🏠";
-
-        imageClass =
-            "image-orange";
-
+        imageClass = "image-terracotta";
     }
 
-
-    if (
-        type === "COMMERCIAL"
-    ) {
-
-        image =
-            "🏢";
-
-        imageClass =
-            "image-purple";
-
+    if (type === "COMMERCIAL") {
+        imageClass = "image-ochre";
     }
 
+    const image = `<img class="property-photo" src="${photoUrl}" alt="${escapeHtml(property.name)}" loading="lazy" onerror="this.style.display='none'">`;
 
     article.innerHTML = `
 
@@ -680,7 +680,7 @@ function createPropertyCard(
                         data-id="${property.id}"
                         title="Редактировать"
                     >
-                        ✎
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                     </button>
 
 
@@ -690,7 +690,7 @@ function createPropertyCard(
                         data-id="${property.id}"
                         title="Удалить"
                     >
-                        ×
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                     </button>
 
                 </div>

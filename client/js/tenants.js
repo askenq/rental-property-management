@@ -576,11 +576,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <div
                         style="
-                            font-size: 36px;
                             margin-bottom: 12px;
+                            color: var(--primary);
                         "
                     >
-                        👤
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
                     </div>
 
                     <div>
@@ -612,170 +612,130 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    function createTenantCard(
-        tenant
+    function createTenantCard(tenant) {
+    const initials = getInitials(tenant.fullName);
+
+    const isActive = tenant.status === "ACTIVE";
+
+    const statusClass = isActive
+        ? "status-active"
+        : "status-inactive";
+
+    const statusText = isActive
+        ? "Активен"
+        : "Неактивен";
+
+    let propertyText = "Объект не закреплён";
+
+    if (
+        Array.isArray(tenant.properties) &&
+        tenant.properties.length
     ) {
+        const property = tenant.properties[0];
 
-        const initials =
-            getInitials(
-                tenant.fullName
-            );
+        propertyText = `${escapeHtml(property.name)} — ${escapeHtml(property.address)}`;
+    }
 
-
-        const isActive =
-            tenant.status === "ACTIVE";
-
-
-        const statusClass =
-            isActive
-                ? "status-active"
-                : "status-inactive";
-
-
-        const statusText =
-            isActive
-                ? "Активен"
-                : "Неактивен";
-
-
-        let propertyText =
-            "Объект не закреплён";
-
-
-        if (
-            Array.isArray(
-                tenant.properties
-            ) &&
-            tenant.properties.length
-        ) {
-
-            const property =
-                tenant.properties[0];
-
-
-            propertyText =
-                `${escapeHtml(
-                    property.name
-                )} — ${escapeHtml(
-                    property.address
-                )}`;
-
-        }
-
-
-        return `
-
-            <article
-                class="tenant-card"
+    const accountButton = tenant.userId
+        ? `
+            <span class="account-created">
+                Аккаунт создан
+            </span>
+        `
+        : `
+            <button
+                type="button"
+                class="account-button"
+                data-action="account"
                 data-id="${tenant.id}"
+                ${tenant.email ? "" : "disabled"}
+                title="${tenant.email ? "Создать аккаунт" : "Сначала укажите email"}"
             >
-
-                <div class="tenant-main">
-
-                    <div class="tenant-avatar">
-                        ${escapeHtml(
-                            initials
-                        )}
-                    </div>
-
-
-                    <div class="tenant-info">
-
-                        <h3>
-                            ${escapeHtml(
-                                tenant.fullName
-                            )}
-                        </h3>
-
-
-                        <div class="tenant-contact">
-
-                            ${
-                                tenant.email
-                                    ? `
-                                        <span>
-                                            ✉
-                                            ${escapeHtml(
-                                                tenant.email
-                                            )}
-                                        </span>
-                                    `
-                                    : ""
-                            }
-
-
-                            ${
-                                tenant.phone
-                                    ? `
-                                        <span>
-                                            ☎
-                                            ${escapeHtml(
-                                                tenant.phone
-                                            )}
-                                        </span>
-                                    `
-                                    : ""
-                            }
-
-                        </div>
-
-
-                        <div class="tenant-property">
-
-                            Объект:
-
-                            <strong>
-                                ${propertyText}
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="tenant-side">
-
-                    <span
-                        class="status-badge ${statusClass}"
-                    >
-                        ${statusText}
-                    </span>
-
-
-                    <div class="tenant-actions">
-
-                        <button
-                            type="button"
-                            class="icon-button"
-                            data-action="edit"
-                            data-id="${tenant.id}"
-                            title="Редактировать"
-                        >
-                            ✎
-                        </button>
-
-
-                        <button
-                            type="button"
-                            class="icon-button delete"
-                            data-action="delete"
-                            data-id="${tenant.id}"
-                            title="Удалить"
-                        >
-                            🗑
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </article>
-
+                Создать аккаунт
+            </button>
         `;
 
-    }
+    return `
+        <article
+            class="tenant-card"
+            data-id="${tenant.id}"
+        >
+            <div class="tenant-main">
+                <div class="tenant-avatar">
+                    ${escapeHtml(initials)}
+                </div>
+
+                <div class="tenant-info">
+                    <h3>
+                        ${escapeHtml(tenant.fullName)}
+                    </h3>
+
+                    <div class="tenant-contact">
+                        ${
+                            tenant.email
+                                ? `
+                                    <span>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                        ${escapeHtml(tenant.email)}
+                                    </span>
+                                `
+                                : ""
+                        }
+
+                        ${
+                            tenant.phone
+                                ? `
+                                    <span>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                        ${escapeHtml(tenant.phone)}
+                                    </span>
+                                `
+                                : ""
+                        }
+                    </div>
+
+                    <div class="tenant-property">
+                        Объект:
+
+                        <strong>
+                            ${propertyText}
+                        </strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tenant-side">
+                <span class="status-badge ${statusClass}">
+                    ${statusText}
+                </span>
+
+                ${accountButton}
+
+                <div class="tenant-actions">
+                    <button
+                        type="button"
+                        class="icon-button"
+                        data-action="edit"
+                        data-id="${tenant.id}"
+                        title="Редактировать"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="icon-button delete"
+                        data-action="delete"
+                        data-id="${tenant.id}"
+                        title="Удалить"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    </button>
+                </div>
+            </div>
+        </article>
+    `;
+}
 
     function openCreateModal() {
 
@@ -1269,6 +1229,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+    async function createTenantAccount(tenantId, button) {
+    const tenant = tenants.find(
+        item => item.id === Number(tenantId)
+    );
+
+    if (!tenant) {
+        showMessage("Арендатор не найден", true);
+        return;
+    }
+
+    if (!tenant.email) {
+        showMessage("Сначала укажите email арендатора", true);
+        return;
+    }
+
+    if (tenant.userId) {
+        showMessage("У арендатора уже есть аккаунт", true);
+        return;
+    }
+
+    const password = window.prompt(
+        `Создание аккаунта для ${tenant.fullName}\nВведите временный пароль (минимум 6 символов):`
+    );
+
+    if (password === null) {
+        return;
+    }
+
+    if (password.length < 6) {
+        showMessage("Пароль должен содержать минимум 6 символов", true);
+        return;
+    }
+
+    const oldButtonText = button.textContent;
+
+    try {
+        button.disabled = true;
+        button.textContent = "Создание...";
+
+        const result = await apiRequest(
+            `/api/tenants/${tenantId}/account`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    password
+                })
+            }
+        );
+
+        showMessage(
+            result?.message || "Аккаунт арендатора создан"
+        );
+
+        await loadData();
+    } catch (error) {
+        showMessage(
+            error.message || "Не удалось создать аккаунт",
+            true
+        );
+
+        button.disabled = false;
+        button.textContent = oldButtonText;
+    }
+}
+
     function isValidEmail(
         email
     ) {
@@ -1353,6 +1378,14 @@ document.addEventListener("DOMContentLoaded", () => {
             ) {
 
                 deleteTenant(id);
+
+            }
+
+            if (
+                action === "account"
+            ) {
+
+                createTenantAccount(id, button);
 
             }
 

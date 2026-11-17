@@ -1463,6 +1463,123 @@ app.get(
 );
 
 app.post(
+    "/api/tenants/:id/account",
+    authenticateToken,
+    async (req, res) => {
+        try {
+            const ownerId = Number(req.user.userId);
+            const tenantId = Number(req.params.id);
+            const { password } = req.body;
+
+            if (!["OWNER", "MANAGER"].includes(req.user.role)) {
+                return res.status(403).json({
+                    message: "Недостаточно прав для создания аккаунта"
+                });
+            }
+
+            if (!Number.isInteger(tenantId) || tenantId <= 0) {
+                return res.status(400).json({
+                    message: "Некорректный ID арендатора"
+                });
+            }
+
+            if (typeof password !== "string" || password.length < 6) {
+                return res.status(400).json({
+                    message: "Пароль должен содержать минимум 6 символов"
+                });
+            }
+
+            const tenant = await prisma.tenant.findFirst({
+                where: {
+                    id: tenantId,
+                    ownerId
+                }
+            });
+
+            if (!tenant) {
+                return res.status(404).json({
+                    message: "Арендатор не найден"
+                });
+            }
+
+            if (tenant.userId) {
+                return res.status(409).json({
+                    message: "У арендатора уже есть аккаунт"
+                });
+            }
+
+            if (!tenant.email) {
+                return res.status(400).json({
+                    message: "Сначала укажите email арендатора"
+                });
+            }
+
+            const email = tenant.email.trim().toLowerCase();
+
+            const existingUser = await prisma.user.findUnique({
+                where: {
+                    email
+                }
+            });
+
+            if (existingUser) {
+                return res.status(409).json({
+                    message: "Пользователь с таким email уже существует"
+                });
+            }
+
+            const passwordHash = await bcrypt.hash(password, 10);
+
+            const user = await prisma.$transaction(async tx => {
+                const createdUser = await tx.user.create({
+                    data: {
+                        name: tenant.fullName,
+                        email,
+                        passwordHash,
+                        role: "TENANT"
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        role: true
+                    }
+                });
+
+                await tx.tenant.update({
+                    where: {
+                        id: tenantId
+                    },
+                    data: {
+                        userId: createdUser.id
+                    }
+                });
+
+                return createdUser;
+            });
+
+            return res.status(201).json({
+                message: "Аккаунт арендатора успешно создан",
+                user
+            });
+        } catch (error) {
+            console.error("Ошибка создания аккаунта арендатора:", error);
+
+            if (error?.code === "P2002") {
+                return res.status(409).json({
+                    message: "Аккаунт с таким email уже существует"
+                });
+            }
+
+            return res.status(500).json({
+                message: "Не удалось создать аккаунт арендатора"
+            });
+        }
+    }
+);
+
+
+app.post(
     "/api/tenants",
     authenticateToken,
     async (req, res) => {
@@ -2660,6 +2777,100 @@ app.get(
 
         }
 
+    }
+);
+
+app.get(
+    "/api/tenant/dashboard",
+    authenticateToken,
+    async (req, res) => {
+        try {
+            if (req.user.role !== "TENANT") {
+                return res.status(403).json({
+                    message: "Доступ разрешён только арендаторам"
+                });
+            }
+
+            const userId = Number(req.user.userId);
+
+            const tenant = await prisma.tenant.findUnique({
+                where: {
+                    userId
+                },
+                include: {
+                    properties: true,
+                    contracts: {
+                        include: {
+                            property: true,
+                            payments: {
+                                orderBy: {
+                                    dueDate: "asc"
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            if (!tenant) {
+                return res.status(404).json({
+                    message: "Профиль арендатора не найден"
+                });
+            }
+
+            const activeContracts = tenant.contracts.filter(
+                contract => contract.status === "ACTIVE"
+            );
+
+            const payments = tenant.contracts.flatMap(
+                contract => contract.payments
+            );
+
+            const unpaidPayments = payments.filter(
+                payment => payment.status !== "PAID"
+            );
+
+            const nextPayment = unpaidPayments.find(
+                payment => new Date(payment.dueDate) >= new Date()
+            ) || unpaidPayments[0] || null;
+
+            const totalDebt = unpaidPayments.reduce(
+                (sum, payment) => sum + Number(payment.amount),
+                0
+            );
+
+            const totalRent = activeContracts.reduce(
+                (sum, contract) => sum + Number(contract.rent),
+                0
+            );
+
+            return res.json({
+                tenant: {
+                    id: tenant.id,
+                    fullName: tenant.fullName,
+                    email: tenant.email,
+                    phone: tenant.phone
+                },
+                properties: tenant.properties,
+                contracts: activeContracts,
+                totalRent,
+                nextPayment,
+                totalDebt,
+                paymentsCount: payments.length,
+                paidPaymentsCount: payments.filter(
+                    payment => payment.status === "PAID"
+                ).length
+            });
+        } catch (error) {
+            console.error(
+                "Ошибка загрузки кабинета арендатора:",
+                error
+            );
+
+            return res.status(500).json({
+                message: "Не удалось загрузить данные личного кабинета"
+            });
+        }
     }
 );
 
